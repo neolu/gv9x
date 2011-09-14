@@ -2259,11 +2259,10 @@ void menuProcDiagVers(uint8_t event)
 {
     SIMPLE_MENU("VERSION", menuTabDiag, e_Vers, 1);
 
-    lcd_puts_P(0, 2*FH,stamp4 );
-    lcd_puts_P(0, 3*FH,stamp1 );
-    lcd_puts_P(0, 4*FH,stamp2 );
-    lcd_puts_P(0, 5*FH,stamp3 );
-    lcd_puts_P(0, 6*FH,stamp5 );
+    lcd_puts_P(0, 2*FH,stamp1 );
+    lcd_puts_P(0, 3*FH,stamp2 );
+    lcd_puts_P(0, 4*FH,stamp3 );
+    lcd_puts_P(0, 5*FH,stamp4 );
 }
 
 // From Bertrand, allow trainer inputs without using mixers.
@@ -2348,7 +2347,8 @@ enum items_
  BEEPSPKR_ITEM,
 #endif
 #ifdef MAVLINK
- MAVLINK_ITEM,
+ MAVLINK_BATTERY,
+ BAUD_RATE,
 #endif
 	COUNT_ITEMS
 };
@@ -2478,6 +2478,15 @@ void menuProcSetup(uint8_t event)
         putsVolts(PARAM_OFS, y, g_eeGeneral.vMavBatWarn, (sub==subN ? INVERS : 0)|LEFT);
         if(sub==subN) //CHECK_INCDEC_H_GENVAR(event, g_eeGeneral.vMavBatWarn, 40, 250); //5-25V
         	g_eeGeneral.vMavBatWarn=checkIncDec16(event,g_eeGeneral.vMavBatWarn, 40, 250,EE_GENERAL);
+        if((y+=FH)>7*FH) return;
+    }subN++;
+    if(s_pgOfs<subN) {
+      uint8_t b ;
+			  b = g_eeGeneral.baudRate;
+				lcd_puts_P(0, y,PSTR("Baud rate"));
+        lcd_putsnAtt(PARAM_OFS - FW, y, PSTR("19200""38400""57600")+5*b,5,(sub==subN ? INVERS:0));
+        if(sub==subN)
+        	g_eeGeneral.baudRate=CHECK_INCDEC_H_GENVAR(event, b, 0, 2);
         if((y+=FH)>7*FH) return;
     }subN++;
 #endif

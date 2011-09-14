@@ -146,17 +146,34 @@ void SERIAL_Init(void) {
 	DDRE &= ~(1 << DDE0); // set RXD0 pin as input
 	PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
 
-	// switch (Telem_baud)
-	// {
-	// case 1:
-#undef BAUD
-	//#define BAUD 9600
-#define BAUD 19200
-#include <util/setbaud.h>
-	UBRR0H = UBRRH_VALUE;
-	UBRR0L = UBRRL_VALUE;
-	//    break;
-	// }
+
+	switch(g_eeGeneral.baudRate)
+	{
+	case 0:
+		#undef BAUD
+		#define BAUD 19200
+		#include <util/setbaud.h>
+		UBRR0H = UBRRH_VALUE;
+		UBRR0L = UBRRL_VALUE;
+		break;
+	case 1:
+		#undef BAUD
+		#define BAUD 38400
+		#include <util/setbaud.h>
+		UBRR0H = UBRRH_VALUE;
+		UBRR0L = UBRRL_VALUE;
+		break;
+	case 2:
+		#undef BAUD
+		#define BAUD 57600
+		#include <util/setbaud.h>
+		UBRR0H = UBRRH_VALUE;
+		UBRR0L = UBRRL_VALUE;
+		break;
+
+	}
+
+
 	UCSR0A &= ~(1 << U2X0); // disable double speed operation
 	// set 8N1
 	UCSR0B = 0 | (0 << RXCIE0) | (0 << TXCIE0) | (0 << UDRIE0) | (0 << RXEN0) | (0 << TXEN0) | (0 << UCSZ02);

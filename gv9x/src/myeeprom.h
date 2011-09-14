@@ -110,7 +110,8 @@ typedef struct t_EEGeneral {
 //  FrSkyRSSIAlarm frskyRssiAlarms[2];
   uint8_t   respre[2];
   uint8_t   speakerPitch;
-  uint8_t   res[2];
+  uint8_t   res[1];
+  uint8_t   baudRate;
   uint8_t   vMavBatWarn;
   char      ownerName[GENERAL_OWNER_NAME_LEN];
 } __attribute__((packed)) EEGeneral;

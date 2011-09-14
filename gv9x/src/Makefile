@@ -36,7 +36,7 @@ F_CPU = 16000000
 FORMAT = ihex
 
 # Target file name (without extension).
-TARGET = er9x
+TARGET = gv9x
 
 # Object files directory
 OBJDIR = obj
@@ -51,7 +51,7 @@ EXT = STD
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
-CPPSRC = $(TARGET).cpp stamp.cpp menus.cpp pers.cpp file.cpp lcd.cpp drivers.cpp templates.cpp serial.cpp rotarysw.cpp 
+CPPSRC = er9x.cpp stamp.cpp menus.cpp pers.cpp file.cpp lcd.cpp drivers.cpp templates.cpp serial.cpp rotarysw.cpp 
 
 ifeq ($(EXT), JETI)
  CPPSRC += jeti.cpp
@@ -406,8 +406,8 @@ WINSHELL = cmd
 
 # th9x/er9x-specific
 XBM2LBM = ruby ../util/xbm2lbm.rb
-AREV = $(shell sh -c "cat .svn/entries | sed -n '4p'")
-REV = $(shell echo $$(( $(AREV) + 1 )))
+#AREV = $(shell sh -c "cat .svn/entries | sed -n '4p'")
+#REV = $(shell echo $$(( $(AREV) + 1 )))
 
 
 # Define Messages
@@ -451,9 +451,7 @@ ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 #AVER = ${shell sh -c "grep \"SUB_VERS\" stamp-gv9x.h | egrep -o \"[[:digit:]]*\""}
-AVER = 1
-VER = $(shell echo $$(( $(AVER) + 1 )))
-
+#VER = $(shell echo $$(( $(AVER) + 1 )))
 
 
 # Default target.
@@ -483,7 +481,7 @@ stamp:
 	@echo "#define DATE_STR \"`date +%d.%m.%Y`\"" >> stamp-gv9x.h
 	@echo "#define TIME_STR \"`date +%H:%I:%S`\"" >> stamp-gv9x.h
 	@echo "#define SUB_VERS $(VER)-$(USER)" >> stamp-gv9x.h
-	@echo "#define SVN_VERS \"trunk-r$(REV)\"" >> stamp-gv9x.h
+	#@echo "#define SVN_VERS \"trunk-r$(REV)\"" >> stamp-gv9x.h
 	@echo "#define MOD_VERS \"$(EXT)\"" >> stamp-gv9x.h
 	@cat stamp-gv9x.h
 
