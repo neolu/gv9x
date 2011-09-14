@@ -1,0 +1,34 @@
+#
+# IMPORTANT NOTE:  If you are reading this in a GUI property editor, please
+# 	    	   ensure that any changes you make are tracked in the 
+#		   svn.externals file in this directory, as it makes it easier
+#		   for us to track changes and recover external references if
+#		   they become lost.
+#
+# IMPORTANT NOTE:  If you are reading this in a file called 'svn.externals',
+#                  be aware that the file does not actually define the external
+#		   references from this directory.  The svn.externals file 
+#		   gives us a way of tracking (and recovering) the history of
+#		   the external references that we use here.
+#
+# Please keep the list of references here in sync with the actual svn:externals
+# property on this directory.  If you are using the command-line interface to 
+# Subversion, make changes in this file and then use the following commands to
+# apply them to the directory and repository:
+#
+#	svn propset svn:externals -F svn.externals .
+# 	svn commit .
+#
+# If you are using an SVN GUI client, please see the documentation for your 
+# client.  Most clients provide a way to edit properties as text; cut and paste 
+# this file into the text editor to keep the two in sync.  It is safe to cut 
+# and paste these comments as well.
+#
+# For more information on SVN external references, see the documentation here:
+#
+#	http://svnbook.red-bean.com/en/1.5/svn.advanced.externals.html
+#
+
+# Directory	SVN URL
+#-------------------------------------------------------------------------------
+GCS_MAVLink https://arducopter.googlecode.com/svn/trunk/libraries/GCS_MAVLink
