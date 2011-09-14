@@ -1,0 +1,27 @@
+#! /bin/bash
+echo "===== Starting build ====="
+echo "Timestamp"
+date -u
+echo "=========================="
+echo
+
+./stamp-eepe-gen
+
+
+cd src
+make clean
+qmake -spec win32-g++-cross
+make clean
+make
+
+mv release/eepe.exe ../winbuild
+
+./gen_ts
+
+make clean
+
+cd ../winbuild
+
+makensis eePe.nsi
+
+mv eePeInstall.exe ../

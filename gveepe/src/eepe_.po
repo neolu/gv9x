@@ -1,0 +1,3528 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Language: fr_FR\n"
+"X-Qt-Contexts: true\n"
+
+#: generaledit.ui:14
+msgctxt "GeneralEdit|"
+msgid "General Edit"
+msgstr ""
+
+#: generaledit.ui:27
+msgctxt "GeneralEdit|"
+msgid ""
+"General settings used throught the transmitter.\n"
+"These will be relevant for all models in the same EEPROM."
+msgstr ""
+
+#: generaledit.ui:35
+msgctxt "GeneralEdit|"
+msgid "Setup"
+msgstr ""
+
+#: generaledit.ui:44
+msgctxt "GeneralEdit|"
+msgid "Contrast"
+msgstr ""
+
+#: generaledit.ui:57 generaledit.ui:782
+msgctxt "GeneralEdit|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">LCD Screen Contrast</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Values can be 20-45</span></p></body></html>"
+msgstr ""
+
+#: generaledit.ui:81
+msgctxt "GeneralEdit|"
+msgid "Battery Warning"
+msgstr ""
+
+#: generaledit.ui:94
+msgctxt "GeneralEdit|"
+msgid ""
+"Battery warning voltage.\n"
+"This is the threashhold where the battery warning sounds.\n"
+"\n"
+"Acceptable values are 5v..10v"
+msgstr ""
+
+#: generaledit.ui:1528
+msgctxt "GeneralEdit|"
+msgid "v"
+msgstr ""
+
+#: generaledit.ui:125 generaledit.ui:1518
+msgctxt "GeneralEdit|"
+msgid "Battery Calibration"
+msgstr ""
+
+#: generaledit.ui:138
+msgctxt "GeneralEdit|"
+msgid ""
+"Battery calibration:\n"
+"This value will be added to the measured battery voltage.  Use this value to "
+"calibrate the meter with an external meter."
+msgstr ""
+
+#: generaledit.ui:164
+msgctxt "GeneralEdit|"
+msgid "Backlight Switch"
+msgstr ""
+
+#: generaledit.ui:177
+msgctxt "GeneralEdit|"
+msgid ""
+"This is the switch selectrion for turning on the backlight (if installed).\n"
+"\n"
+msgstr ""
+
+#: generaledit.ui:189
+msgctxt "GeneralEdit|"
+msgid "Backlight Auto On/OFF after"
+msgstr ""
+
+#: generaledit.ui:202
+msgctxt "GeneralEdit|"
+msgid ""
+"If this value is not 0, any keypress will turn on the backlight and turn it "
+"off after the specified number of seconds."
+msgstr ""
+
+#: generaledit.ui:205
+msgctxt "GeneralEdit|"
+msgid " sec"
+msgstr ""
+
+#: generaledit.ui:218
+msgctxt "GeneralEdit|"
+msgid "Inactivity Timer"
+msgstr ""
+
+#: generaledit.ui:231
+msgctxt "GeneralEdit|"
+msgid ""
+"If not zero will sound beeps if the transmitter has been left without inputs "
+"for the specified number of minutes."
+msgstr ""
+
+#: generaledit.ui:234
+msgctxt "GeneralEdit|"
+msgid " min"
+msgstr ""
+
+#: generaledit.ui:293
+msgctxt "GeneralEdit|"
+msgid "Reverse Throttle Operation"
+msgstr ""
+
+#: generaledit.ui:300
+msgctxt "GeneralEdit|"
+msgid ""
+"Reverse throttle operation.\n"
+"If this is checked the throttle will be reversed.  Idle will be forward, "
+"trim will also be reversed and the throttle warning will be reversed as "
+"well.\n"
+"\n"
+msgstr ""
+
+#: generaledit.ui:244
+msgctxt "GeneralEdit|"
+msgid "Timer Beeps"
+msgstr ""
+
+#: generaledit.ui:253
+msgctxt "GeneralEdit|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Single Beep Every whole Minute</span></p></body></html>"
+msgstr ""
+
+#: generaledit.ui:260
+msgctxt "GeneralEdit|"
+msgid "Every Minute"
+msgstr ""
+
+#: generaledit.ui:267
+msgctxt "GeneralEdit|"
+msgid "Beeps at 30, 15, 10, and down from5 seconds"
+msgstr ""
+
+#: generaledit.ui:270
+msgctxt "GeneralEdit|"
+msgid "Count Down to Zero"
+msgstr ""
+
+#: generaledit.ui:277
+msgctxt "GeneralEdit|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Flash backlight on timer  beep</span></p></body></html>"
+msgstr ""
+
+#: generaledit.ui:284
+msgctxt "GeneralEdit|"
+msgid "Flash on beep"
+msgstr ""
+
+#: generaledit.ui:426
+msgctxt "GeneralEdit|"
+msgid "Alarm Warning"
+msgstr ""
+
+#: generaledit.ui:698
+msgctxt "GeneralEdit|"
+msgid "Quiet"
+msgstr ""
+
+#: generaledit.ui:703
+msgctxt "GeneralEdit|"
+msgid "No Keys"
+msgstr ""
+
+#: generaledit.ui:708
+msgctxt "GeneralEdit|"
+msgid "Normal"
+msgstr ""
+
+#: generaledit.ui:713
+msgctxt "GeneralEdit|"
+msgid "Long"
+msgstr ""
+
+#: generaledit.ui:718
+msgctxt "GeneralEdit|"
+msgid "Extra Long"
+msgstr ""
+
+#: generaledit.ui:726
+msgctxt "GeneralEdit|"
+msgid "Input Filter"
+msgstr ""
+
+#: generaledit.ui:734
+msgctxt "GeneralEdit|"
+msgid "Single"
+msgstr ""
+
+#: generaledit.ui:739
+msgctxt "GeneralEdit|"
+msgid "Oversample"
+msgstr ""
+
+#: generaledit.ui:744
+msgctxt "GeneralEdit|"
+msgid "Filter"
+msgstr ""
+
+#: generaledit.ui:755
+msgctxt "GeneralEdit|"
+msgid "Owner Name"
+msgstr ""
+
+#: generaledit.ui:769
+msgctxt "GeneralEdit|"
+msgid "Speaker Pitch (spkr versions)"
+msgstr ""
+
+#: generaledit.ui:804
+msgctxt "GeneralEdit|"
+msgid "Trainer"
+msgstr ""
+
+#: generaledit.ui:812 generaledit.ui:852 generaledit.ui:878 generaledit.ui:918
+#: generaledit.ui:944 generaledit.ui:984 generaledit.ui:1010 generaledit.ui:1050
+msgctxt "GeneralEdit|"
+msgid "CH1"
+msgstr ""
+
+#: generaledit.ui:820 generaledit.ui:886 generaledit.ui:952 generaledit.ui:1018
+msgctxt "GeneralEdit|"
+msgid "Off"
+msgstr ""
+
+#: generaledit.ui:825 generaledit.ui:891 generaledit.ui:957 generaledit.ui:1023
+msgctxt "GeneralEdit|"
+msgid "Add"
+msgstr ""
+
+#: generaledit.ui:830 generaledit.ui:896 generaledit.ui:962 generaledit.ui:1028
+msgctxt "GeneralEdit|"
+msgid "Substitute"
+msgstr ""
+
+#: generaledit.ui:857 generaledit.ui:923 generaledit.ui:989 generaledit.ui:1055
+msgctxt "GeneralEdit|"
+msgid "CH2"
+msgstr ""
+
+#: generaledit.ui:862 generaledit.ui:928 generaledit.ui:994 generaledit.ui:1060
+msgctxt "GeneralEdit|"
+msgid "CH3"
+msgstr ""
+
+#: generaledit.ui:867 generaledit.ui:933 generaledit.ui:999 generaledit.ui:1065
+msgctxt "GeneralEdit|"
+msgid "CH4"
+msgstr ""
+
+#: generaledit.ui:1078
+msgctxt "GeneralEdit|"
+msgid "PPM Multiplier"
+msgstr ""
+
+#: generaledit.ui:333
+msgctxt "GeneralEdit|"
+msgid "Throttle Startup Warning"
+msgstr ""
+
+#: generaledit.ui:340 generaledit.ui:373 generaledit.ui:403 generaledit.ui:433
+msgctxt "GeneralEdit|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"text-decoration: underline;\">Warnings</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">These will define "
+"startup warnings.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Throttle warning - "
+"will alert if the throttle is not at idle during startup</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Switch warning - "
+"will alert if switches are not in their defaul position</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Memory warning - "
+"will alert if there's not a lot of memory left</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Silent mode warning "
+"- will alert you if the beeper is set to quiet (0)</p></body></html>"
+msgstr ""
+
+#: generaledit.ui:366
+msgctxt "GeneralEdit|"
+msgid "Switch Startup Warning"
+msgstr ""
+
+#: generaledit.ui:396
+msgctxt "GeneralEdit|"
+msgid "Memory Startup Warning"
+msgstr ""
+
+#: generaledit.ui:675
+msgctxt "GeneralEdit|"
+msgid "Beeper Mode"
+msgstr ""
+
+#: generaledit.ui:688
+msgctxt "GeneralEdit|"
+msgid ""
+"Beeper volume\n"
+"\n"
+"0 - Quiet.  No beeps at all.\n"
+"1 - No Keys.  Normal beeps but menu keys do not beep.\n"
+"2 - Normal.\n"
+"3 - Loud.\n"
+"4 - Extra loud."
+msgstr ""
+
+#: generaledit.ui:456
+msgctxt "GeneralEdit|"
+msgid "Channel Order (For Templates)"
+msgstr ""
+
+#: generaledit.ui:469
+msgctxt "GeneralEdit|"
+msgid ""
+"Channel order\n"
+"\n"
+"This is used by the templated to determine which channel goes to what number "
+"output."
+msgstr ""
+
+#: generaledit.ui:601
+msgctxt "GeneralEdit|"
+msgid "Stick Mode"
+msgstr ""
+
+#: generaledit.ui:614
+msgctxt "GeneralEdit|"
+msgid ""
+"Mode selection:\n"
+"\n"
+"Mode 1:\n"
+"  Left stick:  Elevator, Rudder\n"
+"  Right stick:  Throttle, Aileron\n"
+"\n"
+"Mode 2:\n"
+"  Left stick:  Throttle, Rudder\n"
+"  Right stick:  Elevator, Aileron\n"
+"\n"
+"Mode 3:\n"
+"  Left stick:  Elevator, Aileron\n"
+"  Right stick:  Throttle, Rudder\n"
+"\n"
+"Mode 4:\n"
+"  Left stick:  Throttle, Aileron\n"
+"  Right stick:  Elevator, Rudder\n"
+"\n"
+msgstr ""
+
+#: generaledit.ui:639
+msgctxt "GeneralEdit|"
+msgid "Mode 1 (RUD ELE THR AIL)"
+msgstr ""
+
+#: generaledit.ui:644
+msgctxt "GeneralEdit|"
+msgid "Mode 2 (RUD THR ELE AIL)"
+msgstr ""
+
+#: generaledit.ui:649
+msgctxt "GeneralEdit|"
+msgid "Mode 3 (AIL ELE THR RUD)"
+msgstr ""
+
+#: generaledit.ui:654
+msgctxt "GeneralEdit|"
+msgid "Mode 4 (AIL THR ELE RUD)"
+msgstr ""
+
+#: generaledit.ui:313
+msgctxt "GeneralEdit|"
+msgid "Show Splash Screen on Startup"
+msgstr ""
+
+#: generaledit.ui:320 generaledit.ui:323
+msgctxt "GeneralEdit|"
+msgid "Show splash screen on startup"
+msgstr ""
+
+#: generaledit.ui:1098 generaledit.ui:1163
+msgctxt "GeneralEdit|"
+msgid "Calibration"
+msgstr ""
+
+#: generaledit.ui:1472
+msgctxt "GeneralEdit|"
+msgid "ANALOG 7"
+msgstr ""
+
+#: generaledit.ui:1426
+msgctxt "GeneralEdit|"
+msgid "ANALOG 6"
+msgstr ""
+
+#: generaledit.ui:1380
+msgctxt "GeneralEdit|"
+msgid "ANALOG 5"
+msgstr ""
+
+#: generaledit.ui:1331
+msgctxt "GeneralEdit|"
+msgid "ANALOG 4"
+msgstr ""
+
+#: generaledit.ui:1285
+msgctxt "GeneralEdit|"
+msgid "ANALOG 3"
+msgstr ""
+
+#: generaledit.ui:1239
+msgctxt "GeneralEdit|"
+msgid "ANALOG 2"
+msgstr ""
+
+#: generaledit.ui:1190
+msgctxt "GeneralEdit|"
+msgid "ANALOG 1"
+msgstr ""
+
+#: generaledit.ui:1169
+msgctxt "GeneralEdit|"
+msgid "Negative"
+msgstr ""
+
+#: generaledit.ui:1176
+msgctxt "GeneralEdit|"
+msgid "Mid"
+msgstr ""
+
+#: generaledit.ui:1183
+msgctxt "GeneralEdit|"
+msgid "Positive"
+msgstr ""
+
+#: mainwindow.cpp:109
+msgctxt "MainWindow|"
+msgid "eePe - EEPROM Editor"
+msgstr ""
+
+#: mainwindow.cpp:134 mainwindow.cpp:465
+msgctxt "MainWindow|"
+msgid "File loaded"
+msgstr ""
+
+#: mainwindow.cpp:261 mainwindow.cpp:346 mainwindow.cpp:387
+msgctxt "MainWindow|"
+msgid "Save As"
+msgstr ""
+
+#: mainwindow.cpp:285 mainwindow.cpp:399
+msgctxt "MainWindow|"
+msgid "No updates available at this time."
+msgstr ""
+
+#: mainwindow.cpp:194 mainwindow.cpp:291 mainwindow.cpp:372 mainwindow.cpp:405
+msgctxt "MainWindow|"
+msgid "Unable to check for updates."
+msgstr ""
+
+#: mainwindow.cpp:172
+msgctxt "MainWindow|"
+msgid "Checking for updates"
+msgstr ""
+
+#: mainwindow.cpp:255
+#, qt-format
+msgctxt "MainWindow|"
+msgid ""
+"A new version of ER9x (%2) is available (r%1)<br>Would you like to download "
+"it?"
+msgstr ""
+
+#: mainwindow.cpp:387
+msgctxt "MainWindow|"
+msgid "Executable (*.exe)"
+msgstr ""
+
+#: mainwindow.cpp:418
+msgctxt "MainWindow|"
+msgid "Would you like to launch the installer?"
+msgstr ""
+
+#: mainwindow.cpp:451
+msgctxt "MainWindow|"
+msgid "Open"
+msgstr ""
+
+#: mainwindow.cpp:475 mainwindow.cpp:481
+msgctxt "MainWindow|"
+msgid "File saved"
+msgstr ""
+
+#: mainwindow.cpp:550
+msgctxt "MainWindow|"
+msgid "Read EEPROM From Tx"
+msgstr ""
+
+#: mainwindow.cpp:573
+msgctxt "MainWindow|"
+msgid "Choose file to write to EEPROM memory"
+msgstr ""
+
+#: mainwindow.cpp:578
+#, qt-format
+msgctxt "MainWindow|"
+msgid "Write %1 to EEPROM memory?"
+msgstr ""
+
+#: mainwindow.cpp:607
+msgctxt "MainWindow|"
+msgid "Choose file to write to flash memory"
+msgstr ""
+
+#: mainwindow.cpp:615
+#, qt-format
+msgctxt "MainWindow|"
+msgid "Write %1 to flash memory?"
+msgstr ""
+
+#: mainwindow.cpp:643
+msgctxt "MainWindow|"
+msgid "Read EEPROM memory to File"
+msgstr ""
+
+#: mainwindow.cpp:674
+msgctxt "MainWindow|"
+msgid "Read Flash to File"
+msgstr ""
+
+#: mainwindow.cpp:752
+msgctxt "MainWindow|"
+msgid "Copyright"
+msgstr ""
+
+#: mainwindow.cpp:754
+#| msgid ""
+#| "If you've found this program and/or the Firmware useful please support by"
+msgctxt "MainWindow|"
+msgid ""
+"If you've found this program and/or the er9x firmware useful please support "
+"by"
+msgstr ""
+
+#: mainwindow.cpp:756
+msgctxt "MainWindow|"
+msgid "donating"
+msgstr ""
+
+#: mainwindow.cpp:758
+msgctxt "MainWindow|"
+msgid "About eePe"
+msgstr ""
+
+#: mainwindow.cpp:805
+#, qt-format
+msgctxt "MainWindow|"
+msgid "&%1 %2"
+msgstr ""
+
+#: mainwindow.cpp:808
+#, qt-format
+msgctxt "MainWindow|"
+msgid "%1 %2"
+msgstr ""
+
+#: mainwindow.cpp:835
+msgctxt "MainWindow|"
+msgid "&New"
+msgstr ""
+
+#: mainwindow.cpp:837
+msgctxt "MainWindow|"
+msgid "Create a new file"
+msgstr ""
+
+#: mainwindow.cpp:840
+msgctxt "MainWindow|"
+msgid "&Open..."
+msgstr ""
+
+#: mainwindow.cpp:842
+msgctxt "MainWindow|"
+msgid "Open an existing file"
+msgstr ""
+
+#: mainwindow.cpp:845
+msgctxt "MainWindow|"
+msgid "&Save"
+msgstr ""
+
+#: mainwindow.cpp:847
+msgctxt "MainWindow|"
+msgid "Save the document to disk"
+msgstr ""
+
+#: mainwindow.cpp:850
+msgctxt "MainWindow|"
+msgid "Save &As..."
+msgstr ""
+
+#: mainwindow.cpp:852
+msgctxt "MainWindow|"
+msgid "Save the document under a new name"
+msgstr ""
+
+#: mainwindow.cpp:855
+msgctxt "MainWindow|"
+msgid "&Preferences..."
+msgstr ""
+
+#: mainwindow.cpp:856
+msgctxt "MainWindow|"
+msgid "Edit general preferences"
+msgstr ""
+
+#: mainwindow.cpp:859
+msgctxt "MainWindow|"
+msgid "&Check for updates..."
+msgstr ""
+
+#: mainwindow.cpp:860
+msgctxt "MainWindow|"
+msgid "Check for new version of eePe/er9x"
+msgstr ""
+
+#: mainwindow.cpp:864
+msgctxt "MainWindow|"
+msgid "E&xit"
+msgstr ""
+
+#: mainwindow.cpp:866
+msgctxt "MainWindow|"
+msgid "Exit the application"
+msgstr ""
+
+#: mainwindow.cpp:870
+msgctxt "MainWindow|"
+msgid "Cu&t"
+msgstr ""
+
+#: mainwindow.cpp:872
+msgctxt "MainWindow|"
+msgid "Cut the current selection's contents to the clipboard"
+msgstr ""
+
+#: mainwindow.cpp:876
+msgctxt "MainWindow|"
+msgid "&Copy"
+msgstr ""
+
+#: mainwindow.cpp:878
+msgctxt "MainWindow|"
+msgid "Copy the current selection's contents to the clipboard"
+msgstr ""
+
+#: mainwindow.cpp:882
+msgctxt "MainWindow|"
+msgid "&Paste"
+msgstr ""
+
+#: mainwindow.cpp:884
+msgctxt "MainWindow|"
+msgid "Paste the clipboard's contents into the current selection"
+msgstr ""
+
+#: mainwindow.cpp:889
+msgctxt "MainWindow|"
+msgid "&Write EEPROM To Tx"
+msgstr ""
+
+#: mainwindow.cpp:890
+msgctxt "MainWindow|"
+msgid "Ctrl+Alt+W"
+msgstr ""
+
+#: mainwindow.cpp:891
+msgctxt "MainWindow|"
+msgid "Write EEPROM to transmitter"
+msgstr ""
+
+#: mainwindow.cpp:894
+msgctxt "MainWindow|"
+msgid "&Read EEPROM From Tx"
+msgstr ""
+
+#: mainwindow.cpp:895
+msgctxt "MainWindow|"
+msgid "Ctrl+Alt+R"
+msgstr ""
+
+#: mainwindow.cpp:896
+msgctxt "MainWindow|"
+msgid "Read EEPROM from transmitter"
+msgstr ""
+
+#: mainwindow.cpp:899
+msgctxt "MainWindow|"
+msgid "Write Flash memory"
+msgstr ""
+
+#: mainwindow.cpp:900
+msgctxt "MainWindow|"
+msgid "Write flash memory to transmitter"
+msgstr ""
+
+#: mainwindow.cpp:903
+msgctxt "MainWindow|"
+msgid "Write EEPROM memory from file"
+msgstr ""
+
+#: mainwindow.cpp:904
+msgctxt "MainWindow|"
+msgid "Write EEPROM memory from file to transmitter"
+msgstr ""
+
+#: mainwindow.cpp:907
+msgctxt "MainWindow|"
+msgid "Read EEPROM memory to file"
+msgstr ""
+
+#: mainwindow.cpp:908
+msgctxt "MainWindow|"
+msgid "Read EEPROM memory from transmitter to file"
+msgstr ""
+
+#: mainwindow.cpp:911
+msgctxt "MainWindow|"
+msgid "Read Flash memory"
+msgstr ""
+
+#: mainwindow.cpp:912
+msgctxt "MainWindow|"
+msgid "Read flash memory to transmitter"
+msgstr ""
+
+#: mainwindow.cpp:915
+msgctxt "MainWindow|"
+msgid "&Configure..."
+msgstr ""
+
+#: mainwindow.cpp:916
+msgctxt "MainWindow|"
+msgid "Configure burning software"
+msgstr ""
+
+#: mainwindow.cpp:919
+msgctxt "MainWindow|"
+msgid "&List programmers"
+msgstr ""
+
+#: mainwindow.cpp:920
+msgctxt "MainWindow|"
+msgid "List available programmers"
+msgstr ""
+
+#: mainwindow.cpp:923
+msgctxt "MainWindow|"
+msgid "&Fuses..."
+msgstr ""
+
+#: mainwindow.cpp:924
+msgctxt "MainWindow|"
+msgid "Show fuses dialog"
+msgstr ""
+
+#: mainwindow.cpp:927
+msgctxt "MainWindow|"
+msgid "&Simulate"
+msgstr ""
+
+#: mainwindow.cpp:928
+msgctxt "MainWindow|"
+msgid "Alt+S"
+msgstr ""
+
+#: mainwindow.cpp:929
+msgctxt "MainWindow|"
+msgid "Simulate selected model."
+msgstr ""
+
+#: mainwindow.cpp:933
+msgctxt "MainWindow|"
+msgid "&Print"
+msgstr ""
+
+#: mainwindow.cpp:934
+msgctxt "MainWindow|"
+msgid "Ctrl+P"
+msgstr ""
+
+#: mainwindow.cpp:935
+msgctxt "MainWindow|"
+msgid "Print current model."
+msgstr ""
+
+#: mainwindow.cpp:939
+msgctxt "MainWindow|"
+msgid "Cl&ose"
+msgstr ""
+
+#: mainwindow.cpp:940
+msgctxt "MainWindow|"
+msgid "Close the active window"
+msgstr ""
+
+#: mainwindow.cpp:944
+msgctxt "MainWindow|"
+msgid "Close &All"
+msgstr ""
+
+#: mainwindow.cpp:945
+msgctxt "MainWindow|"
+msgid "Close all the windows"
+msgstr ""
+
+#: mainwindow.cpp:949
+msgctxt "MainWindow|"
+msgid "&Tile"
+msgstr ""
+
+#: mainwindow.cpp:950
+msgctxt "MainWindow|"
+msgid "Tile the windows"
+msgstr ""
+
+#: mainwindow.cpp:953
+msgctxt "MainWindow|"
+msgid "&Cascade"
+msgstr ""
+
+#: mainwindow.cpp:954
+msgctxt "MainWindow|"
+msgid "Cascade the windows"
+msgstr ""
+
+#: mainwindow.cpp:957
+msgctxt "MainWindow|"
+msgid "Ne&xt"
+msgstr ""
+
+#: mainwindow.cpp:959
+msgctxt "MainWindow|"
+msgid "Move the focus to the next window"
+msgstr ""
+
+#: mainwindow.cpp:963
+msgctxt "MainWindow|"
+msgid "Pre&vious"
+msgstr ""
+
+#: mainwindow.cpp:965
+msgctxt "MainWindow|"
+msgid "Move the focus to the previous window"
+msgstr ""
+
+#: mainwindow.cpp:973
+msgctxt "MainWindow|"
+msgid "&About"
+msgstr ""
+
+#: mainwindow.cpp:974
+msgctxt "MainWindow|"
+msgid "Show the application's About box"
+msgstr ""
+
+#: mainwindow.cpp:977
+msgctxt "MainWindow|"
+msgid "&Contributors"
+msgstr ""
+
+#: mainwindow.cpp:978
+msgctxt "MainWindow|"
+msgid "List er9x/eePe Contributors"
+msgstr ""
+
+#: mainwindow.cpp:982
+msgctxt "MainWindow|"
+msgid "Switch layout Left/Right"
+msgstr ""
+
+#: mainwindow.cpp:985
+msgctxt "MainWindow|"
+msgid "&ER9x Users Guide"
+msgstr ""
+
+#: mainwindow.cpp:986
+msgctxt "MainWindow|"
+msgid "Show ER9x Users Guide"
+msgstr ""
+
+#: mainwindow.cpp:990
+msgctxt "MainWindow|"
+msgid "&Load Model/Settings"
+msgstr ""
+
+#: mainwindow.cpp:991
+msgctxt "MainWindow|"
+msgid "Load Model/Settings From File"
+msgstr ""
+
+#: mainwindow.cpp:994
+msgctxt "MainWindow|"
+msgid "S&ave Model/Settings"
+msgstr ""
+
+#: mainwindow.cpp:995
+msgctxt "MainWindow|"
+msgid "Save Model/Settings To File"
+msgstr ""
+
+#: mainwindow.cpp:1001
+msgctxt "MainWindow|"
+msgid "&File"
+msgstr ""
+
+#: mainwindow.cpp:981
+msgctxt "MainWindow|"
+msgid "Switch layout direction"
+msgstr ""
+
+#: mainwindow.cpp:273
+#, qt-format
+msgctxt "MainWindow|"
+msgid "Ignore this version (r%1)?"
+msgstr ""
+
+#: mainwindow.cpp:379
+#, qt-format
+msgctxt "MainWindow|"
+msgid ""
+"A new version of eePe is available (r%1)<br>Would you like to download it?"
+msgstr ""
+
+#: mainwindow.cpp:1017
+msgctxt "MainWindow|"
+msgid "&Edit"
+msgstr ""
+
+#: mainwindow.cpp:1022
+msgctxt "MainWindow|"
+msgid "&Burn"
+msgstr ""
+
+#: mainwindow.cpp:1036
+msgctxt "MainWindow|"
+msgid "&Window"
+msgstr ""
+
+#: mainwindow.cpp:1042
+msgctxt "MainWindow|"
+msgid "&Help"
+msgstr ""
+
+#: mainwindow.cpp:1053
+msgctxt "MainWindow|"
+msgid "File"
+msgstr ""
+
+#: mainwindow.cpp:1064
+msgctxt "MainWindow|"
+msgid "Edit"
+msgstr ""
+
+#: mainwindow.cpp:1069
+msgctxt "MainWindow|"
+msgid "Burn"
+msgstr ""
+
+#: mainwindow.cpp:1081
+msgctxt "MainWindow|"
+msgid "Help"
+msgstr ""
+
+#: mainwindow.cpp:1090
+msgctxt "MainWindow|"
+msgid "Ready"
+msgstr ""
+
+#: mdichild.cpp:155
+msgctxt "MdiChild|"
+msgid "General Settings"
+msgstr ""
+
+#: mdichild.cpp:941 mdichild.cpp:983
+msgctxt "MdiChild|"
+msgid "eePe"
+msgstr ""
+
+#: mdichild.cpp:185
+msgctxt "MdiChild|"
+msgid "Delete Selected Models?"
+msgstr ""
+
+#: mdichild.cpp:254 mdichild.cpp:264 mdichild.cpp:320 mdichild.cpp:325
+#: mdichild.cpp:342 mdichild.cpp:362 mdichild.cpp:385 mdichild.cpp:406
+#: mdichild.cpp:482 mdichild.cpp:541 mdichild.cpp:553 mdichild.cpp:580
+#: mdichild.cpp:598 mdichild.cpp:715 mdichild.cpp:734 mdichild.cpp:749
+#: mdichild.cpp:766 mdichild.cpp:785 mdichild.cpp:804 mdichild.cpp:810
+#: mdichild.cpp:823 mdichild.cpp:833 mdichild.cpp:891 mdichild.cpp:904
+#: mdichild.cpp:1001
+msgctxt "MdiChild|"
+msgid "Error"
+msgstr ""
+
+#: mdichild.cpp:254
+msgctxt "MdiChild|"
+msgid "Unable set data!"
+msgstr ""
+
+#: mdichild.cpp:264
+msgctxt "MdiChild|"
+msgid "Unable set model!"
+msgstr ""
+
+#: mdichild.cpp:343
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Invalid EEPE File Format %1"
+msgstr ""
+
+#: mdichild.cpp:385
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Checksum Error reading file %1!"
+msgstr ""
+
+#: mdichild.cpp:483
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Coulden't find %1"
+msgstr ""
+
+#: mdichild.cpp:499
+msgctxt "MdiChild|"
+msgid "Overwrite Current Settings?"
+msgstr ""
+
+#: mdichild.cpp:506 mdichild.cpp:524
+msgctxt "MdiChild|"
+msgid "Open"
+msgstr ""
+
+#: mdichild.cpp:517
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Overwrite %1?"
+msgstr ""
+
+#: mdichild.cpp:542 mdichild.cpp:554
+msgctxt "MdiChild|"
+msgid "Error writing to container"
+msgstr ""
+
+#: mdichild.cpp:580
+msgctxt "MdiChild|"
+msgid "Error Getting General Settings Data"
+msgstr ""
+
+#: mdichild.cpp:586
+msgctxt "MdiChild|"
+msgid "Save Settings As"
+msgstr ""
+
+#: mdichild.cpp:598
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Error Getting Model #%1"
+msgstr ""
+
+#: mdichild.cpp:604
+msgctxt "MdiChild|"
+msgid "Save Model As"
+msgstr ""
+
+#: mdichild.cpp:699
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Editing model %1: "
+msgstr ""
+
+#: mdichild.cpp:715
+msgctxt "MdiChild|"
+msgid "Unable to read settings!"
+msgstr ""
+
+#: mdichild.cpp:725
+#, qt-format
+#| msgid "document%1.hex"
+msgctxt "MdiChild|"
+msgid "document%1.eepe"
+msgstr ""
+
+#: mdichild.cpp:750 mdichild.cpp:786 mdichild.cpp:834
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error loading file %1:\n"
+"File may be corrupted, old or from a different system."
+msgstr ""
+
+#: mdichild.cpp:1041
+msgctxt "MdiChild|"
+msgid "&Load Model/Settings"
+msgstr ""
+
+#: mdichild.cpp:1041
+msgctxt "MdiChild|"
+msgid "Ctrl+L"
+msgstr ""
+
+#: mdichild.cpp:1042
+msgctxt "MdiChild|"
+msgid "&Save Model/Settings"
+msgstr ""
+
+#: mdichild.cpp:1042
+msgctxt "MdiChild|"
+msgid "Ctrl+S"
+msgstr ""
+
+#: mdichild.cpp:320 mdichild.cpp:734
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Unable to find file %1!"
+msgstr ""
+
+#: mdichild.cpp:362
+#, qt-format
+msgctxt "MdiChild|"
+msgid "Error reading file %1!"
+msgstr ""
+
+#: mdichild.cpp:824
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error reading file %1:\n"
+"%2."
+msgstr ""
+
+#: mdichild.cpp:804
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error reading file:\n"
+"File wrong size - %1"
+msgstr ""
+
+#: mdichild.cpp:326 mdichild.cpp:811
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error opening file %1:\n"
+"%2."
+msgstr ""
+
+#: mdichild.cpp:766
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error reading file:\n"
+"File wrong size - %1\n"
+"This might be a FW file. You might want to try burning it to the TX.\n"
+"(Burn->Write Flash Memory)"
+msgstr ""
+
+#: mdichild.cpp:860
+msgctxt "MdiChild|"
+msgid "Save As"
+msgstr ""
+
+#: mdichild.cpp:407 mdichild.cpp:892
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Cannot write file %1:\n"
+"%2."
+msgstr ""
+
+#: mdichild.cpp:905
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"Error writing file %1:\n"
+"%2."
+msgstr ""
+
+#: mdichild.cpp:942
+#, qt-format
+msgctxt "MdiChild|"
+msgid ""
+"'%1' has been modified.\n"
+"Do you want to save your changes?"
+msgstr ""
+
+#: mdichild.cpp:984
+#, qt-format
+#| msgid "Burn %1 to transmitter?"
+msgctxt "MdiChild|"
+msgid "Write %1 to EEPROM memory?"
+msgstr ""
+
+#: mdichild.cpp:1001
+msgctxt "MdiChild|"
+msgid "Cannot write temporary file!"
+msgstr ""
+
+#: mdichild.cpp:1033
+msgctxt "MdiChild|"
+msgid "&Edit"
+msgstr ""
+
+#: mdichild.cpp:1035
+msgctxt "MdiChild|"
+msgid "&Delete"
+msgstr ""
+
+#: mdichild.cpp:1035
+msgctxt "MdiChild|"
+msgid "Delete"
+msgstr ""
+
+#: mdichild.cpp:1036
+msgctxt "MdiChild|"
+msgid "&Copy"
+msgstr ""
+
+#: mdichild.cpp:1036
+msgctxt "MdiChild|"
+msgid "Ctrl+C"
+msgstr ""
+
+#: mdichild.cpp:1037
+msgctxt "MdiChild|"
+msgid "&Cut"
+msgstr ""
+
+#: mdichild.cpp:1037
+msgctxt "MdiChild|"
+msgid "Ctrl+X"
+msgstr ""
+
+#: mdichild.cpp:1038
+msgctxt "MdiChild|"
+msgid "&Paste"
+msgstr ""
+
+#: mdichild.cpp:1038
+msgctxt "MdiChild|"
+msgid "Ctrl+V"
+msgstr ""
+
+#: mdichild.cpp:1039
+msgctxt "MdiChild|"
+msgid "D&uplicate"
+msgstr ""
+
+#: mdichild.cpp:1039
+msgctxt "MdiChild|"
+msgid "Ctrl+U"
+msgstr ""
+
+#: mdichild.cpp:1044
+msgctxt "MdiChild|"
+msgid "Alt+S"
+msgstr ""
+
+#: mdichild.cpp:1044
+msgctxt "MdiChild|"
+msgid "Simulate"
+msgstr ""
+
+#: mdichild.cpp:1046
+msgctxt "MdiChild|"
+msgid "&Write To Tx"
+msgstr ""
+
+#: mdichild.cpp:1046
+msgctxt "MdiChild|"
+msgid "Ctrl+Alt+W"
+msgstr ""
+
+#: mixerdialog.ui:14
+msgctxt "MixerDialog|"
+msgid "Dialog"
+msgstr ""
+
+#: mixerdialog.ui:29
+msgctxt "MixerDialog|"
+msgid "Source"
+msgstr ""
+
+#: mixerdialog.ui:36
+msgctxt "MixerDialog|"
+msgid "The source for the mixer"
+msgstr ""
+
+#: mixerdialog.ui:43
+msgctxt "MixerDialog|"
+msgid "Weight"
+msgstr ""
+
+#: mixerdialog.ui:50
+msgctxt "MixerDialog|"
+msgid "The value of the mixer is multiplied by this value and divided by 100."
+msgstr ""
+
+#: mixerdialog.ui:66
+msgctxt "MixerDialog|"
+msgid "Offset"
+msgstr ""
+
+#: mixerdialog.ui:73
+msgctxt "MixerDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This value is added "
+"to the <span style=\" font-weight:600;\">input </span>of the "
+"mixer.</p></body></html>"
+msgstr ""
+
+#: mixerdialog.ui:93
+msgctxt "MixerDialog|"
+msgid "Include Trim"
+msgstr ""
+
+#: mixerdialog.ui:100 mixerdialog.ui:216
+msgctxt "MixerDialog|"
+msgid "If checked - will add the trim from the source (if available)"
+msgstr ""
+
+#: mixerdialog.ui:110
+msgctxt "MixerDialog|"
+msgid "Curve"
+msgstr ""
+
+#: mixerdialog.ui:117
+msgctxt "MixerDialog|"
+msgid "The curve used by the mix"
+msgstr ""
+
+#: mixerdialog.ui:124
+msgctxt "MixerDialog|"
+msgid "Switch"
+msgstr ""
+
+#: mixerdialog.ui:131
+msgctxt "MixerDialog|"
+msgid ""
+"Switch used by the mix.\n"
+"If blank then the mix is considered to be \"ON\" all the time."
+msgstr ""
+
+#: mixerdialog.ui:139
+msgctxt "MixerDialog|"
+msgid "Warning"
+msgstr ""
+
+#: mixerdialog.ui:146
+msgctxt "MixerDialog|"
+msgid ""
+"Mixer warning.\n"
+"Setting this value will cause a beep to be emmitted when this value is "
+"active."
+msgstr ""
+
+#: mixerdialog.ui:151
+msgctxt "MixerDialog|"
+msgid "OFF"
+msgstr ""
+
+#: mixerdialog.ui:156
+msgctxt "MixerDialog|"
+msgid "1 Beep"
+msgstr ""
+
+#: mixerdialog.ui:161
+#| msgid "2 Beeo"
+msgctxt "MixerDialog|"
+msgid "2 Beep"
+msgstr ""
+
+#: mixerdialog.ui:166
+msgctxt "MixerDialog|"
+msgid "3 Beep"
+msgstr ""
+
+#: mixerdialog.ui:174
+msgctxt "MixerDialog|"
+msgid "Multiplex"
+msgstr ""
+
+#: mixerdialog.ui:181
+msgctxt "MixerDialog|"
+msgid ""
+"Multiplexer\n"
+"\n"
+"This determines how mixer values are added.\n"
+"\n"
+"\"+\" means the value of the current mix is added to the previous mixes in "
+"the same channel.\n"
+"\"*\" means the value of the current mix is amultiplied with the previous "
+"mixes in the same channel.\n"
+"\"R\" means the value replaces the previous values.  If the switch is off "
+"the value will be ignored."
+msgstr ""
+
+#: mixerdialog.ui:191
+msgctxt "MixerDialog|"
+msgid "ADD"
+msgstr ""
+
+#: mixerdialog.ui:196
+msgctxt "MixerDialog|"
+msgid "MULTIPLY"
+msgstr ""
+
+#: mixerdialog.ui:201
+msgctxt "MixerDialog|"
+msgid "REPLACE"
+msgstr ""
+
+#: mixerdialog.ui:209
+msgctxt "MixerDialog|"
+msgid "Flightmode Trim"
+msgstr ""
+
+#: mixerdialog.ui:230
+msgctxt "MixerDialog|"
+msgid "Delay"
+msgstr ""
+
+#: mixerdialog.ui:237
+msgctxt "MixerDialog|"
+msgid "Slow"
+msgstr ""
+
+#: mixerdialog.ui:244
+msgctxt "MixerDialog|"
+msgid "Up"
+msgstr ""
+
+#: mixerdialog.ui:254 mixerdialog.ui:277 mixerdialog.ui:310 mixerdialog.ui:333
+msgctxt "MixerDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-weight:600; text-decoration: underline;\">Delay ans Slow</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-weight:600; text-decoration: underline;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">These values "
+"control the speed and delay of the output of the mix.  </p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If Delay is not "
+"zero the actuation of the mix will be delayed by the specified amount of "
+"seconds.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">If Slow is not zero "
+"then the speed of the mix will be set by the value specified -&gt; the value "
+"states the number of seconds it takes to transit from -100 to "
+"100.</p></body></html>"
+msgstr ""
+
+#: mixerdialog.ui:300
+msgctxt "MixerDialog|"
+msgid "Down"
+msgstr ""
+
+#: mixerdialog.ui:397
+msgctxt "MixerDialog|"
+msgid "Comment"
+msgstr ""
+
+#: mixerdialog.cpp:13
+#, qt-format
+msgctxt "MixerDialog|"
+msgid "DEST -> CH%1%2"
+msgstr ""
+
+#: modeledit.ui:14
+msgctxt "ModelEdit|"
+msgid "Dialog"
+msgstr ""
+
+#: modeledit.ui:42
+msgctxt "ModelEdit|"
+msgid "Setup"
+msgstr ""
+
+#: modeledit.ui:51
+msgctxt "ModelEdit|"
+msgid "Model Name"
+msgstr ""
+
+#: modeledit.ui:65
+msgctxt "ModelEdit|"
+msgid "Timer Mode"
+msgstr ""
+
+#: modeledit.ui:75
+msgctxt "ModelEdit|"
+msgid "Timer Direction"
+msgstr ""
+
+#: modeledit.ui:83
+msgctxt "ModelEdit|"
+msgid "Count Down"
+msgstr ""
+
+#: modeledit.ui:88
+msgctxt "ModelEdit|"
+msgid "Count Up"
+msgstr ""
+
+#: modeledit.ui:96
+msgctxt "ModelEdit|"
+msgid "Timer Value"
+msgstr ""
+
+#: modeledit.ui:109
+msgctxt "ModelEdit|"
+msgid "mm:ss"
+msgstr ""
+
+#: modeledit.ui:116
+msgctxt "ModelEdit|"
+msgid "Trim Increment"
+msgstr ""
+
+#: modeledit.ui:124
+msgctxt "ModelEdit|"
+msgid "Exponential"
+msgstr ""
+
+#: modeledit.ui:129
+msgctxt "ModelEdit|"
+msgid "Extra Fine"
+msgstr ""
+
+#: modeledit.ui:134
+msgctxt "ModelEdit|"
+msgid "Fine"
+msgstr ""
+
+#: modeledit.ui:139
+msgctxt "ModelEdit|"
+msgid "Medium"
+msgstr ""
+
+#: modeledit.ui:144
+msgctxt "ModelEdit|"
+msgid "Coarse"
+msgstr ""
+
+#: modeledit.ui:152
+msgctxt "ModelEdit|"
+msgid "Throttle Trim"
+msgstr ""
+
+#: modeledit.ui:166
+msgctxt "ModelEdit|"
+msgid "Throttle Expo"
+msgstr ""
+
+#: modeledit.ui:180
+msgctxt "ModelEdit|"
+msgid "instaTrim Switch"
+msgstr ""
+
+#: modeledit.ui:190
+msgctxt "ModelEdit|"
+msgid "Center beep"
+msgstr ""
+
+#: modeledit.ui:199
+msgctxt "ModelEdit|"
+msgid "RUD"
+msgstr ""
+
+#: modeledit.ui:206
+msgctxt "ModelEdit|"
+msgid "ELE"
+msgstr ""
+
+#: modeledit.ui:213
+msgctxt "ModelEdit|"
+msgid "THR"
+msgstr ""
+
+#: modeledit.ui:220
+msgctxt "ModelEdit|"
+msgid "AIL"
+msgstr ""
+
+#: modeledit.ui:227
+msgctxt "ModelEdit|"
+msgid "P1"
+msgstr ""
+
+#: modeledit.ui:234
+msgctxt "ModelEdit|"
+msgid "P2"
+msgstr ""
+
+#: modeledit.ui:241
+msgctxt "ModelEdit|"
+msgid "P3"
+msgstr ""
+
+#: modeledit.ui:250
+msgctxt "ModelEdit|"
+msgid "Pulse Shift (polarity)"
+msgstr ""
+
+#: modeledit.ui:258
+msgctxt "ModelEdit|"
+msgid "Positive"
+msgstr ""
+
+#: modeledit.ui:263
+msgctxt "ModelEdit|"
+msgid "Negative"
+msgstr ""
+
+#: modeledit.ui:285
+msgctxt "ModelEdit|"
+msgid "Protocol"
+msgstr ""
+
+#: modeledit.ui:321
+msgctxt "ModelEdit|"
+msgid "Channels"
+msgstr ""
+
+#: modeledit.ui:328
+msgctxt "ModelEdit|"
+msgid "ch"
+msgstr ""
+
+#: modeledit.ui:347
+msgctxt "ModelEdit|"
+msgid "ppm Delay"
+msgstr ""
+
+#: modeledit.ui:354
+#| msgid " usec"
+msgctxt "ModelEdit|"
+msgid " uSec"
+msgstr ""
+
+#: modeledit.ui:271
+msgctxt "ModelEdit|"
+msgid "Extended Limits"
+msgstr ""
+
+#: modeledit.ui:373
+msgctxt "ModelEdit|"
+msgid " mSec"
+msgstr ""
+
+#: modeledit.ui:395
+msgctxt "ModelEdit|"
+msgid "PPM Frame Length"
+msgstr ""
+
+#: modeledit.ui:402
+msgctxt "ModelEdit|"
+msgid "Trainer"
+msgstr ""
+
+#: modeledit.ui:409
+msgctxt "ModelEdit|"
+msgid "T2throttleTrig"
+msgstr ""
+
+#: modeledit.ui:431
+msgctxt "ModelEdit|"
+msgid "Heli Setup"
+msgstr ""
+
+#: modeledit.ui:437
+msgctxt "ModelEdit|"
+msgid "Swash Type"
+msgstr ""
+
+#: modeledit.ui:445
+msgctxt "ModelEdit|"
+msgid "Off"
+msgstr ""
+
+#: modeledit.ui:450
+msgctxt "ModelEdit|"
+msgid "120"
+msgstr ""
+
+#: modeledit.ui:455
+msgctxt "ModelEdit|"
+msgid "120X"
+msgstr ""
+
+#: modeledit.ui:460
+msgctxt "ModelEdit|"
+msgid "140"
+msgstr ""
+
+#: modeledit.ui:465
+msgctxt "ModelEdit|"
+msgid "90"
+msgstr ""
+
+#: modeledit.ui:473
+msgctxt "ModelEdit|"
+msgid "Collective"
+msgstr ""
+
+#: modeledit.ui:483
+msgctxt "ModelEdit|"
+msgid "Swash Ring"
+msgstr ""
+
+#: modeledit.ui:518
+msgctxt "ModelEdit|"
+msgid "Invert Elevator"
+msgstr ""
+
+#: modeledit.ui:525
+msgctxt "ModelEdit|"
+msgid "Invert Aileron"
+msgstr ""
+
+#: modeledit.ui:532
+msgctxt "ModelEdit|"
+msgid "Invert Collective"
+msgstr ""
+
+#: modeledit.ui:555
+msgctxt "ModelEdit|"
+msgid "Expo/Dr"
+msgstr ""
+
+#: modeledit.ui:578 modeledit.ui:898 modeledit.ui:1251 modeledit.ui:1538
+msgctxt "ModelEdit|"
+msgid "HIGH"
+msgstr ""
+
+#: modeledit.ui:652 modeledit.ui:972 modeledit.ui:1325 modeledit.ui:1612
+msgctxt "ModelEdit|"
+msgid "MID"
+msgstr ""
+
+#: modeledit.ui:726 modeledit.ui:1046 modeledit.ui:1399 modeledit.ui:1686
+msgctxt "ModelEdit|"
+msgid "LOW"
+msgstr ""
+
+#: modeledit.ui:800 modeledit.ui:1120 modeledit.ui:1473 modeledit.ui:1760
+msgctxt "ModelEdit|"
+msgid ""
+"Expo\n"
+"Left"
+msgstr ""
+
+#: modeledit.ui:811 modeledit.ui:1142 modeledit.ui:1218 modeledit.ui:1782
+msgctxt "ModelEdit|"
+msgid ""
+"D/R\n"
+"Left"
+msgstr ""
+
+#: modeledit.ui:822 modeledit.ui:1131 modeledit.ui:1229 modeledit.ui:1771
+msgctxt "ModelEdit|"
+msgid ""
+"D/R\n"
+"Right"
+msgstr ""
+
+#: modeledit.ui:833 modeledit.ui:1153 modeledit.ui:1240 modeledit.ui:1793
+msgctxt "ModelEdit|"
+msgid ""
+"Expo\n"
+"Right"
+msgstr ""
+
+#: modeledit.ui:846 modeledit.ui:1176 modeledit.ui:1486 modeledit.ui:1816
+msgctxt "ModelEdit|"
+msgid "Switch1"
+msgstr ""
+
+#: modeledit.ui:856 modeledit.ui:1166 modeledit.ui:1496 modeledit.ui:1806
+msgctxt "ModelEdit|"
+msgid "Switch2"
+msgstr ""
+
+#: modeledit.ui:871
+msgctxt "ModelEdit|"
+msgid "Rudder"
+msgstr ""
+
+#: modeledit.ui:1191
+msgctxt "ModelEdit|"
+msgid "Aileron"
+msgstr ""
+
+#: modeledit.ui:1511
+msgctxt "ModelEdit|"
+msgid "Throttle"
+msgstr ""
+
+#: modeledit.ui:1831
+msgctxt "ModelEdit|"
+msgid "Elevator"
+msgstr ""
+
+#: modeledit.ui:1842
+msgctxt "ModelEdit|"
+msgid "Mixes"
+msgstr ""
+
+#: modeledit.ui:1852
+msgctxt "ModelEdit|"
+msgid "Limits"
+msgstr ""
+
+#: modeledit.ui:1914 modeledit.ui:1983 modeledit.ui:2052 modeledit.ui:2121
+#: modeledit.ui:2190 modeledit.ui:2259 modeledit.ui:2328 modeledit.ui:2397
+#: modeledit.ui:2466 modeledit.ui:2535 modeledit.ui:2604 modeledit.ui:2673
+#: modeledit.ui:2742 modeledit.ui:2811 modeledit.ui:2880 modeledit.ui:2949
+msgctxt "ModelEdit|"
+msgid "NOR"
+msgstr ""
+
+#: modeledit.ui:1919 modeledit.ui:1988 modeledit.ui:2057 modeledit.ui:2126
+#: modeledit.ui:2195 modeledit.ui:2264 modeledit.ui:2333 modeledit.ui:2402
+#: modeledit.ui:2471 modeledit.ui:2540 modeledit.ui:2609 modeledit.ui:2678
+#: modeledit.ui:2747 modeledit.ui:2816 modeledit.ui:2885 modeledit.ui:2954
+msgctxt "ModelEdit|"
+msgid "INV"
+msgstr ""
+
+#: modeledit.ui:2971 modeledit.ui:5536
+msgctxt "ModelEdit|"
+msgid "Channel"
+msgstr ""
+
+#: modeledit.ui:2993
+msgctxt "ModelEdit|"
+msgid "Offset"
+msgstr ""
+
+#: modeledit.ui:3015
+msgctxt "ModelEdit|"
+msgid "Min"
+msgstr ""
+
+#: modeledit.ui:3037
+msgctxt "ModelEdit|"
+msgid "Max"
+msgstr ""
+
+#: modeledit.ui:509 modeledit.ui:3059
+msgctxt "ModelEdit|"
+msgid "Invert"
+msgstr ""
+
+#: modeledit.ui:3073
+msgctxt "ModelEdit|"
+msgid "Curves"
+msgstr ""
+
+#: modeledit.ui:3079
+msgctxt "ModelEdit|"
+msgid "Curve 1"
+msgstr ""
+
+#: modeledit.ui:3169
+msgctxt "ModelEdit|"
+msgid "Curve 2"
+msgstr ""
+
+#: modeledit.ui:3256
+msgctxt "ModelEdit|"
+msgid "Curve 3"
+msgstr ""
+
+#: modeledit.ui:3343
+msgctxt "ModelEdit|"
+msgid "Curve 4"
+msgstr ""
+
+#: modeledit.ui:3430
+msgctxt "ModelEdit|"
+msgid "Curve 5"
+msgstr ""
+
+#: modeledit.ui:3517
+msgctxt "ModelEdit|"
+msgid "Curve 6"
+msgstr ""
+
+#: modeledit.ui:3604
+msgctxt "ModelEdit|"
+msgid "Curve 7"
+msgstr ""
+
+#: modeledit.ui:3691
+msgctxt "ModelEdit|"
+msgid "Curve 8"
+msgstr ""
+
+#: modeledit.ui:3778
+msgctxt "ModelEdit|"
+msgid "Curve 9"
+msgstr ""
+
+#: modeledit.ui:3929
+msgctxt "ModelEdit|"
+msgid "Curve 10"
+msgstr ""
+
+#: modeledit.ui:4080
+msgctxt "ModelEdit|"
+msgid "Curve 11"
+msgstr ""
+
+#: modeledit.ui:4231
+msgctxt "ModelEdit|"
+msgid "Curve 12"
+msgstr ""
+
+#: modeledit.ui:4382
+msgctxt "ModelEdit|"
+msgid "Curve 13"
+msgstr ""
+
+#: modeledit.ui:4533
+msgctxt "ModelEdit|"
+msgid "Curve 14"
+msgstr ""
+
+#: modeledit.ui:4684
+msgctxt "ModelEdit|"
+msgid "Curve 15"
+msgstr ""
+
+#: modeledit.ui:4835
+msgctxt "ModelEdit|"
+msgid "Curve 16"
+msgstr ""
+
+#: modeledit.ui:5258
+#| msgid "Clear All Mixes"
+msgctxt "ModelEdit|"
+msgid "Clear All Curves"
+msgstr ""
+
+#: modeledit.ui:5270
+msgctxt "ModelEdit|"
+msgid "Switches"
+msgstr ""
+
+#: modeledit.ui:5282
+msgctxt "ModelEdit|"
+msgid "CSwitch1"
+msgstr ""
+
+#: modeledit.ui:5298
+msgctxt "ModelEdit|"
+msgid "CSwitch2"
+msgstr ""
+
+#: modeledit.ui:5314
+msgctxt "ModelEdit|"
+msgid "CSwitch3"
+msgstr ""
+
+#: modeledit.ui:5330
+msgctxt "ModelEdit|"
+msgid "CSwitch4"
+msgstr ""
+
+#: modeledit.ui:5346
+msgctxt "ModelEdit|"
+msgid "CSwitch5"
+msgstr ""
+
+#: modeledit.ui:5404
+msgctxt "ModelEdit|"
+msgid "CSwitch6"
+msgstr ""
+
+#: modeledit.ui:5365
+msgctxt "ModelEdit|"
+msgid "Function"
+msgstr ""
+
+#: modeledit.ui:5378
+msgctxt "ModelEdit|"
+msgid "V1"
+msgstr ""
+
+#: modeledit.ui:5391
+msgctxt "ModelEdit|"
+msgid "V2"
+msgstr ""
+
+#: modeledit.ui:5417
+msgctxt "ModelEdit|"
+msgid "CSwitch7"
+msgstr ""
+
+#: modeledit.ui:5430
+msgctxt "ModelEdit|"
+msgid "CSwitch8"
+msgstr ""
+
+#: modeledit.ui:5443
+msgctxt "ModelEdit|"
+msgid "CSwitch9"
+msgstr ""
+
+#: modeledit.ui:5456
+#| msgid "CSwitch10"
+msgctxt "ModelEdit|"
+msgid "CSwitchA"
+msgstr ""
+
+#: modeledit.ui:5469
+#| msgid "CSwitch11"
+msgctxt "ModelEdit|"
+msgid "CSwitchB"
+msgstr ""
+
+#: modeledit.ui:5482
+#| msgid "CSwitch12"
+msgctxt "ModelEdit|"
+msgid "CSwitchC"
+msgstr ""
+
+#: modeledit.ui:5521
+msgctxt "ModelEdit|"
+msgid "Safety Switches"
+msgstr ""
+
+#: modeledit.ui:5558
+msgctxt "ModelEdit|"
+msgid "Switch"
+msgstr ""
+
+#: modeledit.ui:5580
+msgctxt "ModelEdit|"
+msgid "Value"
+msgstr ""
+
+#: modeledit.ui:5706
+msgctxt "ModelEdit|"
+msgid "Trims"
+msgstr ""
+
+#: modeledit.ui:5815
+msgctxt "ModelEdit|"
+msgid "STICK 1"
+msgstr ""
+
+#: modeledit.ui:5830
+msgctxt "ModelEdit|"
+msgid "STICK 2"
+msgstr ""
+
+#: modeledit.ui:5920
+msgctxt "ModelEdit|"
+msgid "STICK 4"
+msgstr ""
+
+#: modeledit.ui:5935
+msgctxt "ModelEdit|"
+msgid "STICK 3"
+msgstr ""
+
+#: modeledit.ui:6005
+msgctxt "ModelEdit|"
+msgid "FrSky"
+msgstr ""
+
+#: modeledit.ui:6013
+msgctxt "ModelEdit|"
+msgid "Channel 1"
+msgstr ""
+
+#: modeledit.ui:6021 modeledit.ui:6171
+msgctxt "ModelEdit|"
+msgid "V"
+msgstr ""
+
+#: modeledit.ui:6026 modeledit.ui:6031 modeledit.ui:6036 modeledit.ui:6054
+#: modeledit.ui:6099 modeledit.ui:6176 modeledit.ui:6181 modeledit.ui:6186
+#: modeledit.ui:6204 modeledit.ui:6249
+msgctxt "ModelEdit|"
+msgid "---"
+msgstr ""
+
+#: modeledit.ui:6046 modeledit.ui:6196
+msgctxt "ModelEdit|"
+msgid "Alarm 1"
+msgstr ""
+
+#: modeledit.ui:6059 modeledit.ui:6104 modeledit.ui:6209 modeledit.ui:6254
+msgctxt "ModelEdit|"
+msgid "Yellow"
+msgstr ""
+
+#: modeledit.ui:6064 modeledit.ui:6109 modeledit.ui:6214 modeledit.ui:6259
+msgctxt "ModelEdit|"
+msgid "Orange"
+msgstr ""
+
+#: modeledit.ui:6069 modeledit.ui:6114 modeledit.ui:6219 modeledit.ui:6264
+msgctxt "ModelEdit|"
+msgid "Red"
+msgstr ""
+
+#: modeledit.ui:6078 modeledit.ui:6123 modeledit.ui:6228 modeledit.ui:6273
+msgctxt "ModelEdit|"
+msgid "<"
+msgstr ""
+
+#: modeledit.ui:6083 modeledit.ui:6128 modeledit.ui:6233 modeledit.ui:6278
+msgctxt "ModelEdit|"
+msgid ">"
+msgstr ""
+
+#: modeledit.ui:6091 modeledit.ui:6241
+msgctxt "ModelEdit|"
+msgid "Alarm 2"
+msgstr ""
+
+#: modeledit.ui:6163
+msgctxt "ModelEdit|"
+msgid "Channel 2"
+msgstr ""
+
+#: modeledit.ui:6325
+msgctxt "ModelEdit|"
+msgid "Templates"
+msgstr ""
+
+#: modeledit.ui:27
+msgctxt "ModelEdit|"
+msgid "Simulate"
+msgstr ""
+
+#: modeledit.cpp:423 modeledit.cpp:433 modeledit.cpp:483
+#, qt-format
+msgctxt "ModelEdit|"
+msgid "CH%1%2"
+msgstr ""
+
+#: modeledit.cpp:454
+msgctxt "ModelEdit|"
+msgid " Switch("
+msgstr ""
+
+#: modeledit.cpp:455
+msgctxt "ModelEdit|"
+msgid " noTrim"
+msgstr ""
+
+#: modeledit.cpp:456
+#, qt-format
+msgctxt "ModelEdit|"
+msgid " Offset(%1%)"
+msgstr ""
+
+#: modeledit.cpp:460
+#, qt-format
+msgctxt "ModelEdit|"
+msgid " Curve(%1)"
+msgstr ""
+
+#: modeledit.cpp:463
+#, qt-format
+msgctxt "ModelEdit|"
+msgid " Delay(u%1:d%2)"
+msgstr ""
+
+#: modeledit.cpp:464
+#, qt-format
+msgctxt "ModelEdit|"
+msgid " Slow(u%1:d%2)"
+msgstr ""
+
+#: modeledit.cpp:466
+#, qt-format
+msgctxt "ModelEdit|"
+msgid " Warn(%1)"
+msgstr ""
+
+#: modeledit.cpp:1747
+#, qt-format
+msgctxt "ModelEdit|"
+msgid "Curve %1"
+msgstr ""
+
+#: modeledit.cpp:1981
+msgctxt "ModelEdit|"
+msgid "Delete Selected Mixes?"
+msgstr ""
+
+#: modeledit.cpp:2114
+msgctxt "ModelEdit|"
+msgid "&Add"
+msgstr ""
+
+#: modeledit.cpp:2114
+msgctxt "ModelEdit|"
+msgid "Ctrl+A"
+msgstr ""
+
+#: modeledit.cpp:2115
+msgctxt "ModelEdit|"
+msgid "&Edit"
+msgstr ""
+
+#: modeledit.cpp:2115
+msgctxt "ModelEdit|"
+msgid "Enter"
+msgstr ""
+
+#: modeledit.cpp:2117
+msgctxt "ModelEdit|"
+msgid "&Delete"
+msgstr ""
+
+#: modeledit.cpp:2117
+msgctxt "ModelEdit|"
+msgid "Delete"
+msgstr ""
+
+#: modeledit.cpp:2118
+msgctxt "ModelEdit|"
+msgid "&Copy"
+msgstr ""
+
+#: modeledit.cpp:2118
+msgctxt "ModelEdit|"
+msgid "Ctrl+C"
+msgstr ""
+
+#: modeledit.cpp:2119
+msgctxt "ModelEdit|"
+msgid "&Cut"
+msgstr ""
+
+#: modeledit.cpp:2119
+msgctxt "ModelEdit|"
+msgid "Ctrl+X"
+msgstr ""
+
+#: modeledit.cpp:2120
+msgctxt "ModelEdit|"
+msgid "&Paste"
+msgstr ""
+
+#: modeledit.cpp:2120
+msgctxt "ModelEdit|"
+msgid "Ctrl+V"
+msgstr ""
+
+#: modeledit.cpp:2121
+msgctxt "ModelEdit|"
+msgid "Du&plicate"
+msgstr ""
+
+#: modeledit.cpp:2123
+msgctxt "ModelEdit|"
+msgid "Move Up"
+msgstr ""
+
+#: modeledit.cpp:91 modeledit.cpp:2123
+msgctxt "ModelEdit|"
+msgid "Ctrl+Up"
+msgstr ""
+
+#: modeledit.cpp:2124
+msgctxt "ModelEdit|"
+msgid "Move Down"
+msgstr ""
+
+#: modeledit.cpp:94 modeledit.cpp:2124
+msgctxt "ModelEdit|"
+msgid "Ctrl+Down"
+msgstr ""
+
+#: modeledit.cpp:2443
+msgctxt "ModelEdit|"
+msgid "Apply Template?"
+msgstr ""
+
+#: modeledit.cpp:2443
+#, qt-format
+msgctxt "ModelEdit|"
+msgid "Apply template \"%1\"?"
+msgstr ""
+
+#: modeledit.cpp:2470
+msgctxt "ModelEdit|"
+msgid "Clear Mixes?"
+msgstr ""
+
+#: modeledit.cpp:2470
+msgctxt "ModelEdit|"
+msgid "Really clear all the mixes?"
+msgstr ""
+
+#: modeledit.cpp:2482
+msgctxt "ModelEdit|"
+msgid "Clear Curves?"
+msgstr ""
+
+#: modeledit.cpp:2482
+msgctxt "ModelEdit|"
+msgid "Really clear all the curves?"
+msgstr ""
+
+#: modeledit.cpp:2121
+msgctxt "ModelEdit|"
+msgid "Ctrl+U"
+msgstr ""
+
+#: main.cpp:78
+msgctxt "QObject|"
+msgid "Checking for updates..."
+msgstr ""
+
+#: avroutputdialog.ui:14
+msgctxt "avrOutputDialog|"
+msgid "Dialog"
+msgstr ""
+
+#: avroutputdialog.cpp:12
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE result"
+msgstr ""
+
+#: avroutputdialog.cpp:14
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE - "
+msgstr ""
+
+#: avroutputdialog.cpp:96
+#, qt-format
+#| msgid ""
+#| "\n"
+#| "AVRDUDE done - exit code %1"
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE done - exit code %1"
+msgstr ""
+
+#: avroutputdialog.cpp:98
+#| msgid ""
+#| "\n"
+#| "AVRDUDE done - SUCCESSFUL"
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE done - SUCCESSFUL"
+msgstr ""
+
+#: avroutputdialog.cpp:110
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE did not finish correctly"
+msgstr ""
+
+#: avroutputdialog.cpp:115
+msgctxt "avrOutputDialog|"
+msgid "AVRDUDE finished correctly"
+msgstr ""
+
+#: avroutputdialog.cpp:129
+#| msgid "Started AVRDUDE\n"
+msgctxt "avrOutputDialog|"
+msgid "Started AVRDUDE"
+msgstr ""
+
+#: avroutputdialog.cpp:139
+#, qt-format
+msgctxt "avrOutputDialog|"
+msgid "FUSES: Low=%1 High=%2 Ext=%3"
+msgstr ""
+
+#: burnconfigdialog.ui:14
+msgctxt "burnConfigDialog|"
+msgid "AVRDUDE Configuration"
+msgstr ""
+
+#: burnconfigdialog.ui:499
+msgctxt "burnConfigDialog|"
+msgid "AVRDUDE Location"
+msgstr ""
+
+#: burnconfigdialog.ui:26
+#| msgid "Locatioon of AVRDUDE executable"
+msgctxt "burnConfigDialog|"
+msgid "Location of AVRDUDE executable"
+msgstr ""
+
+#: burnconfigdialog.ui:29
+msgctxt "burnConfigDialog|"
+msgid "The location of the AVRDUDE.EXE executable."
+msgstr ""
+
+#: burnconfigdialog.ui:39
+msgctxt "burnConfigDialog|"
+msgid "Use this button to browse and look for the AVRDUDE.EXE executable file."
+msgstr ""
+
+#: burnconfigdialog.ui:42
+msgctxt "burnConfigDialog|"
+msgid "Browse..."
+msgstr ""
+
+#: burnconfigdialog.ui:49
+msgctxt "burnConfigDialog|"
+msgid "Programmer"
+msgstr ""
+
+#: burnconfigdialog.ui:59 burnconfigdialog.ui:519
+msgctxt "burnConfigDialog|"
+msgid ""
+"Programmer used for communicating with the controller.\n"
+"Please consult the programmer's documentation and the AVRDUDE documentation "
+"to select the appropriate programmer."
+msgstr ""
+
+#: burnconfigdialog.ui:380
+msgctxt "burnConfigDialog|"
+msgid "List all available programmers."
+msgstr ""
+
+#: burnconfigdialog.ui:383
+msgctxt "burnConfigDialog|"
+msgid "List Available"
+msgstr ""
+
+#: burnconfigdialog.ui:390
+msgctxt "burnConfigDialog|"
+msgid "Extra arguments that will be passed to AVRDUDE on every call"
+msgstr ""
+
+#: burnconfigdialog.ui:393
+msgctxt "burnConfigDialog|"
+msgid ""
+"Extra arguments used in AVRDUDE.\n"
+"This can be used for providing extra information to AVRDUDE.\n"
+"\n"
+"Please only use this if you know what you are doing.  There are no error "
+"checks and you could cripple your controller."
+msgstr ""
+
+#: burnconfigdialog.ui:406
+msgctxt "burnConfigDialog|"
+msgid "Extra Arguments"
+msgstr ""
+
+#: burnconfigdialog.ui:416
+msgctxt "burnConfigDialog|"
+msgid "Show AVRDUDE help"
+msgstr ""
+
+#: burnconfigdialog.ui:419
+msgctxt "burnConfigDialog|"
+msgid "Show Help"
+msgstr ""
+
+#: burnconfigdialog.ui:426
+msgctxt "burnConfigDialog|"
+msgid "Communication port to the programmer.\n"
+msgstr ""
+
+#: burnconfigdialog.ui:481
+msgctxt "burnConfigDialog|"
+msgid "avrdoper"
+msgstr ""
+
+#: burnconfigdialog.ui:489
+msgctxt "burnConfigDialog|"
+msgid "Port"
+msgstr ""
+
+#: burnconfigdialog.ui:509
+msgctxt "burnConfigDialog|"
+msgid "mcu"
+msgstr ""
+
+#: burnconfigdialog.ui:527
+msgctxt "burnConfigDialog|"
+msgid "m64"
+msgstr ""
+
+#: burnconfigdialog.ui:532
+msgctxt "burnConfigDialog|"
+msgid "m128"
+msgstr ""
+
+#: burnconfigdialog.ui:537
+msgctxt "burnConfigDialog|"
+msgid "m328p"
+msgstr ""
+
+#: burnconfigdialog.cpp:122
+msgctxt "burnConfigDialog|"
+msgid "Select Location"
+msgstr ""
+
+#: burnconfigdialog.cpp:185
+msgctxt "burnConfigDialog|"
+msgid "eePe"
+msgstr ""
+
+#: burnconfigdialog.cpp:186
+msgctxt "burnConfigDialog|"
+msgid ""
+"<b><u>WARNING!</u></b><br>This will reset the fuses to the factory "
+"settings.<br>Writing fuses can mess up your radio.<br>Do this only if you "
+"are sure they are wrong!<br>Are you sure you want to continue?"
+msgstr ""
+
+#: donatorsdialog.ui:14
+msgctxt "donatorsDialog|"
+msgid "List of Contributors"
+msgstr ""
+
+#: downloaddialog.ui:14
+msgctxt "downloadDialog|"
+msgid "Downloading: "
+msgstr ""
+
+#: downloaddialog.cpp:26
+#, qt-format
+msgctxt "downloadDialog|"
+msgid "Unable to save the file %1: %2."
+msgstr ""
+
+#: downloaddialog.cpp:56
+msgctxt "downloadDialog|"
+msgid "eePe"
+msgstr ""
+
+#: downloaddialog.cpp:57
+#, qt-format
+msgctxt "downloadDialog|"
+msgid "Download failed: %1."
+msgstr ""
+
+#: fusesdialog.ui:14
+msgctxt "fusesDialog|"
+msgid "Fuses"
+msgstr ""
+
+#: fusesdialog.ui:24
+msgctxt "fusesDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Reads the current fuses in the AVR AtMega 64 "
+"controller.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Proper states:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">EEPROM erase fuse not set: 0E, 81, FF</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">EEPROM erase fuse set: 0E, 89, FF</span></p></body></html>"
+msgstr ""
+
+#: fusesdialog.ui:35
+msgctxt "fusesDialog|"
+msgid "Read Fuses"
+msgstr ""
+
+#: fusesdialog.ui:42
+msgctxt "fusesDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt; font-weight:600; text-decoration: underline;\">Reset "
+"Fuses</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Fuses in the AVR tell it how to behave.  Pressing this "
+"button sets the fuses to the default parameters needed in the er9x "
+"FW.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">This button also sets the &quot;EEPROM protect&quot; "
+"Fuse.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">This prevents erasing of the EEPROM when the flash memory "
+"is written.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt; font-weight:600; text-decoration: "
+"underline;\">WARNING</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Setting fuses can lead to problems and even a total lockout "
+"from your controller.  Do this only if you know what you are "
+"doing.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">When in doubt consult either the project's page or the "
+"forums @ RCG and RXModelreviews.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">If you do get locked out - go to the project's homepage and "
+"lookup &quot;dealing with Fuse Bricks&quot;.</span></p></body></html>"
+msgstr ""
+
+#: fusesdialog.ui:60
+msgctxt "fusesDialog|"
+msgid ""
+"Reset Fuses\n"
+"EEPROM - PROTECT"
+msgstr ""
+
+#: fusesdialog.ui:68
+msgctxt "fusesDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; "
+"font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt; font-weight:600; text-decoration: underline;\">Reset "
+"Fuses</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Fuses in the AVR tell it how to behave.  Pressing this "
+"button sets the fuses to the default parameters needed in the er9x "
+"FW.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">This button also clears the &quot;EEPROM protect&quot; "
+"Fuse.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">This causes erasing of the EEPROM when the flash memory is "
+"written.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt; font-weight:600; text-decoration: "
+"underline;\">WARNING</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">Setting fuses can lead to problems and even a total lockout "
+"from your controller.  Do this only if you know what you are "
+"doing.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">When in doubt consult either the project's page or the "
+"forums @ RCG and RXModelreviews.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+"font-size:8pt;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-size:8pt;\">If you do get locked out - go to the project's homepage and "
+"lookup &quot;dealing with Fuse Bricks&quot;.</span></p></body></html>"
+msgstr ""
+
+#: fusesdialog.ui:86
+msgctxt "fusesDialog|"
+msgid ""
+"Reset Fuses\n"
+"EEPROM - DELETE"
+msgstr ""
+
+#: fusesdialog.ui:103
+msgctxt "fusesDialog|"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+"\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+"type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; "
+"font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600; text-decoration: "
+"underline;\">WARNING</span></p>\n"
+"<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px; font-weight:600; text-decoration: underline;\"></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Changing the fuses can mess up your radio.</p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Proceed only if you know what you are "
+"doing.</p></body></html>"
+msgstr ""
+
+#: preferencesdialog.ui:14
+msgctxt "preferencesDialog|"
+msgid "Preferences"
+msgstr ""
+
+#: preferencesdialog.ui:24
+msgctxt "preferencesDialog|"
+msgid "Language (requires restart)"
+msgstr ""
+
+#: preferencesdialog.ui:171
+msgctxt "preferencesDialog|"
+msgid "Default Channel Order"
+msgstr ""
+
+#: preferencesdialog.ui:310
+msgctxt "preferencesDialog|"
+msgid "Default Stick Mode"
+msgstr ""
+
+#: preferencesdialog.ui:178
+msgctxt "preferencesDialog|"
+msgid ""
+"Channel order\n"
+"\n"
+"This is used by the templated to determine which channel goes to what number "
+"output."
+msgstr ""
+
+#: preferencesdialog.ui:43 preferencesdialog.ui:90
+msgctxt "preferencesDialog|"
+msgid "er9x"
+msgstr ""
+
+#: preferencesdialog.ui:53
+msgctxt "preferencesDialog|"
+msgid "eePe"
+msgstr ""
+
+#: preferencesdialog.ui:65
+msgctxt "preferencesDialog|"
+msgid "Show Splash Screen"
+msgstr ""
+
+#: preferencesdialog.ui:82
+msgctxt "preferencesDialog|"
+msgid "Version to download"
+msgstr ""
+
+#: preferencesdialog.ui:95
+msgctxt "preferencesDialog|"
+msgid "er9x - JETI"
+msgstr ""
+
+#: preferencesdialog.ui:100
+msgctxt "preferencesDialog|"
+msgid "er9x - FrSky"
+msgstr ""
+
+#: preferencesdialog.ui:105
+msgctxt "preferencesDialog|"
+msgid "er9x - Ardupilot"
+msgstr ""
+
+#: preferencesdialog.ui:110
+msgctxt "preferencesDialog|"
+msgid "er9x - FrSky NOHT"
+msgstr ""
+
+#: preferencesdialog.ui:115
+msgctxt "preferencesDialog|"
+msgid "er9x - NOHT"
+msgstr ""
+
+#: preferencesdialog.ui:120
+msgctxt "preferencesDialog|"
+msgid "er9x - SPKR"
+msgstr ""
+
+#: preferencesdialog.ui:125
+msgctxt "preferencesDialog|"
+msgid "er9x - NOHT, SPKR"
+msgstr ""
+
+#: preferencesdialog.ui:130
+msgctxt "preferencesDialog|"
+msgid "er9x - FrSky, SPKR"
+msgstr ""
+
+#: preferencesdialog.ui:135
+msgctxt "preferencesDialog|"
+msgid "er9x - FrSky, NOHT, SPKR"
+msgstr ""
+
+#: preferencesdialog.ui:140
+msgctxt "preferencesDialog|"
+msgid "er9x - NMEA"
+msgstr ""
+
+#: preferencesdialog.ui:317
+msgctxt "preferencesDialog|"
+msgid ""
+"Mode selection:\n"
+"\n"
+"Mode 1:\n"
+"  Left stick:  Elevator, Rudder\n"
+"  Right stick:  Throttle, Aileron\n"
+"\n"
+"Mode 2:\n"
+"  Left stick:  Throttle, Rudder\n"
+"  Right stick:  Elevator, Aileron\n"
+"\n"
+"Mode 3:\n"
+"  Left stick:  Elevator, Aileron\n"
+"  Right stick:  Throttle, Rudder\n"
+"\n"
+"Mode 4:\n"
+"  Left stick:  Throttle, Aileron\n"
+"  Right stick:  Elevator, Rudder\n"
+"\n"
+msgstr ""
+
+#: preferencesdialog.ui:342
+msgctxt "preferencesDialog|"
+msgid "Mode 1 (RUD ELE THR AIL)"
+msgstr ""
+
+#: preferencesdialog.ui:347
+msgctxt "preferencesDialog|"
+msgid "Mode 2 (RUD THR ELE AIL)"
+msgstr ""
+
+#: preferencesdialog.ui:352
+msgctxt "preferencesDialog|"
+msgid "Mode 3 (AIL ELE THR RUD)"
+msgstr ""
+
+#: preferencesdialog.ui:357
+msgctxt "preferencesDialog|"
+msgid "Mode 4 (AIL THR ELE RUD)"
+msgstr ""
+
+#: preferencesdialog.ui:380
+msgctxt "preferencesDialog|"
+msgid "Download"
+msgstr ""
+
+#: preferencesdialog.ui:387
+msgctxt "preferencesDialog|"
+msgid "r111"
+msgstr ""
+
+#: preferencesdialog.ui:394
+msgctxt "preferencesDialog|"
+msgid "Check"
+msgstr ""
+
+#: preferencesdialog.ui:403
+msgctxt "preferencesDialog|"
+msgid "Current Version - er9x"
+msgstr ""
+
+#: preferencesdialog.ui:34
+msgctxt "preferencesDialog|"
+msgid "Check for updates on startup"
+msgstr ""
+
+#: printdialog.ui:14
+msgctxt "printDialog|"
+msgid "Dialog"
+msgstr ""
+
+#: printdialog.ui:46
+msgctxt "printDialog|"
+msgid "Close"
+msgstr ""
+
+#: printdialog.ui:53
+msgctxt "printDialog|"
+msgid "Print"
+msgstr ""
+
+#: printdialog.cpp:16
+msgctxt "printDialog|"
+msgid "Setup for: "
+msgstr ""
+
+#: printdialog.cpp:61
+#, qt-format
+msgctxt "printDialog|"
+msgid "%1:%2, "
+msgstr ""
+
+#: printdialog.cpp:70
+#, qt-format
+msgctxt "printDialog|"
+msgid ": %1 Channels, %3msec Delay"
+msgstr ""
+
+#: printdialog.cpp:107
+#, qt-format
+msgctxt "printDialog|"
+msgid "<a name=1></a><h1>ER9x Model: %1</h1><br>"
+msgstr ""
+
+#: printdialog.cpp:112
+msgctxt "printDialog|"
+msgid "<h2>General Model Settings</h2><br>"
+msgstr ""
+
+#: printdialog.cpp:113
+msgctxt "printDialog|"
+msgid "Name"
+msgstr ""
+
+#: printdialog.cpp:114
+msgctxt "printDialog|"
+msgid "Timer"
+msgstr ""
+
+#: printdialog.cpp:115
+msgctxt "printDialog|"
+msgid "Protocol"
+msgstr ""
+
+#: printdialog.cpp:116
+msgctxt "printDialog|"
+msgid "Pulse Polarity"
+msgstr ""
+
+#: printdialog.cpp:117 printdialog.cpp:118
+msgctxt "printDialog|"
+msgid "Enabled"
+msgstr ""
+
+#: printdialog.cpp:117 printdialog.cpp:118
+msgctxt "printDialog|"
+msgid "Disabled"
+msgstr ""
+
+#: printdialog.cpp:117
+msgctxt "printDialog|"
+msgid "Throttle Trim"
+msgstr ""
+
+#: printdialog.cpp:118
+msgctxt "printDialog|"
+msgid "Throttle Expo"
+msgstr ""
+
+#: printdialog.cpp:119
+msgctxt "printDialog|"
+msgid "Trim Switch"
+msgstr ""
+
+#: printdialog.cpp:120
+msgctxt "printDialog|"
+msgid "Trim Increment"
+msgstr ""
+
+#: printdialog.cpp:121
+msgctxt "printDialog|"
+msgid "Center Beep"
+msgstr ""
+
+#: printdialog.cpp:130
+msgctxt "printDialog|"
+msgid "<h2>Expo/Dr Settings</h2>"
+msgstr ""
+
+#: printdialog.cpp:137
+msgctxt "printDialog|"
+msgid "Switch 1:"
+msgstr ""
+
+#: printdialog.cpp:138
+msgctxt "printDialog|"
+msgid "Switch 2:"
+msgstr ""
+
+#: printdialog.cpp:143
+msgctxt "printDialog|"
+msgid "Expo Left"
+msgstr ""
+
+#: printdialog.cpp:144
+msgctxt "printDialog|"
+msgid "D/R Left"
+msgstr ""
+
+#: printdialog.cpp:145
+msgctxt "printDialog|"
+msgid "D/R Right"
+msgstr ""
+
+#: printdialog.cpp:146
+msgctxt "printDialog|"
+msgid "Expo Right"
+msgstr ""
+
+#: printdialog.cpp:151
+msgctxt "printDialog|"
+msgid "High"
+msgstr ""
+
+#: printdialog.cpp:159
+msgctxt "printDialog|"
+msgid "Mid"
+msgstr ""
+
+#: printdialog.cpp:167
+msgctxt "printDialog|"
+msgid "Low"
+msgstr ""
+
+#: printdialog.cpp:182
+msgctxt "printDialog|"
+msgid "<h2>Mixers</h2><br>"
+msgstr ""
+
+#: printdialog.cpp:194 printdialog.cpp:244
+#, qt-format
+msgctxt "printDialog|"
+msgid "<b>CH%1</b>"
+msgstr ""
+
+#: printdialog.cpp:215
+#, qt-format
+msgctxt "printDialog|"
+msgid " %1%"
+msgstr ""
+
+#: printdialog.cpp:216
+#, qt-format
+msgctxt "printDialog|"
+msgid " +%1%"
+msgstr ""
+
+#: printdialog.cpp:223
+msgctxt "printDialog|"
+msgid " Switch("
+msgstr ""
+
+#: printdialog.cpp:224
+msgctxt "printDialog|"
+msgid " noTrim"
+msgstr ""
+
+#: printdialog.cpp:225
+#, qt-format
+msgctxt "printDialog|"
+msgid " Offset(%1%)"
+msgstr ""
+
+#: printdialog.cpp:229
+#, qt-format
+msgctxt "printDialog|"
+msgid " Curve(%1)"
+msgstr ""
+
+#: printdialog.cpp:232
+#, qt-format
+msgctxt "printDialog|"
+msgid " Delay(u%1:d%2)"
+msgstr ""
+
+#: printdialog.cpp:233
+#, qt-format
+msgctxt "printDialog|"
+msgid " Slow(u%1:d%2)"
+msgstr ""
+
+#: printdialog.cpp:235
+#, qt-format
+msgctxt "printDialog|"
+msgid " Warn(%1)"
+msgstr ""
+
+#: printdialog.cpp:256
+msgctxt "printDialog|"
+msgid "<h2>Limits</h2>"
+msgstr ""
+
+#: printdialog.cpp:264 printdialog.cpp:445
+#, qt-format
+msgctxt "printDialog|"
+msgid "CH%1"
+msgstr ""
+
+#: printdialog.cpp:279
+msgctxt "printDialog|"
+msgid "<h2>Curves</h2>"
+msgstr ""
+
+#: printdialog.cpp:281
+msgctxt "printDialog|"
+msgid "5-point Curves"
+msgstr ""
+
+#: printdialog.cpp:285 printdialog.cpp:303
+#, qt-format
+msgctxt "printDialog|"
+msgid "pt %1"
+msgstr ""
+
+#: printdialog.cpp:290 printdialog.cpp:308
+#, qt-format
+msgctxt "printDialog|"
+msgid "Curve %1"
+msgstr ""
+
+#: printdialog.cpp:299
+msgctxt "printDialog|"
+msgid "9-point Curves"
+msgstr ""
+
+#: printdialog.cpp:323
+msgctxt "printDialog|"
+msgid "<h2>Custom Switches</h2>"
+msgstr ""
+
+#: printdialog.cpp:336
+#, qt-format
+msgctxt "printDialog|"
+msgid "SW%1"
+msgstr ""
+
+#: printdialog.cpp:433
+msgctxt "printDialog|"
+msgid "<h2>Safety Switches</h2>"
+msgstr ""
+
+#: printdialog.cpp:439
+msgctxt "printDialog|"
+msgid "Switch"
+msgstr ""
+
+#: printdialog.cpp:440
+msgctxt "printDialog|"
+msgid "Value"
+msgstr ""
+
+#: printdialog.cpp:463
+msgctxt "printDialog|"
+msgid "Print Document"
+msgstr ""
+
+#: simulatordialog.ui:14
+msgctxt "simulatorDialog|"
+msgid "ER9x Simulator"
+msgstr ""
+
+#: simulatordialog.ui:32
+msgctxt "simulatorDialog|"
+msgid "P1"
+msgstr ""
+
+#: simulatordialog.ui:60
+msgctxt "simulatorDialog|"
+msgid "P2"
+msgstr ""
+
+#: simulatordialog.ui:91
+msgctxt "simulatorDialog|"
+msgid "P3"
+msgstr ""
+
+#: simulatordialog.ui:184
+msgctxt "simulatorDialog|"
+msgid "THR"
+msgstr ""
+
+#: simulatordialog.ui:209
+msgctxt "simulatorDialog|"
+msgid "RUD"
+msgstr ""
+
+#: simulatordialog.ui:234
+msgctxt "simulatorDialog|"
+msgid "ELE"
+msgstr ""
+
+#: simulatordialog.ui:259
+msgctxt "simulatorDialog|"
+msgid "AIL"
+msgstr ""
+
+#: simulatordialog.ui:288 simulatordialog.ui:609
+msgctxt "simulatorDialog|"
+msgid "Hold X"
+msgstr ""
+
+#: simulatordialog.ui:313 simulatordialog.ui:634
+msgctxt "simulatorDialog|"
+msgid "Fix X"
+msgstr ""
+
+#: simulatordialog.ui:338 simulatordialog.ui:659
+msgctxt "simulatorDialog|"
+msgid "Fix Y"
+msgstr ""
+
+#: simulatordialog.ui:363 simulatordialog.ui:684
+msgctxt "simulatorDialog|"
+msgid "Hold Y"
+msgstr ""
+
+#: simulatordialog.ui:383 simulatordialog.ui:393 simulatordialog.ui:704
+#: simulatordialog.ui:714
+msgctxt "simulatorDialog|"
+msgid "TextLabel"
+msgstr ""
+
+#: simulatordialog.ui:468
+msgctxt "simulatorDialog|"
+msgid "TRN"
+msgstr ""
+
+#: simulatordialog.ui:490
+msgctxt "simulatorDialog|"
+msgid "GEA"
+msgstr ""
+
+#: simulatordialog.ui:518
+msgctxt "simulatorDialog|"
+msgid "ID0"
+msgstr ""
+
+#: simulatordialog.ui:549
+msgctxt "simulatorDialog|"
+msgid "ID1"
+msgstr ""
+
+#: simulatordialog.ui:577
+msgctxt "simulatorDialog|"
+msgid "ID2"
+msgstr ""
+
+#: simulatordialog.ui:764
+msgctxt "simulatorDialog|"
+msgid "SW1"
+msgstr ""
+
+#: simulatordialog.ui:795
+msgctxt "simulatorDialog|"
+msgid "SW2"
+msgstr ""
+
+#: simulatordialog.ui:826
+msgctxt "simulatorDialog|"
+msgid "SW3"
+msgstr ""
+
+#: simulatordialog.ui:950
+msgctxt "simulatorDialog|"
+msgid "BEEP"
+msgstr ""
+
+#: simulatordialog.ui:857
+msgctxt "simulatorDialog|"
+msgid "SW4"
+msgstr ""
+
+#: simulatordialog.ui:888
+msgctxt "simulatorDialog|"
+msgid "SW5"
+msgstr ""
+
+#: simulatordialog.ui:919
+msgctxt "simulatorDialog|"
+msgid "SW6"
+msgstr ""
+
+#: simulatordialog.ui:981
+msgctxt "simulatorDialog|"
+msgid "SW7"
+msgstr ""
+
+#: simulatordialog.ui:1012
+msgctxt "simulatorDialog|"
+msgid "SW8"
+msgstr ""
+
+#: simulatordialog.ui:1043
+msgctxt "simulatorDialog|"
+msgid "SW9"
+msgstr ""
+
+#: simulatordialog.ui:1074
+#| msgid "SW10"
+msgctxt "simulatorDialog|"
+msgid "SWA"
+msgstr ""
+
+#: simulatordialog.ui:1105
+#| msgid "SW11"
+msgctxt "simulatorDialog|"
+msgid "SWB"
+msgstr ""
+
+#: simulatordialog.ui:1136
+#| msgid "SW12"
+msgctxt "simulatorDialog|"
+msgid "SWC"
+msgstr ""
+
+#: simulatordialog.ui:1153
+msgctxt "simulatorDialog|"
+msgid "CH1"
+msgstr ""
+
+#: simulatordialog.ui:1160
+msgctxt "simulatorDialog|"
+msgid "CH9"
+msgstr ""
+
+#: simulatordialog.ui:1167
+msgctxt "simulatorDialog|"
+msgid "CH2"
+msgstr ""
+
+#: simulatordialog.ui:1174
+msgctxt "simulatorDialog|"
+msgid "CH10"
+msgstr ""
+
+#: simulatordialog.ui:1181
+msgctxt "simulatorDialog|"
+msgid "CH3"
+msgstr ""
+
+#: simulatordialog.ui:1188
+msgctxt "simulatorDialog|"
+msgid "CH11"
+msgstr ""
+
+#: simulatordialog.ui:1195
+msgctxt "simulatorDialog|"
+msgid "CH4"
+msgstr ""
+
+#: simulatordialog.ui:1202
+msgctxt "simulatorDialog|"
+msgid "CH12"
+msgstr ""
+
+#: simulatordialog.ui:1209
+msgctxt "simulatorDialog|"
+msgid "CH5"
+msgstr ""
+
+#: simulatordialog.ui:1216
+msgctxt "simulatorDialog|"
+msgid "CH13"
+msgstr ""
+
+#: simulatordialog.ui:1223
+msgctxt "simulatorDialog|"
+msgid "CH6"
+msgstr ""
+
+#: simulatordialog.ui:1230
+msgctxt "simulatorDialog|"
+msgid "CH14"
+msgstr ""
+
+#: simulatordialog.ui:1237
+msgctxt "simulatorDialog|"
+msgid "CH7"
+msgstr ""
+
+#: simulatordialog.ui:1244
+msgctxt "simulatorDialog|"
+msgid "CH15"
+msgstr ""
+
+#: simulatordialog.ui:1251
+msgctxt "simulatorDialog|"
+msgid "CH8"
+msgstr ""
+
+#: simulatordialog.ui:1258
+msgctxt "simulatorDialog|"
+msgid "CH16"
+msgstr ""
+
+#: simulatordialog.ui:1959 simulatordialog.ui:1975 simulatordialog.ui:1991
+#: simulatordialog.ui:2007 simulatordialog.ui:2023 simulatordialog.ui:2039
+#: simulatordialog.ui:2055 simulatordialog.ui:2071 simulatordialog.ui:2087
+#: simulatordialog.ui:2103 simulatordialog.ui:2119 simulatordialog.ui:2135
+#: simulatordialog.ui:2151 simulatordialog.ui:2167 simulatordialog.ui:2183
+#: simulatordialog.ui:2199
+msgctxt "simulatorDialog|"
+msgid "-100.1"
+msgstr ""
+
+#: simulatordialog.cpp:123
+msgctxt "simulatorDialog|"
+msgid "Simulating "
+msgstr ""

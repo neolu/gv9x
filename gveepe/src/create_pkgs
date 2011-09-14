@@ -1,0 +1,9 @@
+#! /bin/bash
+
+make clean
+qmake -spec linux-g++-32 
+sudo checkinstall -D --nodoc -y --pkgname eepe_32 -A i386 --pkgrelease 267 --requires libqt4 avrdude
+
+make clean
+qmake -spec linux-g++-64
+sudo checkinstall -D --nodoc -y --pkgname eepe_32 -A x86_64 --pkgrelease 267 --requires libqt4 --requires avrdude

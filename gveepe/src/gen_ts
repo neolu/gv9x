@@ -1,0 +1,15 @@
+#! /bin/bash
+
+lupdate eepe.pro
+lconvert -i eepe_.ts -o eepe_.po
+lconvert -i eepe_he.ts -o eepe_he.po
+lconvert -i eepe_fr.ts -o eepe_fr.po
+lrelease eepe.pro
+rm eepe_.qm
+
+if [ ! -d "lang" ]; then
+    mkdir lang
+fi
+
+cp *.qm lang
+mv *.qm ../winbuild
