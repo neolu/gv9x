@@ -29,12 +29,16 @@ static uint8_t target_component = 0;
 //static mavlink_message_t mavlink_message_in;
 
 // Mavlink message decoded Status Text
+#define PARAM_NB_REPEAT 10
 #define LEN_STATUSTEXT 15
 static uint8_t mav_statustext[LEN_STATUSTEXT];
 static int8_t mav_heartbeat = 0;
+static int8_t mav_heartbeat_recv = 0;
 static int8_t watch_mav_req_id_action = 0;
 static int8_t watch_mav_req_start_data_stream = 5;
-static int8_t watch_mav_req_params_list = 5;
+static uint8_t data_stream_start_stop = 0;
+int8_t watch_mav_req_params_list = -1;
+static uint8_t mav_req_params_nb_recv = 0;
 static int8_t watch_mav_req_params_set = 0;
 
 // Telemetry data hold
@@ -58,7 +62,6 @@ void MAVLINK_rxhandler(uint8_t byte) {
 		}
 	}
 	MAVLINK_parse_char(byte);
-
 }
 #else
 void MAVLINK_rxhandler(uint8_t byte) {
@@ -68,7 +71,6 @@ void MAVLINK_rxhandler(uint8_t byte) {
 SerialFuncP RXHandler = MAVLINK_rxhandler;
 
 void MAVLINK_reset(uint8_t warm_reset) {
-	mav_heartbeat = 0;
 	if (warm_reset && telemetry_data.status) {
 		mav_statustext[0] = 0;
 	}
@@ -84,18 +86,18 @@ void MAVLINK_reset(uint8_t warm_reset) {
 	telemetry_data.req_mode = ERROR_NUM_MODES;
 
 	mav_heartbeat = 0;
+	mav_heartbeat_recv = 0;
 	watch_mav_req_id_action = 0;
 	watch_mav_req_start_data_stream = 5;
-	watch_mav_req_params_list = 5;
+	watch_mav_req_params_list = -1;
 	watch_mav_req_params_set = 0;
-
+	data_stream_start_stop = 0;
 }
 
 void MAVLINK_Init(void) {
 	mav_statustext[0] = 0;
 	MAVLINK_reset(0);
 	SERIAL_Init();
-
 }
 
 static inline void REC_MAVLINK_MSG_ID_STATUSTEXT(const mavlink_message_t* msg) {
@@ -169,10 +171,10 @@ prog_char *getParamId(uint8_t idx) {
 	return mav_params_id[idx];
 }
 
-void setMavlinParamsValue(uint8_t idx, uint8_t subIdx, int16_t val) {
+void setMavlinParamsValue(uint8_t idx, uint8_t subIdx, float val) {
 	if (val != telemetry_data.params[idx].pi_param[subIdx].pi_value) {
 		telemetry_data.params[idx].pi_param[subIdx].pi_value = val;
-		telemetry_data.params[idx].pi_param[subIdx].repeat = 3;
+		telemetry_data.params[idx].pi_param[subIdx].repeat = PARAM_NB_REPEAT;
 		uint8_t link_idx = NB_PID_PARAMS;
 		switch (idx) {
 		case RATE_PIT:
@@ -196,7 +198,7 @@ void setMavlinParamsValue(uint8_t idx, uint8_t subIdx, int16_t val) {
 		}
 		if (link_idx < NB_PID_PARAMS) {
 			telemetry_data.params[link_idx].pi_param[subIdx].pi_value = val;
-			telemetry_data.params[link_idx].pi_param[subIdx].repeat = 3;
+			telemetry_data.params[link_idx].pi_param[subIdx].repeat = PARAM_NB_REPEAT;
 		}
 		watch_mav_req_params_set = 4; // 1;
 	}
@@ -226,7 +228,7 @@ static inline void setParamValue(int8_t *id, float value) {
 				// Founded !
 				p_id++;
 				uint8_t subIdx = (uint8_t) -1;
-				switch (*p_id) {
+				switch (*p_id++) {
 				case 'P':
 					subIdx = 0;
 					break;
@@ -234,10 +236,13 @@ static inline void setParamValue(int8_t *id, float value) {
 					subIdx = 1;
 					break;
 				}
-				if (subIdx != (uint8_t) -1) {
+				// test end of string char == 0 and a valid PI
+				if (!*p_id && subIdx != (uint8_t) -1) {
 					telemetry_data.params[idx].pi_param[subIdx].repeat = 0;
 					telemetry_data.params[idx].pi_param[subIdx].valid = 1;
-					telemetry_data.params[idx].pi_param[subIdx].pi_value = (float) (value * 100.00);
+					telemetry_data.params[idx].pi_param[subIdx].pi_value = value;//(int16_t) (value * 100.00);
+					mav_req_params_nb_recv++;
+
 				}
 				return;
 			} else if (c1 != *p_id++) {
@@ -250,17 +255,18 @@ static inline void setParamValue(int8_t *id, float value) {
 static inline void REC_MAVLINK_MSG_ID_PARAM_VALUE(const mavlink_message_t* msg) {
 	mavlink_param_value_t param_value;
 	mavlink_msg_param_value_decode(msg, &param_value);
-	if (param_value.param_index != (uint16_t) -1) {
-		watch_mav_req_params_list = 0;
-	}
 	setParamValue(param_value.param_id, param_value.param_value);
+	data_stream_start_stop = 0; // stop data stream while getting params list
+	watch_mav_req_params_list = mav_req_params_nb_recv < (NB_PID_PARAMS * 2) ? 20 : 0; // stop timeout
+
 }
 #endif
 
 static inline void handleMessage(mavlink_message_t* p_rxmsg) {
 	switch (p_rxmsg->msgid) {
 	case MAVLINK_MSG_ID_HEARTBEAT:
-		mav_heartbeat = 7; // 499ms display '*'
+		mav_heartbeat = 3; // 450ms display '*'
+		mav_heartbeat_recv = 1;
 		break;
 	case MAVLINK_MSG_ID_STATUSTEXT:
 		REC_MAVLINK_MSG_ID_STATUSTEXT(p_rxmsg);
@@ -268,7 +274,7 @@ static inline void handleMessage(mavlink_message_t* p_rxmsg) {
 		break;
 	case MAVLINK_MSG_ID_SYS_STATUS:
 		REC_MAVLINK_MSG_ID_SYS_STATUS(p_rxmsg);
-		watch_mav_req_start_data_stream = 57;
+		watch_mav_req_start_data_stream = 20;
 		break;
 	case MAVLINK_MSG_ID_GPS_RAW:
 		REC_MAVLINK_MSG_ID_GPS_RAW(p_rxmsg);
@@ -437,7 +443,8 @@ static inline void MAVLINK_msg_param_set(uint8_t idx, uint8_t subIdx) {
 		}
 		*p++ = c;
 	}
-	float param_value = ((float) telemetry_data.params[idx].pi_param[subIdx].pi_value / 100.00 + 0.005);
+	//float param_value = ((float) telemetry_data.params[idx].pi_param[subIdx].pi_value / 100.00 + 0.005);
+	float param_value = telemetry_data.params[idx].pi_param[subIdx].pi_value;
 
 	mavlink_msg_param_set_send(MAVLINK_COMM_0, target_system, target_component, buf, param_value);
 }
@@ -455,15 +462,16 @@ static inline void MAVLINK_msg_action_pack_send(uint8_t action) {
 
 void MAVLINK10mspoll(uint16_t time) {
 
-	uint8_t count = time & 0xf; // 15*10ms
-	if (count && IS_TX_BUSY)
+	uint8_t count = time & 0x0f; // 15*10ms
+	if (!mav_heartbeat_recv || (count && IS_TX_BUSY))
 		return;
+
 	switch (count) {
 	case 0:
-		if (mav_heartbeat > -29) {
+		if (mav_heartbeat > -30) {
 			mav_heartbeat--;
 
-			if (mav_heartbeat == -28) {
+			if (mav_heartbeat == -30) {
 				MAVLINK_reset(1);
 			}
 			SERIAL_startTX();
@@ -472,8 +480,8 @@ void MAVLINK10mspoll(uint16_t time) {
 	case 2:
 		if (watch_mav_req_id_action > 0) {
 			watch_mav_req_id_action--;
-			// Repeat 4 times is not ack : 70ms*0x1f
-			if ((watch_mav_req_id_action & 0x1f) == 0 && telemetry_data.req_mode < NUM_MODES) {
+			// Repeat  is not ack : 150ms*0x07
+			if ((watch_mav_req_id_action & 0x07) == 0 && telemetry_data.req_mode < NUM_MODES) {
 				uint8_t action = MAVLINK_CtrlMode2Action(telemetry_data.req_mode);
 				MAVLINK_msg_action_pack_send(action);
 				uint8_t *ptr = mav_statustext;
@@ -487,37 +495,39 @@ void MAVLINK10mspoll(uint16_t time) {
 		}
 		break;
 	case 4:
+		if (watch_mav_req_params_list > 0) {
+			watch_mav_req_params_list--;
+			if (watch_mav_req_params_list == 0) {
+				mav_req_params_nb_recv = 0;
+				MAVLINK_msg_param_request_list_send();
+				watch_mav_req_params_list = 20;
+			}
+		}
+		break;
+
+	case 6:
 		if (watch_mav_req_start_data_stream > 0) {
 			watch_mav_req_start_data_stream--;
 			if (watch_mav_req_start_data_stream == 0) {
 				uint8_t req_stream_id = 2;
 				uint16_t req_message_rate = 1;
-				uint8_t start_stop = 1;
-				MAVLINK_msg_request_data_stream_pack_send(req_stream_id, req_message_rate, start_stop);
-				watch_mav_req_start_data_stream = 57;
-			}
-		}
-		break;
-	case 6:
-		if (watch_mav_req_params_list > 0) {
-			watch_mav_req_start_data_stream--;
-			if (watch_mav_req_params_list == 0) {
-				MAVLINK_msg_param_request_list_send();
-				watch_mav_req_params_list = 57;
-			}
-		}
-		break;
 
+				MAVLINK_msg_request_data_stream_pack_send(req_stream_id, req_message_rate, data_stream_start_stop);
+				watch_mav_req_start_data_stream = 20;
+				data_stream_start_stop = 1; // maybe start next time
+			}
+		}
+		break;
 	case 8:
 		if (watch_mav_req_params_set > 0) {
 			watch_mav_req_params_set--;
 			if (watch_mav_req_params_set == 0) {
 				for (uint8_t i = 0; i < NB_PID_PARAMS; i++) {
-					for (uint8_t j = 0; j < 3; j++) {
+					for (uint8_t j = 0; j < NB_PID_VALUE; j++) {
 						if (telemetry_data.params[i].pi_param[j].repeat) {
 							telemetry_data.params[i].pi_param[j].repeat--;
 							MAVLINK_msg_param_set(i, j);
-							watch_mav_req_params_set = 2; // 300ms
+							watch_mav_req_params_set = 3; // 300ms
 							return;
 						}
 					}
@@ -537,7 +547,7 @@ void DisplayScreenIndex(uint8_t index, uint8_t count, uint8_t attr);
 enum mavlink_menu_ {
 	MENU_INFO = 0,//
 	MENU_GPS,//
-#ifdef MAVLINK_PARAMS_1
+#ifdef MAVLINK_PARAMS_MENU_OLD
 	MENU_PARAM,//
 #endif
 #ifdef DUMP_RX_TX
@@ -683,7 +693,7 @@ void menuProcMavlinkInfos(void) {
 		y += FH;
 		lcd_putsnAtt(x1, y, PSTR("BATT"), 4, 0);
 		lcd_outdezNAtt(xnum, y, telemetry_data.vbat, PREC1, 5);
-		//lcd_outdezFloat(xnum, y, (float) telemetry_data.vbat / 100.0, 3);
+
 	}
 
 }
@@ -734,7 +744,7 @@ void menuProcMavlinkGPS(void) {
 	}
 }
 
-#ifdef MAVLINK_PARAMS_1
+#ifdef MAVLINK_PARAMS_MENU_OLD
 void menuProcMavlinkPARAM(uint8_t event) {
 	mav_title(PSTR("PARAMS"), MAVLINK_menu);
 
@@ -832,7 +842,7 @@ void menuProcMavlink(uint8_t event) {
 	case MENU_GPS:
 		menuProcMavlinkGPS();
 		break;
-#ifdef MAVLINK_PARAMS_1
+#ifdef MAVLINK_PARAMS_MENU_OLD
 		case MENU_PARAM:
 		menuProcMavlinkPARAM(event);
 		break;

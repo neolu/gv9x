@@ -28,8 +28,7 @@
 
  If this proves a problem in the future, then I'll just have to implement
  a second buffer to receive data while one buffer is being processed (slowly).
- */
-ISR (USART0_RX_vect)
+ */ISR (USART0_RX_vect)
 {
 	uint8_t iostat; //USART control and Status Register 0 A
 	// uint8_t rh; //USART control and Status Register 0 B
@@ -92,23 +91,19 @@ ISR(USART0_UDRE_vect)
 	}
 }
 
-void SERIAL_start_uart_send()
-{
+void SERIAL_start_uart_send() {
 	ptrTxISR = serialTxBuffer;
 	serialTxBufferCount = 0;
 }
 
-void SERIAL_end_uart_send()
-{
+void SERIAL_end_uart_send() {
 	ptrTxISR = serialTxBuffer;
 	//UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
 	serialTxState = TX_STATE_READY;
 }
 
-void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len)
-{
-	while(len--)
-	{
+void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len) {
+	while (len--) {
 		*ptrTxISR++ = *buf++;
 		serialTxBufferCount++;
 	}
@@ -130,6 +125,44 @@ void SERIAL_startTX(void) {
 	}
 }
 
+static void uart_19200(void) {
+#define BAUD 19200
+#include <util/setbaud.h>
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+#if USE_2X
+  UCSR0A |= (1 << U2X0);
+#else
+	UCSR0A &= ~(1 << U2X0);
+#endif
+}
+
+static void uart_38400(void) {
+#undef BAUD  // avoid compiler warning
+#define BAUD 38400
+#include <util/setbaud.h>
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+#if USE_2X
+  UCSR0A |= (1 << U2X0);
+#else
+	UCSR0A &= ~(1 << U2X0);
+#endif
+}
+
+static void uart_57600(void) {
+#undef BAUD  // avoid compiler warning
+#define BAUD 57600
+#include <util/setbaud.h>
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+#if USE_2X
+  UCSR0A |= (1 << U2X0);
+#else
+	UCSR0A &= ~(1 << U2X0);
+#endif
+}
+
 inline void SERIAL_EnableTXD(void) {
 	//UCSR0B |= (1 << TXEN0); // enable TX
 	UCSR0B |= (1 << TXEN0) | (1 << UDRIE0); // enable TX and TX interrupt
@@ -146,35 +179,22 @@ void SERIAL_Init(void) {
 	DDRE &= ~(1 << DDE0); // set RXD0 pin as input
 	PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
 
-
-	switch(g_eeGeneral.baudRate)
-	{
-	case 0:
-		#undef BAUD
-		#define BAUD 19200
-		#include <util/setbaud.h>
-		UBRR0H = UBRRH_VALUE;
-		UBRR0L = UBRRL_VALUE;
-		break;
-	case 1:
-		#undef BAUD
-		#define BAUD 38400
-		#include <util/setbaud.h>
-		UBRR0H = UBRRH_VALUE;
-		UBRR0L = UBRRL_VALUE;
-		break;
-	case 2:
-		#undef BAUD
-		#define BAUD 57600
-		#include <util/setbaud.h>
-		UBRR0H = UBRRH_VALUE;
-		UBRR0L = UBRRL_VALUE;
-		break;
-
+	uint8_t b ;
+				  b = g_eeGeneral.baudRate;
+	if (b == 0) {
+		uart_19200();
 	}
+	else if (b == 1) {
+		uart_38400();
+	}
+	else if (b == 2) {
+		uart_57600();
+	}
+#if 0
+	uart_57600();
+#endif
 
-
-	UCSR0A &= ~(1 << U2X0); // disable double speed operation
+	// UCSR0A &= ~(1 << U2X0); // disable double speed operation
 	// set 8N1
 	UCSR0B = 0 | (0 << RXCIE0) | (0 << TXCIE0) | (0 << UDRIE0) | (0 << RXEN0) | (0 << TXEN0) | (0 << UCSZ02);
 	UCSR0C = 0 | (1 << UCSZ01) | (1 << UCSZ00);

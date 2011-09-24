@@ -75,6 +75,7 @@ enum CONTROL_MODE {
 #ifdef MAVLINK_PARAMS
 
 #define NB_PID_PARAMS 12
+#define NB_PID_VALUE 2
 //#define NB_PARAMS_VALUES (NB_PID_PARAMS*3)
 //#define PARAM_VALID 0x04
 //#define PARAM_DIRTY 0x03
@@ -82,11 +83,11 @@ enum CONTROL_MODE {
 typedef struct pi_param_ {
 	uint8_t repeat :4;
 	uint8_t valid :4;
-	int16_t pi_value;
+	float pi_value;
 } pi_param_t;
 
 struct MavlinkParam {
-	pi_param_t pi_param[2];
+	pi_param_t pi_param[NB_PID_VALUE];
 };
 
 #endif
@@ -239,8 +240,9 @@ void MAVLINK10mspoll(uint16_t time);
 #ifdef MAVLINK_PARAMS
 
 void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t subIdx, uint8_t att);
-void setMavlinParamsValue(uint8_t idx, uint8_t subIdx, int16_t val);
-inline int16_t getMavlinParamsValue(uint8_t idx, uint8_t subIdx) {
+void setMavlinParamsValue(uint8_t idx, uint8_t subIdx, float val);
+
+inline float getMavlinParamsValue(uint8_t idx, uint8_t subIdx) {
 	return telemetry_data.params[idx].pi_param[subIdx].pi_value;
 }
 inline uint8_t isDirtyParamsValue(uint8_t idx, uint8_t subIdx) {
@@ -281,10 +283,10 @@ enum ACM_PARAMS{
  */
 
 inline uint16_t getMaxMavlinParamsValue(uint8_t idx, uint8_t subIdx) {
-
-	return 750;
+	return subIdx == 1 ? 1000 : 750;
 }
 
+void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mode);
 #endif
 
 #endif

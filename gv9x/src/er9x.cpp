@@ -1374,10 +1374,6 @@ int main(void)
 #endif
 
 
-#ifdef MAVLINK
-  MAVLINK_Init();
-#endif
-
   ADMUX=ADC_VREF_TYPE;
   ADCSRA=0x85;
 
@@ -1448,7 +1444,11 @@ int main(void)
 //    eeDirty(EE_GENERAL); // if model was quick-selected, make sure it sticks
     eeWaitComplete() ;
   }
-  
+
+#ifdef MAVLINK
+  MAVLINK_Init();
+#endif
+
   OCR1A = 2000 ;        // set to 1mS
   TIFR = 1 << OCF1A ;   // Clear pending interrupt
 
