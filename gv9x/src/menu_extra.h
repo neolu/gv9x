@@ -144,7 +144,7 @@ void menuProcRotarySwitches(uint8_t event) {
 #endif
 extern int8_t watch_mav_req_params_list;
 void menuProcMavlinkParams(uint8_t event) {
-	MENU("MAV PI", menuTabModel, e_MavlinkParams, NB_PID_PARAMS-1, {0, 1 /*repeated*/});
+	MENU("MAV PARAMS", menuTabModel, e_MavlinkParams, NB_ROW_PARAMS+1, {0, 1 /*repeated*/});
 
 	uint8_t y = 0;
 	uint8_t k = 0;
@@ -153,49 +153,34 @@ void menuProcMavlinkParams(uint8_t event) {
 
 	evalOffset(sub, 6);
 
-	switch (event) {
-		case EVT_ENTRY:
-		if (watch_mav_req_params_list == -1) {
-			watch_mav_req_params_list = 1;
-		}
-		break;
-		/*case EVT_KEY_REPT(KEY_LEFT):
-		 case EVT_KEY_FIRST(KEY_LEFT):
-		 break;
-		 case EVT_KEY_REPT(KEY_RIGHT):
-		 case EVT_KEY_FIRST(KEY_RIGHT):
-		 break;
-		 */
-	}
-
 	for (uint8_t i = 0; i < 7; i++) { // 8 lines
 		y = (i + 1) * FH;
 		k = i + s_pgOfs;
-		if (k == NB_PID_PARAMS) break;
-		uint8_t attr = ((sub == k) ? (isValidParamsValue(k, subSub) ? 0 : INVERS) : 0);
-		putsMavlinParams(0, y, k, subSub, attr);
-		//uint8_t idx = getIdxMavlinParams(k, subSub);
-		//lcd_outdezNAtt(4 * FWNUM, y, k,0, 3);
-		//lcd_outdezNAtt(8 * FWNUM, y, idx,0, 3);
-		if (isValidParamsValue(k, subSub)) {
-			//uint8_t x = 18 * FW;
-			uint8_t x = 14 * FW;
+		uint8_t idx = getIdxParam(k, subSub);
+		if (idx >= NB_PARAMS) break;
+
+		uint8_t attr = ((sub == k) ? (isValidParamsValue(idx) ? 0 : INVERS) : 0);
+		putsMavlinParams(0, y, idx, attr);
+		if (isValidParamsValue(idx)) {
+			uint8_t x = 16 * FW;
+			if (idx == BATT_CAPACITY) x += 2 * FW;
 			attr = ((sub == k) ? (s_editMode ? BLINK : INVERS) : 0);
-			//putsMavlinParamsValue(x, y, idx, attr);
-			float value = getMavlinParamsValue(k, subSub);
-			int16_t ival = subSub == 0 ? (int16_t) (value * 100.00) : (int16_t) (value * 1000.00);
-			//lcd_outdezAtt(x, y, val, attr | PREC2);
-			lcd_outdezFloat(x, y, value, 3, attr);
+			float value = getMavlinParamsValue(idx);
+			uint8_t precis = getPrecisMavlinParamsValue(idx);
+			lcd_outdezFloat(x, y, value, precis, attr);
 
 			if (attr && (s_editMode || p1valdiff)) {
-				int16_t max = getMaxMavlinParamsValue(k, subSub);
-				//lcd_outdezNAtt(4 * FWNUM, y,max,0, 3);
-				ival = checkIncDec16(event, ival, 0, max, 0);
-				value = subSub == 0 ? ((float) ival/ 100.00 + 0.005) : ((float) ival/ 1000.00 + 0.0005);
-				setMavlinParamsValue(k, subSub, value);
-				//lcd_outdezNAtt(7 * FWNUM, y,val,0, 3);
+				float coef = getCoefPrecis(precis);
+				int16_t max = getMaxMavlinParamsValue(idx);
+				int16_t ival = (uint16_t)(value * coef);
+
+				int16_t ivalnew = checkIncDec16(event, ival, 0, max, 0);
+				if (ivalnew != ival) {
+					value = ((float) ivalnew+0.5) / coef;
+					setMavlinParamsValue(idx, value);
+				}
 			}
-			lcd_putcAtt(20*FW, y, isDirtyParamsValue(k, subSub) ? '*' : ' ', 0);
+			lcd_putcAtt(20*FW, y, isDirtyParamsValue(idx) ? '*' : ' ', 0);
 		}
 	}
 }

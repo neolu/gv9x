@@ -2473,13 +2473,13 @@ void menuProcSetup(uint8_t event)
     }subN++;
 
 #ifdef MAVLINK
-    if(s_pgOfs<subN) {
+   /* if(s_pgOfs<subN) {
         lcd_puts_P(0, y,PSTR("Mav batt warn"));
         putsVolts(PARAM_OFS, y, g_eeGeneral.vMavBatWarn, (sub==subN ? INVERS : 0)|LEFT);
         if(sub==subN) //CHECK_INCDEC_H_GENVAR(event, g_eeGeneral.vMavBatWarn, 40, 250); //5-25V
         	g_eeGeneral.vMavBatWarn=checkIncDec16(event,g_eeGeneral.vMavBatWarn, 40, 250,EE_GENERAL);
         if((y+=FH)>7*FH) return;
-    }subN++;
+    }subN++;*/
     if(s_pgOfs<subN) {
       uint8_t b ;
 			  b = g_eeGeneral.baudRate;

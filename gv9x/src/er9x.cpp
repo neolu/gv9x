@@ -921,7 +921,8 @@ void perMain()
             if (g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
         }
 #ifdef MAVLINK
-        if((s_batCheck==128) && (telemetry_data.status) && (telemetry_data.vbat < g_eeGeneral.vMavBatWarn)){
+        //if((s_batCheck==128) && (telemetry_data.status) && (telemetry_data.vbat < g_eeGeneral.vMavBatWarn)){
+        if((s_batCheck==128) && (telemetry_data.vbat_low)){
             beepErr();
             if (g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
         }

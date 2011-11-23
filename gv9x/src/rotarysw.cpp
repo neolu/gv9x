@@ -115,7 +115,8 @@ void animRotarySw(uint8_t x) {
 		break;
 
 	default:
-		att1 = (telemetry_data.vbat < g_eeGeneral.vMavBatWarn ? BLINK : 0);
+		// att1 = (telemetry_data.vbat < g_eeGeneral.vMavBatWarn ? BLINK : 0);
+		att1 = (telemetry_data.vbat_low ? BLINK : 0);
 		lcd_outdezAtt(x + 4 * FW, 2 * FH, telemetry_data.vbat, att1 | PREC1 | DBLSIZE);
 		if (display_vbat_unit) {
 			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
