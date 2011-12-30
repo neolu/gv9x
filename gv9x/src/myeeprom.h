@@ -112,7 +112,8 @@ typedef struct t_EEGeneral {
   uint8_t   speakerPitch;
   uint8_t   res[1];
   uint8_t   baudRate;
-  uint8_t   vMavBatWarn;
+  //uint8_t   vMavBatWarn;
+  uint8_t   mavTargetSystem;
   char      ownerName[GENERAL_OWNER_NAME_LEN];
 } __attribute__((packed)) EEGeneral;
 

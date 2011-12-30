@@ -84,7 +84,7 @@ void menuProcRotarySwitches(uint8_t event) {
 						}
 						break;
 						case MAVLINK_VALUE:
-						CHECK_INCDEC_H_MODELVAR(event, val, 0, 8);
+						CHECK_INCDEC_H_MODELVAR(event, val, 0, 10);
 						rd->type = val | ROTARY_TYPE_MAVLINK;
 						break;
 					}
@@ -113,7 +113,7 @@ void menuProcRotarySwitches(uint8_t event) {
 						rd->val = val;
 						break;
 						case MAVLINK_VALUE:
-						CHECK_INCDEC_H_MODELVAR(event, val, 0, 8);
+						CHECK_INCDEC_H_MODELVAR(event, val, 0, 10);
 						rd->type = val | ROTARY_TYPE_MAVLINK;
 						break;
 					}

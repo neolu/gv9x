@@ -2489,6 +2489,12 @@ void menuProcSetup(uint8_t event)
         	g_eeGeneral.baudRate=CHECK_INCDEC_H_GENVAR(event, b, 0, 2);
         if((y+=FH)>7*FH) return;
     }subN++;
+    if(s_pgOfs<subN) {
+         lcd_puts_P(0, y,PSTR("Mav system id"));
+         lcd_outdezAtt(PARAM_OFS, y, g_eeGeneral.mavTargetSystem, (sub==subN ? INVERS : 0)|LEFT);
+         if(sub==subN) g_eeGeneral.mavTargetSystem=CHECK_INCDEC_H_GENVAR(event,g_eeGeneral.mavTargetSystem, 0, 127);
+         if((y+=FH)>7*FH) return;
+     }subN++;
 #endif
 
     if(s_pgOfs<subN) {

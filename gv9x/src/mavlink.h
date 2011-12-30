@@ -18,8 +18,16 @@
 #define _MAVLINK_H_
 
 #define MAVLINK_USE_CONVENIENCE_FUNCTIONS
-# define MAVLINK_COMM_NUM_BUFFERS 1
-#include "include/mavlink_types.h"
+#define MAVLINK_COMM_NUM_BUFFERS 1
+
+//#define MAVLINK10
+
+#ifdef MAVLINK10
+#include "GCS_MAVLink/include_v1.0/mavlink_types.h"
+#else
+#include "GCS_MAVLink/include/mavlink_types.h"
+#endif
+
 
 #include "serial.h"
 
@@ -36,7 +44,14 @@ extern void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len);
 #define MAVLINK_END_UART_SEND(chan,len) SERIAL_end_uart_send()
 #define MAVLINK_SEND_UART_BYTES(chan,buf,len) SERIAL_send_uart_bytes(buf,len)
 
-#include "include/ardupilotmega/mavlink.h"
+
+#ifdef MAVLINK10
+#include "GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+#else
+#include "GCS_MAVLink/include/ardupilotmega/mavlink.h"
+#endif
+
+
 
 #define MAVLINK_PARAMS
 
@@ -51,12 +66,14 @@ enum CONTROL_MODE {
 	LOITER = 6, // Hold a single location
 	RTL = 7, // AUTO control
 	CIRCLE = 8, // AUTO control
+	POSITION = 9,
+	LAND = 10,
 	NUM_MODES
 };
 
-//                       0123456789012345678901234567890123456789012345678901234
-//                       0     1     2     3     4     5     6     7     8     9
-#define CONROL_MODE_STR "STAB  ACRO  SIMPLEALTI  WAY PTGUIDEDLOITERRTL   CIRCLE"
+//                       0123456789012345678901234567890123456789012345678901234567890123456789
+//                       0     1     2     3     4     5     6     7     8     9     0     1
+#define CONROL_MODE_STR "STAB  ACRO  SIMPLEALTI  WAY PTGUIDEDLOITERRTL   CIRCLEPOSITILAND  "
 /*
  #define STABILIZE 0			// hold level position
  #define ACRO 1				// rate control
@@ -125,6 +142,7 @@ typedef struct Location_ {
 typedef struct Telemetry_Data_ {
 	// INFOS
 	uint8_t status; ///< System status flag, see MAV_STATUS ENUM
+	uint16_t packet_drop;
 	//uint8_t mode;
 	//uint8_t nav_mode;
 	uint8_t control_mode; ///< System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
@@ -154,6 +172,7 @@ typedef struct Telemetry_Data_ {
 // Telemetry data hold
 extern Telemetry_Data_t telemetry_data;
 
+#ifndef MAVLINK10
 extern inline uint8_t MAVLINK_NavMode2CtrlMode(uint8_t mode, uint8_t nav_mode) {
 
 	uint8_t control_mode = ERROR_NUM_MODES;
@@ -183,9 +202,10 @@ extern inline uint8_t MAVLINK_NavMode2CtrlMode(uint8_t mode, uint8_t nav_mode) {
 	}
 	return control_mode;
 }
+#endif
 
 extern inline uint8_t MAVLINK_CtrlMode2Action(uint8_t mode) {
-	uint8_t action = ERROR_MAV_ACTION_NB;
+	uint8_t action;
 	switch (mode) {
 	case STABILIZE:
 		action = MAV_ACTION_SET_MANUAL;
@@ -216,6 +236,7 @@ extern inline uint8_t MAVLINK_CtrlMode2Action(uint8_t mode) {
 		 action = 0;
 		 break;*/
 	default:
+		action = ERROR_MAV_ACTION_NB;
 		break;
 	}
 	return action;
@@ -308,7 +329,7 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 		max = 2500; // 25.0 Volt max
 		break;
 	case IN_VOLT:
-		max = 600; // 7.00 Volt max
+		max = 900; // 7.00 Volt max
 		break;
 	case BATT_MONITOR:
 		max = 3;
