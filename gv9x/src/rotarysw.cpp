@@ -85,7 +85,9 @@ void animRotarySw(uint8_t x) {
 		att1 = swToggle ? INVERS : 0;
 		putsRotarySw(x + 4 * FW, 2 * FH, rotarySwIdx, att1 | NO_UNIT, 6);
 	} else {
+#ifdef MAVLINK
 		putsMavlinkControlMode(x + 4 * FW, 2 * FH, 6);
+#endif
 	}
 
 	static uint8_t display_vbat_unit = 0;
@@ -100,8 +102,11 @@ void animRotarySw(uint8_t x) {
 		display_vbat_unit = 1;
 		break;
 	}
-
+#ifdef MAVLINK
 	s_time = telemetry_data.status ? (s_time >> 1) : 0; // 640ms 1280ms time unit
+#else
+	s_time = 0;
+#endif
 	switch (s_time & 0x01) { // 1/2 time display time
 	case 0:
 		att1 = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
@@ -115,12 +120,14 @@ void animRotarySw(uint8_t x) {
 		break;
 
 	default:
+#ifdef MAVLINK
 		// att1 = (telemetry_data.vbat < g_eeGeneral.vMavBatWarn ? BLINK : 0);
 		att1 = (telemetry_data.vbat_low ? BLINK : 0);
 		lcd_outdezAtt(x + 4 * FW, 2 * FH, telemetry_data.vbat, att1 | PREC1 | DBLSIZE);
 		if (display_vbat_unit) {
 			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
 		}
+#endif
 		break;
 	}
 }

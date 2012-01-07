@@ -142,6 +142,7 @@ void menuProcRotarySwitches(uint8_t event) {
 	}
 }
 #endif
+#ifdef MAVLINK
 extern int8_t watch_mav_req_params_list;
 void menuProcMavlinkParams(uint8_t event) {
 	MENU("MAV PARAMS", menuTabModel, e_MavlinkParams, NB_ROW_PARAMS+1, {0, 1 /*repeated*/});
@@ -184,5 +185,5 @@ void menuProcMavlinkParams(uint8_t event) {
 		}
 	}
 }
-
+#endif
 #endif

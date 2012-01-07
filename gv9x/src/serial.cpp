@@ -54,7 +54,9 @@
 		byte = 0;
 	}
 	//rh = UCSR0B; //USART control and Status Register 0 B
+#ifdef MAVLINK
 	(RXHandler)(byte);
+#endif
 
 	cli();
 	UCSR0B |= (1 << RXCIE0); // enable Interrupt

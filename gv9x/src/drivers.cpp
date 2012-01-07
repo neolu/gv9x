@@ -175,37 +175,58 @@ void Key::input(bool val, EnumKeys enuk)
 
 bool keyState(EnumKeys enuk)
 {
+  uint8_t xxx = 0 ;
   if(enuk < (int)DIM(keys))  return keys[enuk].state() ? 1 : 0;
-  switch(enuk){
-    case SW_ElevDR : return PINE & (1<<INP_E_ElevDR);
+
+  switch((uint8_t)enuk){
+    case SW_ElevDR : xxx = PINE & (1<<INP_E_ElevDR);
+    break ;
     
     //case SW_AileDR : return PINE & (1<<INP_E_AileDR);
 #if (!(defined(JETI) || defined(FRSKY) || defined(ARDUPILOT) || defined(NMEA) || defined(MAVLINK)))
-    case SW_AileDR : return PINE & (1<<INP_E_AileDR);
+    case SW_AileDR : xxx = PINE & (1<<INP_E_AileDR);
+    break ;
 #else
-    case SW_AileDR : return PINC & (1<<INP_C_AileDR); //shad974: rerouted inputs to free up UART0
+    case SW_AileDR : xxx = PINC & (1<<INP_C_AileDR); //shad974: rerouted inputs to free up UART0
+			// Test bit 0 of PINC as well, temp fix for reacher10 broken pin on PINC bit 7
+//    								if ( ( PINC & 0x01 ) == 0 )
+//										{
+//											xxx = 0 ;											
+//										}
+    break ;
 #endif
 
 
-    case SW_RuddDR : return PING & (1<<INP_G_RuddDR);
+    case SW_RuddDR : xxx = PING & (1<<INP_G_RuddDR);
+    break ;
       //     INP_G_ID1 INP_E_ID2
       // id0    0        1
       // id1    1        1
       // id2    1        0
-    case SW_ID0    : return !(PING & (1<<INP_G_ID1));
-    case SW_ID1    : return (PING & (1<<INP_G_ID1))&& (PINE & (1<<INP_E_ID2));
-    case SW_ID2    : return !(PINE & (1<<INP_E_ID2));
-    case SW_Gear   : return PINE & (1<<INP_E_Gear);
+    case SW_ID0    : xxx = ~PING & (1<<INP_G_ID1);
+    break ;
+    case SW_ID1    : xxx = (PING & (1<<INP_G_ID1)) ; if ( xxx ) xxx = (PINE & (1<<INP_E_ID2));
+    break ;
+    case SW_ID2    : xxx = ~PINE & (1<<INP_E_ID2);
+    break ;
+    case SW_Gear   : xxx = PINE & (1<<INP_E_Gear);
+    break ;
     //case SW_ThrCt  : return PINE & (1<<INP_E_ThrCt);
 
 #if (!(defined(JETI) || defined(FRSKY) || defined(ARDUPILOT) || defined(NMEA) || defined(MAVLINK)))
-     case SW_ThrCt  : return PINE & (1<<INP_E_ThrCt);
+     case SW_ThrCt  : xxx = PINE & (1<<INP_E_ThrCt);
 #else
-    case SW_ThrCt  : return PINC & (1<<INP_C_ThrCt); //shad974: rerouted inputs to free up UART0
+    case SW_ThrCt  : xxx = PINC & (1<<INP_C_ThrCt); //shad974: rerouted inputs to free up UART0
 #endif
+    break ;
 
-    case SW_Trainer: return PINE & (1<<INP_E_Trainer);
+    case SW_Trainer: xxx = PINE & (1<<INP_E_Trainer);
+    break ;
     default:;
+  }
+  if ( xxx )
+  {
+    return 1 ;
   }
   return 0;
 }
@@ -221,12 +242,12 @@ void killEvents(uint8_t event)
   if(event < (int)DIM(keys))  keys[event].killEvents();
 }
 
-uint8_t getEventDbl(uint8_t event)
-{
-  event=event & EVT_KEY_MASK;
-  if(event < (int)DIM(keys))  return keys[event].getDbl();
-  return 0;
-}
+//uint8_t getEventDbl(uint8_t event)
+//{
+//  event=event & EVT_KEY_MASK;
+//  if(event < (int)DIM(keys))  return keys[event].getDbl();
+//  return 0;
+//}
 
 //uint16_t g_anaIns[8];
 volatile uint16_t g_tmr10ms;
@@ -256,25 +277,13 @@ void per10ms()
     1<<INP_D_TRM_RH_UP
   };
   in = ~PIND;
-  for(int i=0; i<8; i++)
+
+	for(int i=0; i<8; i++)
   {
     // INP_D_TRM_RH_UP   0 .. INP_D_TRM_LH_UP   7
     keys[enuk].input(in & pgm_read_byte(crossTrim+i),(EnumKeys)enuk);
     ++enuk;
   }
-
-#ifdef FRSKY
-  // Used to detect presence of valid FrSky telemetry packets inside the
-  // last FRSKY_TIMEOUT10ms 10ms intervals
-  if (frskyStreaming > 0) frskyStreaming--;
-  if (frskyUsrStreaming > 0) frskyUsrStreaming--;
-	
-  if ( FrskyAlarmSendState )
-  {
-    FRSKY10mspoll() ;
-  }
-#endif
-#ifdef MAVLINK
-  MAVLINK10mspoll(g_tmr10ms);
-#endif
 }
+
+

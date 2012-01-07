@@ -137,7 +137,7 @@ static inline void REC_MAVLINK_MSG_ID_ACTION_ACK(const mavlink_message_t* msg) {
 
 #ifdef MAVLINK_PARAMS
 prog_char *getParamId(uint8_t idx) {
-	prog_char *mav_params_id[NB_PID_PARAMS] = { //
+	prog_char *mav_params_id[((NB_PID_PARAMS/2)+4)] = { //
 					//
 									PSTR("RATE_YAW"), // Rate Yaw
 									PSTR("STB_YAW"), // Stabilize Yaw

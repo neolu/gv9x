@@ -1,5 +1,5 @@
 //Automatically generated file - do not edit
-#define DATE_STR "30.12.2011"
-#define TIME_STR "23:11:26"
+#define DATE_STR "07.01.2012"
+#define TIME_STR "07:07:11"
 #define SUB_VERS 05-GV
 #define MOD_VERS "MAVLINK"
