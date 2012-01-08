@@ -1,8 +1,10 @@
 #include "er9x.h"
 #include "pulses.h"
 
+#ifdef STATISTIC
 extern uint16_t g_tmr1Latency_max;
 extern uint16_t g_tmr1Latency_min;
+#endif // STATISTIC
 
 uint16_t pulses2MHz[70] = {0};
 uint16_t *pulses2MHzptr = pulses2MHz;
@@ -25,7 +27,9 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 //    uint8_t i = 0;
 //    while((TCNT1L < 10) && (++i < 50))  // Timer does not read too fast, so i
 //        ;
+#ifdef STATISTIC
     uint16_t dt=TCNT1;//-OCR1A;
+#endif // STATISTIC
 
     if(pulsePol)
     {
@@ -55,9 +59,11 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
     //  }
     //  PulseTotal += (OCR1A  = *pulsePtr++);
     OCR1A  = *pulsePtr++;
-    
+
+#ifdef STATISTIC
 		if ( dt > g_tmr1Latency_max) g_tmr1Latency_max = dt ;    // max has leap, therefore vary in length
     if ( dt < g_tmr1Latency_min) g_tmr1Latency_min = dt ;    // max has leap, therefore vary in length
+#endif // STATISTIC
 
     if( *pulsePtr == 0) {
         //currpulse=0;

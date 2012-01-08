@@ -127,10 +127,15 @@ void lcd_putcAtt(uint8_t x,uint8_t y,const char c,uint8_t mode)
 
 void lcd_putsnAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t len,uint8_t mode)
 {
+	uint8_t source ;
+	uint8_t size ;
+	source = mode & BSS ;
+	size = mode & DBLSIZE ;
   while(len!=0) {
-    char c = (mode & BSS) ? *s++ : pgm_read_byte(s++);
+    char c = (source) ? *s++ : pgm_read_byte(s++);
     lcd_putcAtt(x,y,c,mode);
     x+=FW;
+		if ((size)&& (c!=0x2E)) x+=FW; //check for decimal point
     len--;
   }
 }
@@ -140,13 +145,17 @@ void lcd_putsn_P(uint8_t x,uint8_t y,const prog_char * s,uint8_t len)
 }
 uint8_t lcd_putsAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t mode)
 {
+	uint8_t source ;
+	uint8_t size ;
+	source = mode & BSS ;
+	size = mode & DBLSIZE ;
   //while(char c=pgm_read_byte(s++)) {
   while(1) {
-    char c = (mode & BSS) ? *s++ : pgm_read_byte(s++);
+    char c = (source) ? *s++ : pgm_read_byte(s++);
     if(!c) break;
     lcd_putcAtt(x,y,c,mode);
     x+=FW;
-    if(mode&DBLSIZE) x+=FW;
+		if ((size)&& (c!=0x2E)) x+=FW; //check for decimal point
   }
   return x;
 }
@@ -178,15 +187,21 @@ void lcd_outdezAtt(uint8_t x,uint8_t y,int16_t val,uint8_t mode)
 
 uint8_t lcd_lastPos;
 #define PREC(n) ((n&0x20) ? ((n&0x10) ? 2 : 1) : 0)
-void lcd_outdezNAtt(uint8_t x,uint8_t y,int16_t val,uint8_t mode,uint8_t len)
+void lcd_outdezNAtt(uint8_t x,uint8_t y,int32_t val,uint8_t mode,int8_t len)
 {
   uint8_t fw = FWNUM;
   uint8_t prec = PREC(mode);
-  int16_t tmp = abs(val);
+  int32_t tmp = abs(val);
   uint8_t xn = 0;
   uint8_t ln = 2;
   char c;
   uint8_t xinc ;
+	uint8_t fullwidth = 0 ;
+	if ( len < 0 )
+	{
+		fullwidth = 1 ;
+		len = -len ;		
+	}
 
   if (mode & DBLSIZE)
   {
@@ -284,7 +299,12 @@ void lcd_outdezNAtt(uint8_t x,uint8_t y,int16_t val,uint8_t mode,uint8_t len)
         }
       }
       else if (mode & LEADING0)
-        mode -= LEADING0;
+			{
+				if ( fullwidth == 0 )
+				{
+        	mode -= LEADING0;
+				}
+			}
       else
         break;
     }
@@ -311,6 +331,10 @@ void lcd_hlineStip(unsigned char x,unsigned char y, signed char w,uint8_t pat)
   uint8_t *p  = &displayBuf[ y / 8 * DISPLAY_W + x ];
   uint8_t msk = BITMASK(y%8);
   while(w){
+    if ( p>=DISPLAY_END)
+    {
+      break ;			
+    }
     if(pat&1) {
       //lcd_plot(x,y);
       *p ^= msk;
@@ -336,9 +360,13 @@ void lcd_vline(uint8_t x,uint8_t y, int8_t h)
     *p ^= ~(BITMASK(y%8)-1);
     while(p<q){
         p  += DISPLAY_W;
+        if ( p>=DISPLAY_END)
+        {
+          break ;			
+        }
         *p ^= 0xff;
     }
-    *p ^= ~(BITMASK((y+h)%8)-1);
+    if(p<DISPLAY_END) *p ^= ~(BITMASK((y+h)%8)-1);
 }
 
 
@@ -392,6 +420,11 @@ void lcdSetRefVolt(uint8_t val)
   lcdSendCtl(val);
 }
 
+volatile uint8_t LcdLock ;
+volatile uint8_t LcdTrims ;
+uint8_t LcdTrimSwapped ;
+
+
 void refreshDiplay()
 {
   uint8_t *p=displayBuf;
@@ -399,9 +432,11 @@ void refreshDiplay()
     lcdSendCtl(0x04);
     lcdSendCtl(0x10); //column addr 0
     lcdSendCtl( y | 0xB0); //page addr y
-    PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
+    
+		PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_A0);
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);
+		
     for(uint8_t x=32; x>0; x--){
 //      lcdSendDat(*p);
       PORTA_LCD_DAT = *p++;

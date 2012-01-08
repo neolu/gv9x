@@ -71,11 +71,6 @@ typedef struct t_TrainerData {
   TrainerMix     mix[4];
 } __attribute__((packed)) TrainerData;
 
-//typedef struct t_FrSkyRSSIAlarm {
-//  uint8_t       level:2;
-//  int8_t        value:6;
-//} __attribute__((packed)) FrSkyRSSIAlarm;
-
 typedef struct t_EEGeneral {
   uint8_t   myVers;
   int16_t   calibMid[7];
@@ -102,18 +97,26 @@ typedef struct t_EEGeneral {
   uint8_t   preBeep:1;
   uint8_t   flashBeep:1;
   uint8_t   disableSplashScreen:1;
-  uint8_t   res1:3;
+  uint8_t   disablePotScroll:1;
+  uint8_t   disableBG:1;
+  uint8_t   frskyinternalalarm:1;
   uint8_t   filterInput;
   uint8_t   lightAutoOff;
   uint8_t   templateSetup;  //RETA order according to chout_ar array 
   int8_t    PPM_Multiplier;
-//  FrSkyRSSIAlarm frskyRssiAlarms[2];
-  uint8_t   respre[2];
+  //uint8_t   respre[2]; //mike please check these are correct
+  uint8_t	FRSkyYellow:4;
+  uint8_t	FRSkyOrange:4;
+  uint8_t	FRSkyRed:4;  //mike please check these are correct
+	uint8_t spare:4;
   uint8_t   speakerPitch;
-  uint8_t   res[1];
-  uint8_t   baudRate;
-  //uint8_t   vMavBatWarn;
-  uint8_t   mavTargetSystem;
+  uint8_t	hapticStrength;
+  uint8_t	speakerMode;
+  //uint8_t   res[1];
+  uint8_t   baudRate:4;
+  uint8_t   mavTargetSystem:4;
+  
+//  uint8_t	FRSkyRed;  //mike please check these are correct
   char      ownerName[GENERAL_OWNER_NAME_LEN];
 } __attribute__((packed)) EEGeneral;
 
@@ -178,7 +181,7 @@ typedef struct t_FrSkyChannelData {
   uint8_t   alarms_value[2];      // 0.1V steps EG. 6.6 Volts = 66. 25.1V = 251, etc.
   uint8_t   alarms_level:4;
   uint8_t   alarms_greater:2;     // 0=LT(<), 1=GT(>)
-  uint8_t   type:2;               // future use: 0=volts, ...
+  uint8_t   type:2;               // 0=volts, 1=raw, 2=volts*2, 3=Amps
 } __attribute__((packed)) FrSkyChannelData;
 
 typedef struct t_FrSkyData {
@@ -203,7 +206,6 @@ typedef struct t_ModelData {
   int8_t    tmrMode;              // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
   uint8_t   tmrDir:1;    //0=>Count Down, 1=>Count Up
   uint8_t   traineron:1;  // 0 disable trainer, 1 allow trainer
-//  uint8_t   spare:6;
   uint8_t   t2throttle:1 ;  // Start timer2 using throttle
   uint8_t   FrSkyUsrProto:2 ;  // Protocol in FrSky User Data, 0=FrSky Hub, 1=WS HowHigh
   uint8_t   FrSkyImperial:1 ;  // Convert FrSky values to imperial units

@@ -51,7 +51,7 @@ EXT = STD
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
-CPPSRC = er9x.cpp stamp.cpp menus.cpp pers.cpp file.cpp lcd.cpp drivers.cpp templates.cpp serial.cpp rotarysw.cpp 
+CPPSRC = er9x.cpp stamp.cpp menus.cpp pers.cpp file.cpp lcd.cpp drivers.cpp templates.cpp serial.cpp rotarysw.cpp pulses.cpp audio.cpp
 
 ifeq ($(EXT), JETI)
  CPPSRC += jeti.cpp

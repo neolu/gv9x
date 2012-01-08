@@ -31,14 +31,16 @@ mode4 ail thr ele rud
 EEGeneral  g_eeGeneral;
 ModelData  g_model;
 
-#ifdef BEEPSPKR
-// gruvin: Tone Generator Globals  - ported by rob.thomson
-uint8_t toneFreq = BEEP_DEFAULT_FREQ;
-uint8_t toneOn = false;
-#endif
+const prog_uint8_t APM chout_ar[] = { //First number is 0..23 -> template setup,  Second is relevant channel out
+                                      1,2,3,4 , 1,2,4,3 , 1,3,2,4 , 1,3,4,2 , 1,4,2,3 , 1,4,3,2,
+                                      2,1,3,4 , 2,1,4,3 , 2,3,1,4 , 2,3,4,1 , 2,4,1,3 , 2,4,3,1,
+                                      3,1,2,4 , 3,1,4,2 , 3,2,1,4 , 3,2,4,1 , 3,4,1,2 , 3,4,2,1,
+                                      4,1,2,3 , 4,1,3,2 , 4,2,1,3 , 4,2,3,1 , 4,3,1,2 , 4,3,2,1    };
 
 
-bool warble = false;
+//new audio object
+audioQueue  audio;
+
 uint8_t sysFlags = 0;
 
 const prog_char APM modi12x3[]=
@@ -88,7 +90,6 @@ void putsChnRaw(uint8_t x,uint8_t y,uint8_t idx,uint8_t att)
     lcd_putsnAtt(x,y,modi12x3+g_eeGeneral.stickMode*16+4*(idx-1),4,att);
   else if(idx<=NUM_XCHNRAW)
     lcd_putsnAtt(x,y,PSTR("P1  P2  P3  MAX FULLCYC1CYC2CYC3PPM1PPM2PPM3PPM4PPM5PPM6PPM7PPM8CH1 CH2 CH3 CH4 CH5 CH6 CH7 CH8 CH9 CH10CH11CH12CH13CH14CH15CH16"ROTARY_SW_CHANNEL""TELEMETRY_CHANNELS)+4*(idx-5),4,att);
-    // GVA 
 }
 void putsChn(uint8_t x,uint8_t y,uint8_t idx1,uint8_t att)
 {
@@ -158,7 +159,12 @@ void putsTelemValue(uint8_t x, uint8_t y, uint8_t val, uint8_t channel, uint8_t 
       ratio <<= 1 ;
     }
     value *= ratio ;
-    if ( ratio < 100 )
+  	if (g_model.frsky.channels[channel].type == 3/*A*/)
+		{
+			value /= 100 ;
+			att |= PREC1 ;
+		}
+		else if ( ratio < 100 )
     {
       value *= 2 ;
       value /= 51 ;  // Same as *10 /255 but without overflow
@@ -175,6 +181,12 @@ void putsTelemValue(uint8_t x, uint8_t y, uint8_t val, uint8_t channel, uint8_t 
     {
       value <<= 1 ;
     }
+  	if (g_model.frsky.channels[channel].type == 3/*A*/)
+		{
+			value *= 255 ;
+			value /= 100 ;
+			att |= PREC1 ;
+		}
   }
 //              val = (uint16_t)staticTelemetry[i]*g_model.frsky.channels[i].ratio / 255;
 //              putsTelemetry(x0-2, 2*FH, val, g_model.frsky.channels[i].type, blink|DBLSIZE|LEFT);
@@ -205,9 +217,14 @@ inline int16_t getValue(uint8_t i)
   else return 0;
 }
 
+bool Last_switch[NUM_CSW] ;
+
 bool getSwitch(int8_t swtch, bool nc, uint8_t level)
 {
-  if(level>5) return false; //prevent recursive loop going too deep
+  bool ret_value ;
+  uint8_t cs_index ;
+  
+	if(level>5) return false; //prevent recursive loop going too deep
 
   switch(swtch){
     case  0:            return  nc;
@@ -226,9 +243,15 @@ bool getSwitch(int8_t swtch, bool nc, uint8_t level)
   //input -> 1..4 -> sticks,  5..8 pots
   //MAX,FULL - disregard
   //ppm
-  CSwData &cs = g_model.customSw[abs(swtch)-(MAX_DRSWITCH-NUM_CSW)];
+  cs_index = abs(swtch)-(MAX_DRSWITCH-NUM_CSW);
+  CSwData &cs = g_model.customSw[cs_index];
   if(!cs.func) return false;
 
+  if ( level>4 )
+  {
+    ret_value = Last_switch[cs_index] ;
+    return swtch>0 ? ret_value : !ret_value ;
+  }
 
   int8_t a = cs.v1;
   int8_t b = cs.v2;
@@ -256,22 +279,20 @@ bool getSwitch(int8_t swtch, bool nc, uint8_t level)
 
   switch (cs.func) {
   case (CS_VPOS):
-      return swtch>0 ? (x>y) : !(x>y);
+      ret_value = (x>y);
       break;
   case (CS_VNEG):
-      return swtch>0 ? (x<y) : !(x<y);
+      ret_value = (x<y) ;
       break;
   case (CS_APOS):
   {
-      bool res = (abs(x)>y) ;
-      return swtch>0 ? res : !res ;
+      ret_value = (abs(x)>y) ;
   }
 //      return swtch>0 ? (abs(x)>y) : !(abs(x)>y);
       break;
   case (CS_ANEG):
   {
-      bool res = (abs(x)<y) ;
-      return swtch>0 ? res : !res ;
+      ret_value = (abs(x)<y) ;
   }
 //      return swtch>0 ? (abs(x)<y) : !(abs(x)<y);
       break;
@@ -293,41 +314,43 @@ bool getSwitch(int8_t swtch, bool nc, uint8_t level)
     bool res2 = getSwitch(b,0,level+1) ;
     if ( cs.func == CS_AND )
     {
-      return res1 && res2 ;
+      ret_value = res1 && res2 ;
     }
     else if ( cs.func == CS_OR )
     {
-      return res1 || res2 ;
+      ret_value = res1 || res2 ;
     }
     else  // CS_XOR
     {
-      return res1 ^ res2 ;
+      ret_value = res1 ^ res2 ;
     }
   }
   break;
 
   case (CS_EQUAL):
-      return (x==y);
+      ret_value = (x==y);
       break;
   case (CS_NEQUAL):
-      return (x!=y);
+      ret_value = (x!=y);
       break;
   case (CS_GREATER):
-      return (x>y);
+      ret_value = (x>y);
       break;
   case (CS_LESS):
-      return (x<y);
+      ret_value = (x<y);
       break;
   case (CS_EGREATER):
-      return (x>=y);
+      ret_value = (x>=y);
       break;
   case (CS_ELESS):
-      return (x<=y);
+      ret_value = (x<=y);
       break;
   default:
-      return false;
+      ret_value = false;
       break;
   }
+	Last_switch[cs_index] = ret_value ;
+	return swtch>0 ? ret_value : !ret_value ;
 
 }
 
@@ -540,8 +563,8 @@ void checkQuickSelect()
 MenuFuncP g_menuStack[5];
 
 uint8_t  g_menuStackPtr = 0;
-uint8_t  g_beepCnt;
-uint8_t  g_beepVal[5];
+//uint8_t  g_beepCnt;
+//uint8_t  g_beepVal[5];
 
 void message(const prog_char * s)
 {
@@ -552,8 +575,6 @@ void message(const prog_char * s)
   lcdSetRefVolt(g_eeGeneral.contrast);
 }
 
-uint8_t heartbeat;
-
 void alert(const prog_char * s, bool defaults)
 {
     lcd_clear();
@@ -561,8 +582,9 @@ void alert(const prog_char * s, bool defaults)
     lcd_puts_P(0,4*FW,s);
     lcd_puts_P(64-6*FW,7*FH,PSTR("press any Key"));
     refreshDiplay();
-    lcdSetRefVolt(defaults ? 31 : g_eeGeneral.contrast);
-    beepErr();
+    lcdSetRefVolt(defaults ? 25 : g_eeGeneral.contrast);
+
+    audioDefevent(AUDIO_ERROR);
     clearKeyEvents();
     while(1)
     {
@@ -612,40 +634,23 @@ uint8_t checkTrim(uint8_t event)
     if(((x==0)  ||  ((x>=0) != (tm>=0))) && (!thro) && (tm!=0)){
       *TrimPtr[idx]=0;
       killEvents(event);
-      warble = false;
-//gruvin speaker mod ported by rob.thomson
-#ifdef BEEPSPKR
-      beepWarn2Spkr(60 + g_eeGeneral.speakerPitch);
-#else
-      beepWarn();
-#endif
-    }
-    else if(x>-125 && x<125){
+      audioDefevent(AUDIO_TRIM_MIDDLE);
+
+    } else if(x>-125 && x<125){
       *TrimPtr[idx] = (int8_t)x;
       STORE_MODELVARS_TRIM;
-      if(event & _MSK_KEY_REPT) warble = true;
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-      // toneFreq higher/lower according to trim position
-      // beepTrimSpkr((x/3)+60);  // Range -125 to 125 = toneFreq: 19 to 101
-     beepTrimSpkr((x/4)+30+(g_eeGeneral.speakerPitch)/2);   // Divide by 4 more efficient. Range -125 to 125 = toneFreq: 28 to 91
-#else
-      beepWarn1();
-#endif
+      //if(event & _MSK_KEY_REPT) warble = true;
+			if(x <= 125 && x >= -125){
+				audio.event(AUDIO_TRIM_MOVE,(abs(x)/4)+60);
+			}	
     }
     else
     {
       *TrimPtr[idx] = (x>0) ? 125 : -125;
       STORE_MODELVARS_TRIM;
-      warble = false;
-//grucin speaker mod ported by rob.thomson
-#ifdef BEEPSPKR
-     // beepTrimSpkr((x/4)+60+g_eeGeneral.speakerPitch);
-      //beepWarn2Spkr((x/4)+30+(g_eeGeneral.speakerPitch)/2);
-       beepTrimSpkr((x/4)+30+(g_eeGeneral.speakerPitch)/2);
-#else
-      beepWarn();
-#endif
+			if(x <= 125 && x >= -125){
+				audio.event(AUDIO_TRIM_MOVE,(-abs(x)/4)+60);
+			}	
     }
 
     return 0;
@@ -671,21 +676,15 @@ int16_t checkIncDec16(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, 
   }
   if(event==EVT_KEY_FIRST(kpl) || event== EVT_KEY_REPT(kpl) || (s_editMode && (event==EVT_KEY_FIRST(KEY_UP) || event== EVT_KEY_REPT(KEY_UP))) ) {
     newval++;
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-    beepKeySpkr(BEEP_KEY_UP_FREQ);
-#else
-    beepKey();
-#endif
+
+		audioDefevent(AUDIO_KEYPAD_UP);
+
     kother=kmi;
   }else if(event==EVT_KEY_FIRST(kmi) || event== EVT_KEY_REPT(kmi) || (s_editMode && (event==EVT_KEY_FIRST(KEY_DOWN) || event== EVT_KEY_REPT(KEY_DOWN))) ) {
     newval--;
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-    beepKeySpkr(BEEP_KEY_DOWN_FREQ);
-#else
-    beepKey();
-#endif
+
+		audioDefevent(AUDIO_KEYPAD_DOWN);
+
     kother=kpl;
   }
   if((kother != (uint8_t)-1) && keyState((EnumKeys)kother)){
@@ -707,36 +706,25 @@ int16_t checkIncDec16(uint8_t event, int16_t val, int16_t i_min, int16_t i_max, 
   {
     newval = i_max;
     killEvents(event);
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-    beepWarn2Spkr(BEEP_KEY_UP_FREQ);
-#else
-    beepWarn();
-#endif
+    audioDefevent(AUDIO_KEYPAD_UP);
   }
   else if(newval < i_min)
   {
     newval = i_min;
     killEvents(event);
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-    beepWarn2Spkr(BEEP_KEY_DOWN_FREQ);
-#else
-    beepWarn();
-#endif
+    audioDefevent(AUDIO_KEYPAD_DOWN);
+
   }
   if(newval != val) {
     if(newval==0) {
       pauseEvents(event);
-//gruvin speaker mod - ported by rob.thomson      
-#ifdef BEEPSPKR
-      if (newval>val)
-        beepWarn2Spkr(BEEP_KEY_UP_FREQ);
-      else
-        beepWarn2Spkr(BEEP_KEY_DOWN_FREQ);
-#else
-      beepKey();
-#endif
+  
+		if (newval>val){
+			audioDefevent(AUDIO_KEYPAD_UP);
+		} else {
+			audioDefevent(AUDIO_KEYPAD_DOWN);
+		}		
+
     }
     eeDirty(i_flags & (EE_GENERAL|EE_MODEL));
     checkIncDec_Ret = true;
@@ -771,7 +759,7 @@ void popMenu(bool uppermost)
 {
   if(g_menuStackPtr>0 || uppermost){
     g_menuStackPtr = uppermost ? 0 : g_menuStackPtr-1;
-    beepKey();
+    audioDefevent(AUDIO_MENUS);
     (*g_menuStack[g_menuStackPtr])(EVT_ENTRY_UP);
   }else{
     alert(PSTR("menuStack underflow"));
@@ -782,7 +770,7 @@ void chainMenu(MenuFuncP newMenu)
 {
   g_menuStack[g_menuStackPtr] = newMenu;
   (*newMenu)(EVT_ENTRY);
-  beepKey();
+  audioDefevent(AUDIO_MENUS);
 }
 void pushMenu(MenuFuncP newMenu)
 {
@@ -794,17 +782,14 @@ void pushMenu(MenuFuncP newMenu)
     alert(PSTR("menuStack overflow"));
     return;
   }
-  beepKey();
+  audioDefevent(AUDIO_MENUS);
   g_menuStack[g_menuStackPtr] = newMenu;
   (*newMenu)(EVT_ENTRY);
 }
 
-uint16_t  g_vbat100mV;
+uint8_t  g_vbat100mV = 74 ;
 volatile uint8_t tick10ms = 0;
 uint16_t g_LightOffCounter;
-uint8_t beepAgain = 0;
-uint8_t beepAgainOrig = 0;
-uint8_t beepOn = false;
 
 inline bool checkSlaveMode()
 {
@@ -814,16 +799,17 @@ inline bool checkSlaveMode()
   return SLAVE_MODE;
 #else
   static bool lastSlaveMode = false;
-  static uint8_t checkDelay = 0;
-  if (g_beepCnt || beepAgain || beepOn) {
-    checkDelay = 20;
-  }
-  else if (checkDelay) {
-    --checkDelay;
-  }
-  else {
-    lastSlaveMode = SLAVE_MODE;
-  }
+// // commented out as seems to serve no purpose with new sound engine 
+//  static uint8_t checkDelay = 0;
+//  if (g_beepCnt || beepAgain || beepOn) {
+//    checkDelay = 20;
+//  }
+//  else if (checkDelay) {
+//    --checkDelay;
+//  }
+//  else {
+    lastSlaveMode = SLAVE_MODE;//
+//  }
   return lastSlaveMode;
 #endif
 }
@@ -884,6 +870,10 @@ void perMain()
         p1val = calibratedStick[6];
     }
     p1valprev = calibratedStick[6];
+   if ( g_eeGeneral.disablePotScroll )
+   {
+      p1valdiff = 0 ;			
+   	}
 
     g_menuStack[g_menuStackPtr](evt);
     refreshDiplay();
@@ -905,32 +895,34 @@ void perMain()
 //        1417*18/256 = 99 (actually 99.6) to represent 9.9 volts.
 //        Erring on the side of low is probably best.
 
-				int16_t ab = anaIn(7);
-				//ab = ab*16 + ab/8*(6+g_eeGeneral.vBatCalib) ;
-				//ab /= BandGap ;
-				//g_vbat100mV = (ab + g_vbat100mV + 1) >> 1 ;  // Filter it a bit => more stable display
+        int16_t ab = anaIn(7);
+        //ab = ab*16 + ab/8*(6+g_eeGeneral.vBatCalib) ;
+        //ab = (uint16_t) ab / (g_eeGeneral.disableBG ? 240 : BandGap ) ;  // ab might be more than 32767
+        //g_vbat100mV = (ab + g_vbat100mV + 1) >> 1 ;  // Filter it a bit => more stable display
         // GVA
 				ab = (float)(ab * 6.69)  + (uint16_t)(g_eeGeneral.vBatCalib * 10);
 				g_vbat100mV = (g_vbat100mV + (ab/100)) >> 1;
 
-
         static uint8_t s_batCheck;
         s_batCheck+=32;
         if((s_batCheck==0) && (g_vbat100mV<g_eeGeneral.vBatWarn) && (g_vbat100mV>49)){
-            beepErr();
+
+            audioDefevent(AUDIO_TX_BATTERY_LOW);
             if (g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
         }
 #ifdef MAVLINK
         //if((s_batCheck==128) && (telemetry_data.status) && (telemetry_data.vbat < g_eeGeneral.vMavBatWarn)){
         if((s_batCheck==128) && (telemetry_data.vbat_low)){
-            beepErr();
+            audioDefevent(AUDIO_TX_BATTERY_LOW);
             if (g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
         }
 #endif
+        
     }
         break;
     case 3:
     {
+    	/*
         static prog_uint8_t APM beepTab[]= {
             // 0   1   2   3    4
             0,  0,  0,  0,   0, //quiet
@@ -941,6 +933,8 @@ void perMain()
         };
         memcpy_P(g_beepVal,beepTab+5*g_eeGeneral.beeperVal,5);
         //g_beepVal = BEEP_VAL;
+        */
+        /* all this gone and replaced in new sound system */
     }
         break;
     }
@@ -952,88 +946,6 @@ uint8_t ppmInState = 0; //0=unsync 1..8= wait for value i-1
 
 #include <avr/interrupt.h>
 //#include <avr/wdt.h>
-#define HEART_TIMER2Mhz 1;
-#define HEART_TIMER10ms 2;
-
-
-extern uint16_t g_tmr1Latency_max;
-extern uint16_t g_tmr1Latency_min;
-
-//uint16_t PulseTotal ;
-
-//ISR(TIMER1_OVF_vect)
-ISR(TIMER1_COMPA_vect) //2MHz pulse generation
-{
-  static uint8_t   pulsePol;
-  static uint16_t *pulsePtr = pulses2MHz;
-//  static uint8_t   channel = 0 ;
-
-//  if( *pulsePtr == 0) {
-//    //currpulse=0;
-//    pulsePtr = pulses2MHz;
-//    pulsePol = g_model.pulsePol;//0;
-
-//    TIMSK &= ~(1<<OCIE1A); //stop reentrance
-//    sei();
-//    setupPulses();
-//    cli();
-//    TIMSK |= (1<<OCIE1A);
-//  }
-
-  uint8_t i = 0;
-  while((TCNT1L < 10) && (++i < 50))  // Timer does not read too fast, so i
-    ;
-#ifdef STATISTIC
-  uint16_t dt=TCNT1;//-OCR1A;
-#endif
-  if(pulsePol)
-  {
-    PORTB |=  (1<<OUT_B_PPM);
-    pulsePol = 0;
-  }else{
-    PORTB &= ~(1<<OUT_B_PPM);
-    pulsePol = 1;
-  }
-#ifdef STATISTIC
-  g_tmr1Latency_max = max(dt,g_tmr1Latency_max);    // max has leap, therefore vary in length
-  g_tmr1Latency_min = min(dt,g_tmr1Latency_min);    // min has leap, therefore vary in length
-#endif
-
-//  if (g_model.protocol==PROTO_PPM)
-//  {
-//    if ( *(pulsePtr+1) != 0 )  // Not the sync pulse
-//    {
-//      if ( channel & 1 )  // Channel pulse, not gap pulse
-//      {
-//        *pulsePtr = max(min(g_chans512[channel>>1],PPM_range),-PPM_range) + PPM_CENTER - PPM_gap + 600;
-//      }
-//    }
-//    else // sync pulse
-//    {
-//      uint16_t rest ;
-//      rest = PPM_frame - PulseTotal ;      
-//      *pulsePtr = rest ;
-//    }
-//    channel += 1 ;
-//  }
-//  PulseTotal += (OCR1A  = *pulsePtr++);
-  OCR1A  = *pulsePtr++;
-
-  if( *pulsePtr == 0) {
-    //currpulse=0;
-    pulsePtr = pulses2MHz;
-    pulsePol = g_model.pulsePol;//0;
-//    channel = 0 ;
-//    PulseTotal = 0 ;
-
-    TIMSK &= ~(1<<OCIE1A); //stop reentrance
-    sei();
-    setupPulses();
-    cli();
-    TIMSK |= (1<<OCIE1A);
-  }
-  heartbeat |= HEART_TIMER2Mhz;
-}
 
 //class AutoLock
 //{
@@ -1050,7 +962,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 //};
 
 //#define STARTADCONV (ADCSRA  = (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC) | (1 << ADIE))
-int16_t BandGap ;
+int16_t BandGap = 240 ;
 
 static uint16_t s_anaFilt[8];
 uint16_t anaIn(uint8_t chan)
@@ -1064,25 +976,26 @@ uint16_t anaIn(uint8_t chan)
 }
 
 
-
 #define ADC_VREF_TYPE 0x40
 void getADC_filt()
 {
-  static uint16_t t_ana[3][8];
+  static uint16_t t_ana[2][8];
+//	uint8_t thro_rev_chan = g_eeGeneral.throttleReversed ? THR_STICK : 10 ;  // 10 means don't reverse
   for (uint8_t adc_input=0;adc_input<8;adc_input++){
       ADMUX=adc_input|ADC_VREF_TYPE;
       // Start the AD conversion
       ADCSRA|=0x40;
-      // Wait for the AD conversion to complete
-      while ((ADCSRA & 0x10)==0);
-      ADCSRA|=0x10;
-
+			// Do this while waiting
       s_anaFilt[adc_input] = (s_anaFilt[adc_input]/2 + t_ana[1][adc_input]) & 0xFFFE; //gain of 2 on last conversion - clear last bit
       //t_ana[2][adc_input]  =  (t_ana[2][adc_input]  + t_ana[1][adc_input]) >> 1;
       t_ana[1][adc_input]  = (t_ana[1][adc_input]  + t_ana[0][adc_input]) >> 1;
 
+      // Now wait for the AD conversion to complete
+      while ((ADCSRA & 0x10)==0);
+      ADCSRA|=0x10;
+
       uint16_t v = ADCW;
-      if(IS_THROTTLE(adc_input) && g_eeGeneral.throttleReversed) v = 2048 - v;
+//      if(adc_input == thro_rev_chan) v = 1024 - v;
       t_ana[0][adc_input]  = (t_ana[0][adc_input]  + v) >> 1;
   }
 }
@@ -1095,8 +1008,11 @@ void getADC_filt()
 
 void getADC_osmp()
 {
-  uint16_t temp_ana[8] = {0};
+//  uint16_t temp_ana[8] = {0};
+  uint16_t temp_ana ;
+//	uint8_t thro_rev_chan = g_eeGeneral.throttleReversed ? THR_STICK : 10 ;  // 10 means don't reverse
   for (uint8_t adc_input=0;adc_input<8;adc_input++){
+		temp_ana = 0 ;
     for (uint8_t i=0; i<4;i++) {  // Going from 10bits to 11 bits.  Addition = n.  Loop 4^n times
       ADMUX=adc_input|ADC_VREF_TYPE;
       // Start the AD conversion
@@ -1104,19 +1020,27 @@ void getADC_osmp()
       // Wait for the AD conversion to complete
       while ((ADCSRA & 0x10)==0);
       ADCSRA|=0x10;
-      temp_ana[adc_input] += ADCW;
+//      temp_ana[adc_input] += ADCW;
+      temp_ana += ADCW;
     }
-    s_anaFilt[adc_input] = temp_ana[adc_input] / 2; // divide by 2^n to normalize result.
+    
+		temp_ana /= 2; // divide by 2^n to normalize result.
+//    if(adc_input == thro_rev_chan)
+//        temp_ana = 2048 -temp_ana;
 
-    if(IS_THROTTLE(adc_input) && g_eeGeneral.throttleReversed)
-        s_anaFilt[adc_input] = 2048 - s_anaFilt[adc_input];
+//		s_anaFilt[adc_input] = temp_ana[adc_input] / 2; // divide by 2^n to normalize result.
+		s_anaFilt[adc_input] = temp_ana ;
+
+//    if(IS_THROTTLE(adc_input) && g_eeGeneral.throttleReversed)
+//        s_anaFilt[adc_input] = 2048 - s_anaFilt[adc_input];
   }
 }
 
 
-
 void getADC_single()
 {
+  	uint16_t result ;
+//	  uint8_t thro_rev_chan = g_eeGeneral.throttleReversed ? THR_STICK : 10 ;  // 10 means don't reverse
     for (uint8_t adc_input=0;adc_input<8;adc_input++){
       ADMUX=adc_input|ADC_VREF_TYPE;
       // Start the AD conversion
@@ -1124,10 +1048,11 @@ void getADC_single()
       // Wait for the AD conversion to complete
       while ((ADCSRA & 0x10)==0);
       ADCSRA|=0x10;
-      s_anaFilt[adc_input]= ADCW * 2; // use 11 bit numbers
+      result = ADCW * 2; // use 11 bit numbers
 
-      if(IS_THROTTLE(adc_input) && g_eeGeneral.throttleReversed)
-          s_anaFilt[adc_input] = 2048 - s_anaFilt[adc_input];
+//      if(adc_input == thro_rev_chan)
+//          result = 2048 - result ;
+      s_anaFilt[adc_input] = result ; // use 11 bit numbers
     }
 }
 
@@ -1135,10 +1060,10 @@ void getADC_bandgap()
 {
   ADMUX=0x1E|ADC_VREF_TYPE;
   // Start the AD conversion
-  ADCSRA|=0x40;
+//  ADCSRA|=0x40;
   // Wait for the AD conversion to complete
-  while ((ADCSRA & 0x10)==0);
-  ADCSRA|=0x10;
+//  while ((ADCSRA & 0x10)==0);
+//  ADCSRA|=0x10;
   // Do it twice, first conversion may be wrong
   ADCSRA|=0x40;
   // Wait for the AD conversion to complete
@@ -1157,7 +1082,7 @@ getADCp getADC[3] = {
 
 volatile uint8_t g_tmr16KHz;
 
-ISR(TIMER0_OVF_vect) //continuous timer 16ms (16MHz/1024)
+ISR(TIMER0_OVF_vect, ISR_NOBLOCK) //continuous timer 16ms (16MHz/1024)
 {
   g_tmr16KHz++;
 }
@@ -1171,122 +1096,45 @@ static uint16_t getTmr16KHz()
   }
 }
 
+
 ISR(TIMER0_COMP_vect, ISR_NOBLOCK) //10ms timer
-{
+{ 
   cli();
   TIMSK &= ~(1<<OCIE0); //stop reentrance
   sei();
-  
-// gruvin speaker mod ported by rob.thomson
-#ifdef BEEPSPKR
+
+
   OCR0 += 2;
-#else  
-  OCR0 = OCR0 + 156;
-#endif
 
-// gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-  // gruvin: Begin Tone Generator
-  static uint8_t toneCounter;
 
-  if (toneOn)
-  {
-    toneCounter += toneFreq;
-    if ((toneCounter & 0x80) == 0x80)
-      PORTE |=  (1<<OUT_E_BUZZER); // speaker output 'high'
-    else
-      PORTE &=  ~(1<<OUT_E_BUZZER); // speaker output 'low'
-  } 
-  else
-      PORTE &=  ~(1<<OUT_E_BUZZER); // speaker output 'low'
-  // gruvin: END Tone Generator
+ //call to sound heatbeat.
+ 	audio.heartbeat();
+ 
 
   static uint8_t cnt10ms = 77; // execute 10ms code once every 78 ISRs
   if (cnt10ms-- == 0) // BEGIN { ... every 10ms ... }
   {
     // Begin 10ms event
     cnt10ms = 77; 
-    
-/*
-    // DEBUG: gruvin: crude test to time if I have in fact still got 10ms
-    // Test confirms 1 second bips. Too accurate to count error offset over 6 full minutes. (Good.)
-    static uint8_t test10ms = 100;
-    if (test10ms-- == 0)
-    {
-      test10ms = 100;
-      g_beepCnt = 5;
-      beepOn = true; // beep each second (beepOn function turns beep off)
-    }
-*/
 
-#endif
-    // Record start time from TCNT1 to record excution time
-//    uint16_t dt=TCNT1;// TCNT1 (used for PPM out pulse generation) is running at 2MHz
-
-
-  //cnt >/=0
-  //beepon/off
-  //beepagain y/n
-  if(g_beepCnt) {
-      if(!beepAgainOrig) {
-          beepAgainOrig = g_beepCnt;
-          beepOn = true;
-      }
-      g_beepCnt--;
-  }
-  else {
-      if(beepAgain && beepAgainOrig) {
-          beepOn = !beepOn;
-          g_beepCnt = beepOn ? beepAgainOrig : 8;
-          if(beepOn) beepAgain--;
-      }
-      else {
-          beepAgainOrig = 0;
-          beepOn = false;
-          warble = false;
-      }
-  }
-
-  //gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-    // G: use new tone generator for beeps
-    if(beepOn)
-    {
-      static bool warbleC;
-      warbleC = warble && !warbleC;
-      if(warbleC)
-        toneOn = false;
-      else
-        toneOn = true;
-    }else{
-      toneOn = false;
-    }
-
-#else
-    // G: use original external buzzer for beeps
-    if(beepOn){
-    static bool warbleC;
-    warbleC = warble && !warbleC;
-    if(warbleC)
-      PORTE &= ~(1<<OUT_E_BUZZER);//buzzer off
-    else
-      PORTE |=  (1<<OUT_E_BUZZER);//buzzer on
-    }else{
-      PORTE &= ~(1<<OUT_E_BUZZER);
-    }
-#endif
 
   per10ms();
-  heartbeat |= HEART_TIMER10ms;
-
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-  } // end 10ms event
+#ifdef FRSKY
+	check_frsky() ;
 #endif
+
+#ifdef MAVLINK
+	check_mavlink() ;
+#endif
+  heartbeat |= HEART_TIMER10ms;
+  
+
+} // end 10ms event
+
 
   cli();
   TIMSK |= (1<<OCIE0);
-//  sei();	The RETI will do this
+  sei();
 }
 
 
@@ -1297,6 +1145,11 @@ ISR(TIMER0_COMP_vect, ISR_NOBLOCK) //10ms timer
 // (The timer is free-running and is thus not reset to zero at each capture interval.)
 ISR(TIMER3_CAPT_vect, ISR_NOBLOCK) //capture ppm in 16MHz / 8 = 2MHz
 {
+	
+
+
+ 
+	
   uint16_t capture=ICR3;
   cli();
   ETIMSK &= ~(1<<TICIE3); //stop reentrance
@@ -1324,7 +1177,7 @@ ISR(TIMER3_CAPT_vect, ISR_NOBLOCK) //capture ppm in 16MHz / 8 = 2MHz
 
   cli();
   ETIMSK |= (1<<TICIE3);
-//  sei();	The RETI will do this
+  sei();
 }
 
 extern uint16_t g_timeMain;
@@ -1355,9 +1208,10 @@ int main(void)
   DDRD = 0x00;  PORTD = 0xff; //all D inputs pullups keys
   DDRE = 0x08;  PORTE = 0xff-(1<<OUT_E_BUZZER); //pullups + buzzer 0
   DDRF = 0x00;  PORTF = 0x00; //all F inputs anain - pullups are off
-  DDRG = 0x10;  PORTG = 0xff; //pullups + SIM_CTL=1 = phonejack = ppm_in
+  //DDRG = 0x10;  PORTG = 0xff; //pullups + SIM_CTL=1 = phonejack = ppm_in
+  DDRG = 0x14; PORTG = 0xfB; //pullups + SIM_CTL=1 = phonejack = ppm_in, Haptic output and off (0)
   lcd_init();
-
+	
 #ifdef JETI
   JETI_Init();
 #endif
@@ -1372,6 +1226,10 @@ int main(void)
 
 #ifdef NMEA
   NMEA_Init();
+#endif
+
+#ifdef MAVLINK
+  MAVLINK_Init();
 #endif
 
 
@@ -1417,6 +1275,17 @@ int main(void)
   eeReadAll();
   uint8_t cModel = g_eeGeneral.currModel;
   checkQuickSelect();
+
+
+
+// moved here and logic added to only play statup tone if splash screen enabled.
+// that way we save a bit, but keep the option for end users!
+if(g_eeGeneral.speakerMode == 1){
+    if(!g_eeGeneral.disableSplashScreen)
+    {
+			  audioDefevent(AUDIO_TADA);
+		}
+}		
   doSplash();
   checkMem();
   //setupAdc(); //before checkTHR
@@ -1445,11 +1314,13 @@ int main(void)
 //    eeDirty(EE_GENERAL); // if model was quick-selected, make sure it sticks
     eeWaitComplete() ;
   }
-
+#ifdef FRSKY
+  FrskyAlarmSendState |= 0x40 ;
+#endif
 #ifdef MAVLINK
   MAVLINK_Init();
 #endif
-
+  
   OCR1A = 2000 ;        // set to 1mS
   TIFR = 1 << OCF1A ;   // Clear pending interrupt
 
@@ -1462,20 +1333,23 @@ int main(void)
 
 void mainSequence()
 {
+#ifdef STATISTIC
       uint16_t t0 = getTmr16KHz();
+#endif
       getADC[g_eeGeneral.filterInput]();
+      ADMUX=0x1E|ADC_VREF_TYPE;   // Select bandgap
+      perMain();      // Give bandgap plenty of time to settle
       getADC_bandgap() ;
-      perMain();
       //while(get_tmr10ms()==old10ms) sleep_mode();
       if(heartbeat == 0x3)
       {
           wdt_reset();
           heartbeat = 0;
       }
-      t0 = getTmr16KHz() - t0;
 #ifdef STATISTIC
-      g_timeMain = max(g_timeMain,t0);
-#endif
+      t0 = getTmr16KHz() - t0;
+      if ( t0 > g_timeMain ) g_timeMain = t0 ;
+#endif      
 }
 
 

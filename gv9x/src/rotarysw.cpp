@@ -80,7 +80,7 @@ void animRotarySw(uint8_t x) {
 		putsTime(x + 14 * FW - 2, FH * 2, s_timerVal, att1, att1);
 	}
 
-	if (rotarySwIdx >= 0 && g_model.rotarySw[rotarySwIdx].type & ROTARY_TYPE_PPM) {
+	if (rotarySwIdx >= 0 && (g_model.rotarySw[rotarySwIdx].type & ROTARY_TYPE_PPM)) {
 		uint8_t swToggle = (s_time < rotarySwChanged);
 		att1 = swToggle ? INVERS : 0;
 		putsRotarySw(x + 4 * FW, 2 * FH, rotarySwIdx, att1 | NO_UNIT, 6);

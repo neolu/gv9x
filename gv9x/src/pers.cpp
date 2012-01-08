@@ -39,7 +39,7 @@ void generalDefault()
   memset(&g_eeGeneral,0,sizeof(g_eeGeneral));
   g_eeGeneral.myVers   =  MDVERS;
   g_eeGeneral.currModel=  0;
-  g_eeGeneral.contrast = 31;
+  g_eeGeneral.contrast = 25;
   g_eeGeneral.vBatWarn = 90;
   g_eeGeneral.stickMode=  1;
   for (int i = 0; i < 7; ++i) {
@@ -137,9 +137,9 @@ void eeLoadModel(uint8_t id)
         resetTimer2();
 
 #ifdef FRSKY
+  FrskyAlarmSendState |= 0x40 ;		// Get RSSI Alarms
         FRSKY_setModelAlarms();
 #endif
-        init_rotary_sw();
     }
 }
 
@@ -240,6 +240,7 @@ void eeCheck(bool immediately)
   }
   
   s_eeDirtyMsk = 0;
+
   if(msk & EE_GENERAL){
     if(theWriteFile.writeRlc(FILE_TMP, FILE_TYP_GENERAL, (uint8_t*)&g_eeGeneral,
                         sizeof(EEGeneral),20) == sizeof(EEGeneral))
@@ -271,12 +272,14 @@ void eeCheck(bool immediately)
       }else{
         if ( ( msk & EE_TRIM ) == 0 )		// Don't stop if trim adjust
         {
-        alert(PSTR("EEPROM overflow"));
+          alert(PSTR("EEPROM overflow"));
+        }
       }
     }
   }
-  }
   Ee_lock = 0 ;				// UnLock eeprom writing
 
-  //beepWarn1();
+
 }
+
+

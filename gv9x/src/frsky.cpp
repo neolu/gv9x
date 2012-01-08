@@ -25,8 +25,9 @@
 #define A21PKT          0xfa
 #define A22PKT          0xf9
 #define ALRM_REQUEST    0xf8
-#define RSSI1PKT        0xf7
-#define RSSI2PKT        0xf6
+#define RSSIRXPKT       0xf7
+#define RSSITXPKT       0xf6
+#define RSSI_REQUEST		0xf1
 
 #define START_STOP      0x7e
 #define BYTESTUFF       0x7d
@@ -39,8 +40,12 @@ uint8_t FrskyRxBufferReady = 0;
 uint8_t frskyStreaming = 0;
 uint8_t frskyUsrStreaming = 0;
 
-FrskyData frskyTelemetry[2];
-FrskyData frskyRSSI[2];
+FrskyData frskyTelemetry[4];
+//FrskyData frskyRSSI[2];
+Frsky_current_info Frsky_current[2] ;
+
+uint8_t frskyRSSIlevel[2] ;
+uint8_t frskyRSSItype[2] ;
 
 struct FrskyAlarm {
   uint8_t level;    // The alarm's 'urgency' level. 0=disabled, 1=yellow, 2=orange, 3=red
@@ -54,7 +59,7 @@ uint8_t Frsky_user_stuff ;
 uint8_t Frsky_user_id ;
 uint8_t Frsky_user_lobyte ;
 
-int16_t FrskyHubData[20] ;  // For now only 20 words
+int16_t FrskyHubData[38] ;  // All 38 words
 
 void frsky_proc_user_byte( uint8_t byte )
 {
@@ -99,7 +104,7 @@ void frsky_proc_user_byte( uint8_t byte )
 					}
 					else
 					{
-						if ( Frsky_user_id < 20 )
+						if ( Frsky_user_id < 38 )
 						{
 						  FrskyHubData[Frsky_user_id] = ( byte << 8 ) + Frsky_user_lobyte ;
 						}	
@@ -157,9 +162,21 @@ void processFrskyPacket(uint8_t *packet)
     case LINKPKT: // A1/A2/RSSI values
       frskyTelemetry[0].set(packet[1]);
       frskyTelemetry[1].set(packet[2]);
-      frskyRSSI[0].set(packet[3]);
-      frskyRSSI[1].set(packet[4] / 2);
+      frskyTelemetry[2].set(packet[3]);
+      frskyTelemetry[3].set(packet[4] / 2);
+//      frskyRSSI[0].set(packet[3]);
+//      frskyRSSI[1].set(packet[4] / 2);
       break;
+
+		case RSSIRXPKT :
+			frskyRSSIlevel[1] = packet[1] ;
+			frskyRSSItype[1] = packet[3] ;
+		break ;
+
+		case RSSITXPKT :
+			frskyRSSIlevel[0] = packet[1] ;
+			frskyRSSItype[0] = packet[3] ;
+		break ;
 
     case USRPKT: // User Data packet
     {
@@ -323,9 +340,10 @@ void frskyTransmitBuffer()
 
 uint8_t FrskyAlarmSendState = 0 ;
 uint8_t FrskyDelay = 0 ;
+uint8_t FrskyRSSIsend = 0 ;
 
 
-void FRSKY10mspoll(void)
+static void FRSKY10mspoll(void)
 {
   if (FrskyDelay)
   {
@@ -340,37 +358,43 @@ void FRSKY10mspoll(void)
 
   // Now send a packet
   {
-    FrskyAlarmSendState -= 1 ;
-    uint8_t channel = 1 - (FrskyAlarmSendState / 2);
-    uint8_t alarm = 1 - (FrskyAlarmSendState % 2);
+		uint8_t i ;
+		uint8_t j = 1 ;
+
+		for ( i = 0 ; i < 7 ; i += 1, j <<= 1 )
+		{
+			if ( FrskyAlarmSendState & j )
+			{
+				break ;				
+			}			
+		}
+    FrskyAlarmSendState &= ~j ;
+		if ( i < 4 )
+		{
+	    uint8_t channel = 1 - (i / 2);
+  	  uint8_t alarm = 1 - (i % 2);
     
-    uint8_t i = 0;
-    frskyTxBuffer[i++] = START_STOP; // Start of packet
-    frskyTxBuffer[i++] = (A22PKT + FrskyAlarmSendState); // fc - fb - fa - f9
-    frskyPushValue(i, g_model.frsky.channels[channel].alarms_value[alarm]);
-    {
-      uint8_t *ptr ;
-      ptr = &frskyTxBuffer[i] ;
-      *ptr++ = ALARM_GREATER(channel, alarm);
-      *ptr++ = ALARM_LEVEL(channel, alarm);
-      *ptr++ = 0x00 ;
-      *ptr++ = 0x00 ;
-      *ptr++ = 0x00 ;
-      *ptr++ = 0x00 ;
-      *ptr++ = 0x00 ;
-      *ptr++ = START_STOP;        // End of packet
-      i += 8 ;
-    }
+			FRSKY_setTxPacket( A22PKT + i, g_model.frsky.channels[channel].alarms_value[alarm],
+													 ALARM_GREATER(channel, alarm), ALARM_LEVEL(channel, alarm) ) ;
+		}
+		else if( i < 6 )
+		{
+			i &= 1 ;
+			FRSKY_setTxPacket( RSSITXPKT+i, frskyRSSIlevel[i], 0, frskyRSSItype[i] ) ;
+		}
+		else if (i == 6)
+		{
+// Send packet requesting all RSSIalarm settings be sent back to us
+			FRSKY_setTxPacket( RSSI_REQUEST, 0, 0, 0 ) ;
+		}
+		else
+		{
+			return ;
+		}
     FrskyDelay = 5 ; // 50mS
-    frskyTxBufferCount = i;
     frskyTransmitBuffer(); 
   }
 }
-
-//// Send packet requesting all alarm settings be sent back to us
-//void FRSKY_setRSSIAlarms(void)
-//{
-//  if (frskyTxBufferCount) return; // we only have one buffer. If it's in use, then we can't send. Sorry.
 
 //  uint8_t i = 0;
 
@@ -394,19 +418,44 @@ void FRSKY10mspoll(void)
 //  }
 
 //  frskyTxBufferCount = i;
-//  frskyTransmitBuffer();
-//}
+
+
+
+void FRSKY_setTxPacket( uint8_t type, uint8_t value, uint8_t p1, uint8_t p2 )
+{
+	uint8_t i = 0;
+  frskyTxBuffer[i++] = START_STOP;        // Start of packet
+  frskyTxBuffer[i++] = type ;
+  frskyPushValue(i, value) ;
+  {
+    uint8_t *ptr ;
+    ptr = &frskyTxBuffer[i] ;
+    *ptr++ = p1 ;
+    *ptr++ = p2 ;
+    *ptr++ = 0x00 ;
+    *ptr++ = 0x00 ;
+    *ptr++ = 0x00 ;
+    *ptr++ = 0x00 ;
+    *ptr++ = 0x00 ;
+    *ptr++ = START_STOP ;        // End of packet
+	}
+	frskyTxBufferCount = i + 8 ;
+}
 
 bool FRSKY_alarmRaised(uint8_t idx)
 {
+	uint8_t value ;
+	uint8_t alarm_value ;
   for (int i=0; i<2; i++) {
     if (ALARM_LEVEL(idx, i) != alarm_off) {
+			value = frskyTelemetry[idx].value ;
+			alarm_value = g_model.frsky.channels[idx].alarms_value[i] ;
       if (ALARM_GREATER(idx, i)) {
-        if (frskyTelemetry[idx].value > g_model.frsky.channels[idx].alarms_value[i])
+        if (value > alarm_value)
           return true;
       }
       else {
-        if (frskyTelemetry[idx].value < g_model.frsky.channels[idx].alarms_value[i])
+        if (value < alarm_value)
           return true;
       }
     }
@@ -475,24 +524,7 @@ void frskyAlarmsRefresh()
 {
 
   if (frskyTxBufferCount) return; // we only have one buffer. If it's in use, then we can't send. Sorry.
-
-  {
-    uint8_t *ptr ;
-    ptr = &frskyTxBuffer[0] ;
-    *ptr++ = START_STOP; // Start of packet
-    *ptr++ = ALRM_REQUEST;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = 0x00 ;
-    *ptr++ = START_STOP;        // End of packet
-  }
-
-  frskyTxBufferCount = 11;
+	FRSKY_setTxPacket( ALRM_REQUEST, 0, 0, 0 )
   frskyTransmitBuffer();
 }
 #endif
@@ -517,10 +549,26 @@ void frskyPushValue(uint8_t & i, uint8_t value)
   frskyTxBuffer[i++] = value;
 }
 
+void FrskyData::setoffset()
+{
+	uint8_t x ;
+	x = value + offset ;
+	offset = value ;
+	value = 0 ;
+}
+
 void FrskyData::set(uint8_t value)
 {
+   if ( value > offset )
+	 {
+	   value -= offset ;
+	 }
+	 else
+	 {
+	 	 value = 0 ;
+	 }
    this->value = value;
-   if (!max || max < value)
+   if (max < value)
      max = value;
    if (!min || min > value)
      min = value;
@@ -529,7 +577,58 @@ void FrskyData::set(uint8_t value)
 void resetTelemetry()
 {
   memset(frskyTelemetry, 0, sizeof(frskyTelemetry));
-  memset(frskyRSSI, 0, sizeof(frskyRSSI));
+	Frsky_current[0].Amp_hours = 0 ;
+	Frsky_current[1].Amp_hours = 0 ;
+//  memset(frskyRSSI, 0, sizeof(frskyRSSI));
 }
+
+void Frsky_current_info::update(uint8_t value)
+{
+	if ( ( Amp_hour_prescale += value ) > Amp_hour_boundary )
+	{
+		Amp_hour_prescale -= Amp_hour_boundary ;
+		Amp_hours += 1 ;			
+	}
+}
+
+
+void check_frsky()
+{
+  // Used to detect presence of valid FrSky telemetry packets inside the
+  // last FRSKY_TIMEOUT10ms 10ms intervals
+  if (frskyStreaming > 0) frskyStreaming--;
+  if (frskyUsrStreaming > 0) frskyUsrStreaming--;
+	
+  if ( FrskyAlarmSendState )
+  {
+    FRSKY10mspoll() ;
+  }
+
+	for( uint8_t i = 0 ; i < 2 ; i += 1 )
+	{
+  	if ( g_model.frsky.channels[i].type == 3 )		// Current (A)
+  	{
+  	  // value * ratio / 100 gives 10ths of amps
+  	  // add this every 10 ms, when over 3600, we have 1 mAh
+  	  // so subtract 3600 and add 1 to mAh total
+  	  // alternatively, add up the raw value, and use 3600 * 100 / ratio for 1mAh
+			
+			Frsky_current[i].update(frskyTelemetry[i].value ) ;
+  	}	
+	}
+}
+
+
+void FRSKY_setModelAlarms(void)
+{
+  FrskyAlarmSendState |= 0x0F ;
+	
+  Frsky_current[0].Amp_hour_boundary = 360000L/ g_model.frsky.channels[0].ratio ;
+	Frsky_current[1].Amp_hour_boundary = 360000L/ g_model.frsky.channels[1].ratio ;
+}
+
+
+
+
 
 

@@ -54,8 +54,6 @@ inline int8_t find_rotary_sw_pos(uint8_t srcRaw, uint8_t swTog, uint8_t swOn) {
 }
 
 inline int8_t get_rotary_value() {
-	//	int16_t v = 0;
-	//	v = ((RESX / 4) * g_model.rotarySw[rotarySwIdx].val) / 25;
 	if (g_model.rotarySw[rotarySwIdx].type & ROTARY_TYPE_PPM) {
 		rotarySwLastPPMVal = g_model.rotarySw[rotarySwIdx].val;
 	}

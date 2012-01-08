@@ -93,7 +93,7 @@
 //                                      rud    thro   elev   aile
 //PORTG  7      6       5       4       3       2       1       0
 //       -      -       -       O       i               i       i
-//                            SIM_CTL  ID1      NC      RF_POW RuddDR
+//                            SIM_CTL  ID1      HAPTIC      RF_POW RuddDR
 
 #define PORTA_LCD_DAT  PORTA
 #define OUT_B_LIGHT   7
@@ -132,29 +132,13 @@
 #define INP_E_ThrCt   0
 
 #if (defined(JETI) || defined(FRSKY) || defined(ARDUPILOT) || defined(NMEA) || defined(MAVLINK) )
-  #undef INP_E_ThrCt
-  #undef INP_E_AileDR
-  #define INP_C_ThrCt   6
-  #define INP_C_AileDR  7
+#undef INP_E_ThrCt
+#undef INP_E_AileDR
+#define INP_C_ThrCt   6
+#define INP_C_AileDR  7
 #endif
 
-//gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
 
-#define BEEP_KEY_TIME 5
-
-//increase or decrease this value to alter the pitch of the beeps sent to the speaker
-// typically this would sit at a range of 10 to 50
-//
-//#define BEEP_TONE 20   //removed as now take value from eprom
-
-//automatically calculate the up & down frequency from the default
-#define BEEP_DEFAULT_FREQ (60)
-#define BEEP_KEY_UP_FREQ  (BEEP_DEFAULT_FREQ+5)
-#define BEEP_KEY_DOWN_FREQ (BEEP_DEFAULT_FREQ-5)
-
-
-#endif
 
 
 #define OUT_G_SIM_CTL  4 //1 : phone-jack=ppm_in
@@ -165,21 +149,17 @@
 #define SLAVE_MODE (PING & (1<<INP_G_RF_POW))
 
 const prog_uint8_t APM modn12x3[]= {
-  1, 2, 3, 4,
-  1, 3, 2, 4,
-  4, 2, 3, 1,
-  4, 3, 2, 1 };
+    1, 2, 3, 4,
+    1, 3, 2, 4,
+    4, 2, 3, 1,
+    4, 3, 2, 1 };
 
 //R=1
 //E=2
 //T=3
 //A=4
 
-const prog_uint8_t APM chout_ar[] = { //First number is 0..23 -> template setup,  Second is relevant channel out
-1,2,3,4 , 1,2,4,3 , 1,3,2,4 , 1,3,4,2 , 1,4,2,3 , 1,4,3,2,
-2,1,3,4 , 2,1,4,3 , 2,3,1,4 , 2,3,4,1 , 2,4,1,3 , 2,4,3,1,
-3,1,2,4 , 3,1,4,2 , 3,2,1,4 , 3,2,4,1 , 3,4,1,2 , 3,4,2,1,
-4,1,2,3 , 4,1,3,2 , 4,2,1,3 , 4,2,3,1 , 4,3,1,2 , 4,3,2,1    };
+extern const prog_uint8_t APM chout_ar[] ;
 
 //convert from mode 1 to mode g_eeGeneral.stickMode
 //NOTICE!  =>  1..4 -> 1..4
@@ -193,31 +173,31 @@ extern uint8_t convert_mode_helper(uint8_t x) ;
 #define RUD_STICK       ((g_eeGeneral.stickMode&2) ? 3 : 0)
 
 enum EnumKeys {
-  KEY_MENU ,
-  KEY_EXIT ,
-  KEY_DOWN ,
-  KEY_UP  ,
-  KEY_RIGHT ,
-  KEY_LEFT ,
-  TRM_LH_DWN  ,
-  TRM_LH_UP   ,
-  TRM_LV_DWN  ,
-  TRM_LV_UP   ,
-  TRM_RV_DWN  ,
-  TRM_RV_UP   ,
-  TRM_RH_DWN  ,
-  TRM_RH_UP   ,
-  //SW_NC     ,
-  //SW_ON     ,
-  SW_ThrCt  ,
-  SW_RuddDR ,
-  SW_ElevDR ,
-  SW_ID0    ,
-  SW_ID1    ,
-  SW_ID2    ,
-  SW_AileDR ,
-  SW_Gear   ,
-  SW_Trainer
+    KEY_MENU ,
+    KEY_EXIT ,
+    KEY_DOWN ,
+    KEY_UP  ,
+    KEY_RIGHT ,
+    KEY_LEFT ,
+    TRM_LH_DWN  ,
+    TRM_LH_UP   ,
+    TRM_LV_DWN  ,
+    TRM_LV_UP   ,
+    TRM_RV_DWN  ,
+    TRM_RV_UP   ,
+    TRM_RH_DWN  ,
+    TRM_RH_UP   ,
+    //SW_NC     ,
+    //SW_ON     ,
+    SW_ThrCt  ,
+    SW_RuddDR ,
+    SW_ElevDR ,
+    SW_ID0    ,
+    SW_ID1    ,
+    SW_ID2    ,
+    SW_AileDR ,
+    SW_Gear   ,
+    SW_Trainer
 };
 
 #define SWITCHES_STR "THR""RUD""ELE""ID0""ID1""ID2""AIL""GEA""TRN""SW1""SW2""SW3""SW4""SW5""SW6""SW7""SW8""SW9""SWA""SWB""SWC"
@@ -336,6 +316,8 @@ const prog_char APM s_charTab[]=" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
 #define EVT_ENTRY_UP            (0xfe - _MSK_KEY_REPT)
 #define EVT_KEY_MASK             0x0f
 
+#define HEART_TIMER2Mhz 1;
+#define HEART_TIMER10ms 2;
 
 #define TMRMODE_NONE     0
 #define TMRMODE_ABS      1
@@ -345,12 +327,9 @@ const prog_char APM s_charTab[]=" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
 
 #define PROTO_PPM        0
 #define PROTO_PXX        1
-#define PROTO_SILV_A     2
-#define PROTO_SILV_B     3
-#define PROTO_SILV_C     4
-#define PROTO_TRACER_CTP1009 5
-#define PROT_MAX         5
-#define PROT_STR "PPM   PXX   SILV_ASILV_BSILV_CTRAC09"
+#define PROTO_DSM2       2
+#define PROT_MAX         2
+#define PROT_STR "PPM   PXX   DSM2  "
 #define PROT_STR_LEN     6
 
 typedef void (*MenuFuncP)(uint8_t event);
@@ -428,13 +407,12 @@ extern uint16_t Timer2 ;
 void resetTimer2() ;
 
 const prog_char *get_switches_string() ;
+const prog_char *get_curve_string() ;
 
+extern uint8_t heartbeat;
 
 uint8_t char2idx(char c);
 char idx2char(uint8_t idx);
-
-
-
 
 void checkMem();
 void checkTHR();
@@ -457,7 +435,7 @@ extern uint8_t s_editMode;     //global editmode
 /// i_pval hat die Groesse 1Byte oder 2Bytes falls _FL_SIZE2  in i_flags gesetzt ist
 /// falls EE_GENERAL oder EE_MODEL in i_flags gesetzt ist wird bei Aenderung
 /// der Variablen zusaetzlich eeDirty() aufgerufen.
-/// Als Bestaetigung wird beep() aufgerufen bzw. beepWarn() wenn die Stellgrenze erreicht wird.
+/// Als Bestaetigung wird beep() aufgerufen bzw. audio.warn() wenn die Stellgrenze erreicht wird.
 int16_t checkIncDec16(uint8_t event, int16_t i_pval, int16_t i_min, int16_t i_max, uint8_t i_flags);
 int8_t checkIncDec(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max, uint8_t i_flags);
 int8_t checkIncDec_hm(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
@@ -465,16 +443,17 @@ int8_t checkIncDec_vm(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
 int8_t checkIncDec_hg(uint8_t event, int8_t i_val, int8_t i_min, int8_t i_max);
 
 #define CHECK_INCDEC_H_GENVAR( event, var, min, max)     \
-  var = checkIncDec_hg(event,var,min,max)
+    var = checkIncDec_hg(event,var,min,max)
 
 #define CHECK_INCDEC_H_MODELVAR( event, var, min, max)     \
-  var = checkIncDec_hm(event,var,min,max)
+    var = checkIncDec_hm(event,var,min,max)
 
 #define STORE_MODELVARS_TRIM   eeDirty(EE_MODEL|EE_TRIM)
 #define STORE_MODELVARS   eeDirty(EE_MODEL)
 #define STORE_GENERALVARS eeDirty(EE_GENERAL)
 #define BACKLIGHT_ON    PORTB |=  (1<<OUT_B_LIGHT)
 #define BACKLIGHT_OFF   PORTB &= ~(1<<OUT_B_LIGHT)
+
 
 #define PULSEGEN_ON     TIMSK |=  (1<<OCIE1A)
 #define PULSEGEN_OFF    TIMSK &= ~(1<<OCIE1A)
@@ -496,6 +475,7 @@ template<class t> inline t min(t a, t b){ return a<b?a:b; }
 /// liefert das Maximum der Argumente
 template<class t> inline t max(t a, t b){ return a>b?a:b; }
 template<class t> inline int8_t sgn(t a){ return a>0 ? 1 : (a < 0 ? -1 : 0); }
+template<class t> inline t limit(t mi, t x, t ma){ return min(max(mi,x),ma); }
 
 /// Markiert einen EEPROM-Bereich als dirty. der Bereich wird dann in
 /// eeCheck ins EEPROM zurueckgeschrieben.
@@ -560,7 +540,7 @@ void putsTelemValue(uint8_t x, uint8_t y, uint8_t val, uint8_t channel, uint8_t 
 
 extern inline int16_t calc100toRESX(int8_t x)
 {
-  return ((x*41)>>2) - x/64;
+    return ((x*41)>>2) - x/64;
 }
 
 uint8_t getMixerCount();
@@ -574,18 +554,18 @@ extern inline int16_t calc1000toRESX(int16_t x)  // improve calc time by Pat Mac
     y=y>>2;
     x-=y;
     return x+(y>>2);
-//  return x + x/32 - x/128 + x/512;
+    //  return x + x/32 - x/128 + x/512;
 }
 
 extern volatile uint16_t g_tmr10ms;
 
 extern inline uint16_t get_tmr10ms()
 {
-	uint16_t time  ;
-  cli();
-	time = g_tmr10ms ;  
-  sei();
-	return time ;
+    uint16_t time  ;
+    cli();
+    time = g_tmr10ms ;
+    sei();
+    return time ;
 }
 
 
@@ -620,20 +600,19 @@ void menuProcSafetySwitches(uint8_t event);
 #ifdef MENU_ROTARY_SW
 void menuProcRotarySwitches(uint8_t event);
 #endif
+#ifdef MAVLINK
 void menuProcMavlinkParams(uint8_t event);
+#endif
 #ifdef FRSKY
 void menuProcTelemetry(uint8_t event);
+void menuProcTelemetry2(uint8_t event);
 #endif
 
 void menuProcStatistic2(uint8_t event);
 void menuProcStatistic(uint8_t event);
 void menuProc0(uint8_t event);
 
-void setupPulses();
-void setupPulsesPPM();
-void setupPulsesPXX();
-void setupPulsesSilver();
-void setupPulsesTracerCtp1009();
+extern void setupPulses();
 
 void initTemplates();
 
@@ -682,11 +661,11 @@ extern uint16_t jeti_keys;
 
 //extern TrainerData g_trainer;
 //extern uint16_t           g_anaIns[8];
-extern uint16_t           g_vbat100mV;
+extern uint8_t            g_vbat100mV;
 extern volatile uint16_t  g_tmr10ms;
 extern volatile uint8_t   g_blinkTmr10ms;
 extern uint8_t            g_beepCnt;
-extern uint8_t            g_beepVal[5];
+//extern uint8_t            g_beepVal[5];
 extern const PROGMEM char modi12x3[];
 extern uint16_t           pulses2MHz[70];
 extern int16_t            g_ppmIns[8];
@@ -710,51 +689,15 @@ extern const char stamp5[];
 
 #define FLASH_DURATION 50
 
-extern uint8_t  beepAgain;
+//extern uint8_t  beepAgain;
 extern uint16_t g_LightOffCounter;
 
 
 #define sysFLAG_OLD_EEPROM (0x01)
 extern uint8_t sysFlags;
 
-/// Erzeugt einen beep der laenge b
-inline void _beep(uint8_t b) {
-  g_beepCnt=b;
-}
-
-// gruvin speaker mod - ported by rob.thomson
-#ifdef BEEPSPKR
-extern uint8_t toneFreq;
-inline void _beepSpkr(uint8_t d, uint8_t f)
-{
-  g_beepCnt=d;
-  toneFreq=f + g_eeGeneral.speakerPitch;
-}
-#endif
-
-// gruvin speaker - ported by rob.thomson
-#ifdef BEEPSPKR
-
-#define beepKeySpkr(freq) _beepSpkr(g_beepVal[0],freq)
-#define beepTrimSpkr(freq) _beepSpkr(g_beepVal[0],freq)
-#define beepWarn1Spkr(freq) _beepSpkr(g_beepVal[1],freq)
-#define beepWarn2Spkr(freq) _beepSpkr(g_beepVal[2],freq)
-#define beepKey() _beepSpkr(g_beepVal[0],BEEP_DEFAULT_FREQ)
-#define beepWarn() _beepSpkr(g_beepVal[3],BEEP_DEFAULT_FREQ)
-#define beepWarn1() _beepSpkr(g_beepVal[1],BEEP_DEFAULT_FREQ)
-#define beepWarn2() _beepSpkr(g_beepVal[2],BEEP_DEFAULT_FREQ)
-#define beepErr()  _beepSpkr(g_beepVal[4],BEEP_DEFAULT_FREQ)
-
-#else
-
-// default beeper
-#define beepKey()   _beep(g_beepVal[0])
-#define beepWarn() _beep(g_beepVal[3])
-#define beepWarn1() _beep(g_beepVal[1])
-#define beepWarn2() _beep(g_beepVal[2])
-#define beepErr()  _beep(g_beepVal[4])
-
-#endif
+//audio settungs are external to keep out clutter!
+#include "audio.h"
 
 #endif // er9x_h
 /*eof*/

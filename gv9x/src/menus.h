@@ -18,17 +18,17 @@
 #define menus_h
 
 enum EnumTabModel {
-  e_ModelSelect,
-  e_Model,
+    e_ModelSelect,
+    e_Model,
 #ifndef NO_HELI
-  e_Heli,
+    e_Heli,
 #endif
-  e_ExpoAll,
-  e_Mix,
-  e_Limits,
-  e_Curve,
-  e_Switches,
-  e_SafetySwitches,
+    e_ExpoAll,
+    e_Mix,
+    e_Limits,
+    e_Curve,
+    e_Switches,
+    e_SafetySwitches,
 #ifdef MENU_ROTARY_SW
   e_RotarySwitches,
 #endif
@@ -36,13 +36,16 @@ enum EnumTabModel {
   e_MavlinkParams,
 #endif
 #ifdef FRSKY
-  e_Telemetry,
+    e_Telemetry,
+    e_Telemetry2,
 #endif
 #ifndef NO_TEMPLATES
-  e_Templates
+    e_Templates
 #endif
 };
 
+
+extern audioQueue  audio;
 
 /*#define IS_THROTTLE(x)  (((2-(g_eeGeneral.stickMode&1)) == x) && (x<4))
 #define GET_DR_STATE(x) (!getSwitch(g_model.expoData[x].drSw1,0) ?   \

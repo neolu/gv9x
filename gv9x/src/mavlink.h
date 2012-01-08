@@ -279,6 +279,7 @@ extern inline uint8_t MAVLINK_Action2CtrlMode(uint8_t action) {
 	return action;
 }
 
+void check_mavlink();
 void MAVLINK_Init(void);
 void menuProcMavlink(uint8_t event);
 void MAVLINK10mspoll(uint16_t time);
