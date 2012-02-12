@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'modeledit.h'
 **
-** Created: Sun 24. Jul 13:56:04 2011
+** Created: Sun 12. Feb 00:43:28 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ModelEdit[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      88,   14, // methods
+      92,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -96,31 +96,35 @@ static const uint qt_meta_data_ModelEdit[] = {
     1540,   10,   10,   10, 0x08,
     1553,   10,   10,   10, 0x08,
     1567,   10,   10,   10, 0x08,
-    1586, 1580,   10,   10, 0x08,
-    1618, 1580,   10,   10, 0x08,
-    1650, 1580,   10,   10, 0x08,
-    1682, 1580,   10,   10, 0x08,
-    1714,   98,   10,   10, 0x08,
-    1741,   98,   10,   10, 0x08,
-    1768,   98,   10,   10, 0x08,
-    1795,   98,   10,   10, 0x08,
-    1822,   98,   10,   10, 0x08,
-    1848,   98,   10,   10, 0x08,
-    1874,   98,   10,   10, 0x08,
-    1900,   98,   10,   10, 0x08,
-    1929,   98,   10,   10, 0x08,
-    1958,   10,   10,   10, 0x08,
-    1990,   10,   10,   10, 0x08,
-    2025,   10,   10,   10, 0x08,
-    2057,  945,   10,   10, 0x08,
-    2096,  945,   10,   10, 0x08,
-    2135,  945,   10,   10, 0x08,
-    2172,  945,   10,   10, 0x08,
-    2210,  945,   10,   10, 0x08,
-    2249,  945,   10,   10, 0x08,
-    2289,   10,   10,   10, 0x08,
+    1580,   10,   10,   10, 0x08,
+    1600, 1594,   10,   10, 0x08,
+    1632, 1594,   10,   10, 0x08,
+    1664, 1594,   10,   10, 0x08,
+    1696, 1594,   10,   10, 0x08,
+    1728,   98,   10,   10, 0x08,
+    1755,   98,   10,   10, 0x08,
+    1782,   98,   10,   10, 0x08,
+    1809,   98,   10,   10, 0x08,
+    1836,   98,   10,   10, 0x08,
+    1862,   98,   10,   10, 0x08,
+    1888,   98,   10,   10, 0x08,
+    1914,   98,   10,   10, 0x08,
+    1943,   98,   10,   10, 0x08,
+    1972,   98,   10,   10, 0x08,
+    2001,   98,   10,   10, 0x08,
+    2031,   10,   10,   10, 0x08,
+    2063,   10,   10,   10, 0x08,
+    2098,   10,   10,   10, 0x08,
+    2130,  945,   10,   10, 0x08,
+    2169,  945,   10,   10, 0x08,
+    2208,  945,   10,   10, 0x08,
+    2245,  945,   10,   10, 0x08,
+    2283,  945,   10,   10, 0x08,
     2322,  945,   10,   10, 0x08,
-    2355,  945,   10,   10, 0x08,
+    2362,   10,   10,   10, 0x08,
+    2395,  945,   10,   10, 0x08,
+    2428,  945,   10,   10, 0x08,
+    2471,   10,   10,   10, 0x08,
 
        0        // eod
 };
@@ -176,7 +180,7 @@ static const char qt_meta_stringdata_ModelEdit[] = {
     "limitEdited()\0switchesEdited()\0"
     "safetySwitchesEdited()\0rotarySwitchesEdited()\0"
     "expoEdited()\0mixesEdited()\0heliEdited()\0"
-    "value\0on_spinBox_S1_valueChanged(int)\0"
+    "FrSkyEdited()\0value\0on_spinBox_S1_valueChanged(int)\0"
     "on_spinBox_S2_valueChanged(int)\0"
     "on_spinBox_S3_valueChanged(int)\0"
     "on_spinBox_S4_valueChanged(int)\0"
@@ -189,6 +193,8 @@ static const char qt_meta_stringdata_ModelEdit[] = {
     "on_bcP3ChkB_toggled(bool)\0"
     "on_thrExpoChkB_toggled(bool)\0"
     "on_thrTrimChkB_toggled(bool)\0"
+    "on_TrainerChkB_toggled(bool)\0"
+    "on_T2ThrTrgChkB_toggled(bool)\0"
     "on_ppmDelaySB_editingFinished()\0"
     "on_numChannelsSB_editingFinished()\0"
     "on_timerValTE_editingFinished()\0"
@@ -201,6 +207,7 @@ static const char qt_meta_stringdata_ModelEdit[] = {
     "on_modelNameLE_editingFinished()\0"
     "on_tabWidget_currentChanged(int)\0"
     "on_templateList_doubleClicked(QModelIndex)\0"
+    "on_ppmFrameLengthDSB_editingFinished()\0"
 };
 
 const QMetaObject ModelEdit::staticMetaObject = {
@@ -295,34 +302,38 @@ int ModelEdit::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 60: expoEdited(); break;
         case 61: mixesEdited(); break;
         case 62: heliEdited(); break;
-        case 63: on_spinBox_S1_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 64: on_spinBox_S2_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 65: on_spinBox_S3_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 66: on_spinBox_S4_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 67: on_bcRUDChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 68: on_bcELEChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 69: on_bcTHRChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 70: on_bcAILChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 71: on_bcP1ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 72: on_bcP2ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 73: on_bcP3ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 74: on_thrExpoChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 75: on_thrTrimChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 76: on_ppmDelaySB_editingFinished(); break;
-        case 77: on_numChannelsSB_editingFinished(); break;
-        case 78: on_timerValTE_editingFinished(); break;
-        case 79: on_protocolCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 80: on_pulsePolCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 81: on_trimSWCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 82: on_trimIncCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 83: on_timerDirCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 84: on_timerModeCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 85: on_modelNameLE_editingFinished(); break;
-        case 86: on_tabWidget_currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 87: on_templateList_doubleClicked((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
+        case 63: FrSkyEdited(); break;
+        case 64: on_spinBox_S1_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 65: on_spinBox_S2_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 66: on_spinBox_S3_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 67: on_spinBox_S4_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 68: on_bcRUDChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 69: on_bcELEChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 70: on_bcTHRChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 71: on_bcAILChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 72: on_bcP1ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 73: on_bcP2ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 74: on_bcP3ChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 75: on_thrExpoChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 76: on_thrTrimChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 77: on_TrainerChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 78: on_T2ThrTrgChkB_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 79: on_ppmDelaySB_editingFinished(); break;
+        case 80: on_numChannelsSB_editingFinished(); break;
+        case 81: on_timerValTE_editingFinished(); break;
+        case 82: on_protocolCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 83: on_pulsePolCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 84: on_trimSWCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 85: on_trimIncCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 86: on_timerDirCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 87: on_timerModeCB_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 88: on_modelNameLE_editingFinished(); break;
+        case 89: on_tabWidget_currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 90: on_templateList_doubleClicked((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
+        case 91: on_ppmFrameLengthDSB_editingFinished(); break;
         default: ;
         }
-        _id -= 88;
+        _id -= 92;
     }
     return _id;
 }

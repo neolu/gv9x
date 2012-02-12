@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun 24. Jul 13:56:01 2011
+** Created: Sun 12. Feb 00:43:25 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,48 +31,46 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      27,   12,   11,   11, 0x08,
-      49,   11,   11,   11, 0x28,
-      73,   67,   11,   11, 0x08,
-     104,   67,   11,   11, 0x08,
-     135,   11,   11,   11, 0x08,
-     152,   11,   11,   11, 0x08,
-     169,   11,   11,   11, 0x08,
-     179,   11,   11,   11, 0x08,
-     186,   11,   11,   11, 0x08,
-     193,   11,   11,   11, 0x08,
-     202,   11,   11,   11, 0x08,
-     208,   11,   11,   11, 0x08,
-     215,   11,   11,   11, 0x08,
-     223,   11,   11,   11, 0x08,
-     232,   11,   11,   11, 0x08,
-     255,  243,   11,   11, 0x08,
-     276,   11,   11,   11, 0x28,
-     290,   11,   11,   11, 0x08,
-     306,   11,   11,   11, 0x08,
-     328,   11,   11,   11, 0x08,
+      18,   12,   11,   11, 0x08,
+      49,   12,   11,   11, 0x08,
+      80,   11,   11,   11, 0x08,
+      97,   11,   11,   11, 0x08,
+     114,   11,   11,   11, 0x08,
+     124,   11,   11,   11, 0x08,
+     131,   11,   11,   11, 0x08,
+     138,   11,   11,   11, 0x08,
+     147,   11,   11,   11, 0x08,
+     153,   11,   11,   11, 0x08,
+     160,   11,   11,   11, 0x08,
+     168,   11,   11,   11, 0x08,
+     177,   11,   11,   11, 0x08,
+     200,  188,   11,   11, 0x08,
+     221,   11,   11,   11, 0x28,
+     235,   11,   11,   11, 0x08,
+     251,   11,   11,   11, 0x08,
+     273,   11,   11,   11, 0x08,
+     297,   11,   11,   11, 0x08,
+     310,   11,   11,   11, 0x08,
+     321,   11,   11,   11, 0x08,
+     333,   11,   11,   11, 0x08,
+     344,   11,   11,   11, 0x08,
      352,   11,   11,   11, 0x08,
-     365,   11,   11,   11, 0x08,
-     376,   11,   11,   11, 0x08,
-     388,   11,   11,   11, 0x08,
-     399,   11,   11,   11, 0x08,
-     407,   11,   11,   11, 0x08,
-     415,   11,   11,   11, 0x08,
-     429,   11,   11,   11, 0x08,
-     440,   11,   11,   11, 0x08,
-     457,   11,   11,   11, 0x08,
-     471,   11,   11,   11, 0x08,
-     500,   11,  490,   11, 0x08,
-     517,   11,   11,   11, 0x08,
-     548,  541,   11,   11, 0x08,
+     360,   11,   11,   11, 0x08,
+     374,   11,   11,   11, 0x08,
+     385,   11,   11,   11, 0x08,
+     402,   11,   11,   11, 0x08,
+     416,   11,   11,   11, 0x08,
+     445,   11,  435,   11, 0x08,
+     462,   11,   11,   11, 0x08,
+     493,  486,   11,   11, 0x08,
+     522,   11,   11,   11, 0x08,
+     542,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0ignoreSettings\0"
-    "checkForUpdates(bool)\0checkForUpdates()\0"
-    "reply\0reply1Finished(QNetworkReply*)\0"
+    "MainWindow\0\0reply\0reply1Finished(QNetworkReply*)\0"
     "reply2Finished(QNetworkReply*)\0"
     "reply1Accepted()\0reply2Accepted()\0"
     "newFile()\0open()\0save()\0saveAs()\0cut()\0"
@@ -86,6 +84,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "updateWindowMenu()\0MdiChild*\0"
     "createMdiChild()\0switchLayoutDirection()\0"
     "window\0setActiveSubWindow(QWidget*)\0"
+    "loadModelFromFile()\0saveModelToFile()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -117,41 +116,41 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: checkForUpdates((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: checkForUpdates(); break;
-        case 2: reply1Finished((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
-        case 3: reply2Finished((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
-        case 4: reply1Accepted(); break;
-        case 5: reply2Accepted(); break;
-        case 6: newFile(); break;
-        case 7: open(); break;
-        case 8: save(); break;
-        case 9: saveAs(); break;
-        case 10: cut(); break;
-        case 11: copy(); break;
-        case 12: paste(); break;
-        case 13: burnTo(); break;
-        case 14: burnFrom(); break;
-        case 15: burnToFlash((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 16: burnToFlash(); break;
-        case 17: burnFromFlash(); break;
-        case 18: burnExtenalToEEPROM(); break;
-        case 19: burnExtenalFromEEPROM(); break;
-        case 20: burnConfig(); break;
-        case 21: burnList(); break;
-        case 22: burnFuses(); break;
-        case 23: simulate(); break;
-        case 24: about(); break;
-        case 25: print(); break;
-        case 26: preferences(); break;
-        case 27: donators(); break;
-        case 28: showEr9xManual(); break;
-        case 29: updateMenus(); break;
-        case 30: updateWindowMenu(); break;
-        case 31: { MdiChild* _r = createMdiChild();
+        case 0: reply1Finished((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
+        case 1: reply2Finished((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
+        case 2: reply1Accepted(); break;
+        case 3: reply2Accepted(); break;
+        case 4: newFile(); break;
+        case 5: open(); break;
+        case 6: save(); break;
+        case 7: saveAs(); break;
+        case 8: cut(); break;
+        case 9: copy(); break;
+        case 10: paste(); break;
+        case 11: burnTo(); break;
+        case 12: burnFrom(); break;
+        case 13: burnToFlash((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 14: burnToFlash(); break;
+        case 15: burnFromFlash(); break;
+        case 16: burnExtenalToEEPROM(); break;
+        case 17: burnExtenalFromEEPROM(); break;
+        case 18: burnConfig(); break;
+        case 19: burnList(); break;
+        case 20: burnFuses(); break;
+        case 21: simulate(); break;
+        case 22: about(); break;
+        case 23: print(); break;
+        case 24: preferences(); break;
+        case 25: donators(); break;
+        case 26: showEr9xManual(); break;
+        case 27: updateMenus(); break;
+        case 28: updateWindowMenu(); break;
+        case 29: { MdiChild* _r = createMdiChild();
             if (_a[0]) *reinterpret_cast< MdiChild**>(_a[0]) = _r; }  break;
-        case 32: switchLayoutDirection(); break;
-        case 33: setActiveSubWindow((*reinterpret_cast< QWidget*(*)>(_a[1]))); break;
+        case 30: switchLayoutDirection(); break;
+        case 31: setActiveSubWindow((*reinterpret_cast< QWidget*(*)>(_a[1]))); break;
+        case 32: loadModelFromFile(); break;
+        case 33: saveModelToFile(); break;
         default: ;
         }
         _id -= 34;

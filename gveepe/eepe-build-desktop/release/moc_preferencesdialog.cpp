@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'preferencesdialog.h'
 **
-** Created: Sun 24. Jul 13:56:38 2011
+** Created: Sun 12. Feb 00:43:58 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_preferencesDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,12 +32,16 @@ static const uint qt_meta_data_preferencesDialog[] = {
 
  // slots: signature, parameters, type, tag, flags
       19,   18,   18,   18, 0x08,
+      34,   18,   18,   18, 0x08,
+      59,   18,   18,   18, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_preferencesDialog[] = {
     "preferencesDialog\0\0write_values()\0"
+    "on_er9x_dnld_2_clicked()\0"
+    "on_er9x_dnld_clicked()\0"
 };
 
 const QMetaObject preferencesDialog::staticMetaObject = {
@@ -70,9 +74,11 @@ int preferencesDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: write_values(); break;
+        case 1: on_er9x_dnld_2_clicked(); break;
+        case 2: on_er9x_dnld_clicked(); break;
         default: ;
         }
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }

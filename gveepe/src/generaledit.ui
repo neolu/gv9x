@@ -656,7 +656,7 @@ Mode 4:
          </item>
         </widget>
        </item>
-       <item row="22" column="2">
+       <item row="23" column="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -800,35 +800,36 @@ p, li { white-space: pre-wrap; }
        <item row="21" column="0">
         <widget class="QLabel" name="label_23">
          <property name="text">
-          <string>Mavlink Battery Warning</string>
+          <string>Telemetry Baud rate</string>
          </property>
         </widget>
        </item>
        <item row="21" column="2">
-        <widget class="QDoubleSpinBox" name="mavlinkbattwarningDSB">
-         <property name="whatsThis">
-          <string>Mavlink Battery warning voltage.
-This is the threashhold where the battery warning sounds.
-
-Acceptable values are 5v..25v</string>
-         </property>
-         <property name="suffix">
-          <string>v</string>
-         </property>
-         <property name="decimals">
-          <number>1</number>
-         </property>
-         <property name="minimum">
-          <double>5.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>25.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-         <property name="value">
-          <double>19.2000000000000</double>
+        <widget class="QComboBox" name="baudRateCB">
+         <item>
+          <property name="text">
+           <string>19200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>38400</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>57600</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="22" column="2">
+        <widget class="QSpinBox" name="mavTargetSystemSB"/>
+       </item>
+       <item row="22" column="0">
+        <widget class="QLabel" name="label_30">
+         <property name="text">
+          <string>Traget System Id</string>
          </property>
         </widget>
        </item>

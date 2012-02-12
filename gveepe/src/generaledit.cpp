@@ -35,7 +35,6 @@ GeneralEdit::GeneralEdit(EEPFILE *eFile, QWidget *parent) :
     ui->battwarningDSB->setValue((double)g_eeGeneral.vBatWarn/10);
     ui->battcalibDSB->setValue((double)g_eeGeneral.vBatCalib/10);
     ui->battCalib->setValue((double)g_eeGeneral.vBatCalib/10);
-    ui->mavlinkbattwarningDSB->setValue((double)g_eeGeneral.vMavBatWarn/10);
 
     ui->backlightautoSB->setValue(g_eeGeneral.lightAutoOff*5);
     ui->inactimerSB->setValue(g_eeGeneral.inactivityTimer+10);
@@ -78,6 +77,9 @@ GeneralEdit::GeneralEdit(EEPFILE *eFile, QWidget *parent) :
     ui->ana5Pos->setValue(g_eeGeneral.calibSpanPos[4]);
     ui->ana6Pos->setValue(g_eeGeneral.calibSpanPos[5]);
     ui->ana7Pos->setValue(g_eeGeneral.calibSpanPos[6]);
+
+    ui->mavTargetSystemSB->setValue(g_eeGeneral.mavTargetSystem);
+    ui->baudRateCB->setCurrentIndex(g_eeGeneral.baudRate);
 
     updateTrianerTab();
 
@@ -515,8 +517,17 @@ void GeneralEdit::on_tabWidget_selected(QString )
     ui->chnLabel_4->setText(getSourceStr(g_eeGeneral.stickMode,4));
 }
 
-void GeneralEdit::on_mavlinkbattwarningDSB_editingFinished()
+
+
+void GeneralEdit::on_baudRateCB_currentIndexChanged(int index)
 {
-    g_eeGeneral.vMavBatWarn = (int)(ui->mavlinkbattwarningDSB->value()*10);
+    g_eeGeneral.baudRate = index;
+    updateSettings();
+}
+
+
+void GeneralEdit::on_mavTargetSystemSB_editingFinished()
+{
+    g_eeGeneral.mavTargetSystem = ui->mavTargetSystemSB->value();
     updateSettings();
 }

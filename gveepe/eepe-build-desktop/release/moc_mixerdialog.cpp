@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mixerdialog.h'
 **
-** Created: Sun 24. Jul 13:56:17 2011
+** Created: Sun 12. Feb 00:43:38 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!

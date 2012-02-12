@@ -81,7 +81,8 @@ private slots:
     void on_beepFlashChkB_stateChanged(int );
     void on_speakerPitchSB_editingFinished();
     void on_tabWidget_selected(QString );
-    void on_mavlinkbattwarningDSB_editingFinished();
+    void on_baudRateCB_currentIndexChanged(int index);
+    void on_mavTargetSystemSB_editingFinished();
 };
 
 #endif // GENERALEDIT_H

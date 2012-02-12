@@ -1098,7 +1098,7 @@ void MainWindow::readSettings()
     QSize size = settings.value("size", QSize(400, 400)).toSize();
 
     currentER9Xrev = settings.value("currentER9Xrev", 1).toInt();
-    currentEEPErev = SVN_VER_NUM;
+    currentEEPErev = EEP_VER_NUM;
 
     checkER9X  = settings.value("startup_check_er9x", true).toBool();
     checkEEPE  = settings.value("startup_check_eepe", true).toBool();

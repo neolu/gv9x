@@ -2485,7 +2485,7 @@ void ModelEdit::rotarySwitchesEdited()
 {
     for(int i=0; i<NUM_ROTA_SW; i++)
     {
-    		int index = rotarySwitchEnabled[i]->currentIndex();
+
         //g_model.rotarySw[i].type = rotarySwitchEnabled[i]->isChecked()?1:0;
         char buf[10];
         int8_t size = sizeof(g_model.rotarySw[i].name);

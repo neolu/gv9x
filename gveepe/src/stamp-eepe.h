@@ -4,3 +4,4 @@
 #define SUB_VERS "1-erez"
 #define SVN_VERS "trunk-r267"
 #define SVN_VER_NUM 267
+#define EEP_VER_NUM 101

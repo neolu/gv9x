@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'generaledit.ui'
 **
-** Created: Sat 3. Sep 00:21:27 2011
+** Created: Sun 12. Feb 00:42:09 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -80,7 +80,9 @@ public:
     QLabel *label_32;
     QSpinBox *speakerPitchSB;
     QLabel *label_23;
-    QDoubleSpinBox *mavlinkbattwarningDSB;
+    QComboBox *baudRateCB;
+    QSpinBox *mavTargetSystemSB;
+    QLabel *label_30;
     QWidget *tab;
     QGridLayout *gridLayout_6;
     QGridLayout *gridLayout_4;
@@ -384,7 +386,7 @@ public:
 
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout_3->addItem(verticalSpacer_2, 22, 2, 1, 1);
+        gridLayout_3->addItem(verticalSpacer_2, 23, 2, 1, 1);
 
         label_12 = new QLabel(tabSetup);
         label_12->setObjectName(QString::fromUtf8("label_12"));
@@ -435,15 +437,20 @@ public:
 
         gridLayout_3->addWidget(label_23, 21, 0, 1, 1);
 
-        mavlinkbattwarningDSB = new QDoubleSpinBox(tabSetup);
-        mavlinkbattwarningDSB->setObjectName(QString::fromUtf8("mavlinkbattwarningDSB"));
-        mavlinkbattwarningDSB->setDecimals(1);
-        mavlinkbattwarningDSB->setMinimum(5);
-        mavlinkbattwarningDSB->setMaximum(25);
-        mavlinkbattwarningDSB->setSingleStep(0.1);
-        mavlinkbattwarningDSB->setValue(19.2);
+        baudRateCB = new QComboBox(tabSetup);
+        baudRateCB->setObjectName(QString::fromUtf8("baudRateCB"));
 
-        gridLayout_3->addWidget(mavlinkbattwarningDSB, 21, 2, 1, 1);
+        gridLayout_3->addWidget(baudRateCB, 21, 2, 1, 1);
+
+        mavTargetSystemSB = new QSpinBox(tabSetup);
+        mavTargetSystemSB->setObjectName(QString::fromUtf8("mavTargetSystemSB"));
+
+        gridLayout_3->addWidget(mavTargetSystemSB, 22, 2, 1, 1);
+
+        label_30 = new QLabel(tabSetup);
+        label_30->setObjectName(QString::fromUtf8("label_30"));
+
+        gridLayout_3->addWidget(label_30, 22, 0, 1, 1);
 
         tabWidget->addTab(tabSetup, QString());
         tab = new QWidget();
@@ -1144,14 +1151,14 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">LCD Screen Contrast</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Values can be 20-45</span></p></body></html>", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_WHATSTHIS
-        label_23->setText(QApplication::translate("GeneralEdit", "Mavlink Battery Warning", 0, QApplication::UnicodeUTF8));
-#ifndef QT_NO_WHATSTHIS
-        mavlinkbattwarningDSB->setWhatsThis(QApplication::translate("GeneralEdit", "Mavlink Battery warning voltage.\n"
-"This is the threashhold where the battery warning sounds.\n"
-"\n"
-"Acceptable values are 5v..25v", 0, QApplication::UnicodeUTF8));
-#endif // QT_NO_WHATSTHIS
-        mavlinkbattwarningDSB->setSuffix(QApplication::translate("GeneralEdit", "v", 0, QApplication::UnicodeUTF8));
+        label_23->setText(QApplication::translate("GeneralEdit", "Telemetry Baud rate", 0, QApplication::UnicodeUTF8));
+        baudRateCB->clear();
+        baudRateCB->insertItems(0, QStringList()
+         << QApplication::translate("GeneralEdit", "19200", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("GeneralEdit", "38400", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("GeneralEdit", "57600", 0, QApplication::UnicodeUTF8)
+        );
+        label_30->setText(QApplication::translate("GeneralEdit", "Traget System Id", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tabSetup), QApplication::translate("GeneralEdit", "Setup", 0, QApplication::UnicodeUTF8));
         chnLabel_1->setText(QApplication::translate("GeneralEdit", "CH1", 0, QApplication::UnicodeUTF8));
         modeCB_1->clear();
