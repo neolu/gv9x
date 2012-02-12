@@ -197,7 +197,7 @@ void MainWindow::reply1Finished(QNetworkReply * reply)
 
         if(rev>currentER9Xrev)
         {
-            QSettings settings("er9x-eePe", "eePe");
+            QSettings settings("gv9x-eePe", "eePe");
 
             QString dnldURL, baseFileName;
             switch (settings.value("download-version", 0).toInt())
@@ -295,7 +295,7 @@ void MainWindow::reply1Finished(QNetworkReply * reply)
 void MainWindow::downloadLatester9x()
 {
 
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
 
     QString dnldURL, baseFileName;
     switch (settings.value("download-version", 0).toInt())
@@ -380,7 +380,7 @@ void MainWindow::reply2Finished(QNetworkReply * reply)
                                                                 "Would you like to download it?").arg(rev) ,
                                             QMessageBox::Yes | QMessageBox::No);
 
-            QSettings settings("er9x-eePe", "eePe");
+            QSettings settings("gv9x-eePe", "eePe");
 
             if (ret == QMessageBox::Yes)
             {
@@ -408,7 +408,7 @@ void MainWindow::reply2Finished(QNetworkReply * reply)
 
 void MainWindow::reply1Accepted()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     currentER9Xrev = currentER9Xrev_temp;
     settings.setValue("currentER9Xrev", currentER9Xrev);
 }
@@ -447,7 +447,7 @@ void MainWindow::newFile()
 
 void MainWindow::open()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open"),settings.value("lastDir").toString(),tr(EEPROM_FILES_FILTER));
     if (!fileName.isEmpty())
     {
@@ -569,7 +569,7 @@ void MainWindow::burnFrom()
 
 void MainWindow::burnExtenalToEEPROM()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName = QFileDialog::getOpenFileName(this,tr("Choose file to write to EEPROM memory"),settings.value("lastDir").toString(),tr(EXTERNAL_EEPROM_FILES_FILTER));
     if (!fileName.isEmpty())
     {
@@ -601,7 +601,7 @@ void MainWindow::burnExtenalToEEPROM()
 
 void MainWindow::burnToFlash(QString fileToFlash)
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName;
     if(fileToFlash.isEmpty())
         fileName = QFileDialog::getOpenFileName(this,tr("Choose file to write to flash memory"),settings.value("lastDir").toString(),tr(FLASH_FILES_FILTER));
@@ -639,7 +639,7 @@ void MainWindow::burnToFlash(QString fileToFlash)
 
 void MainWindow::burnExtenalFromEEPROM()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName = QFileDialog::getSaveFileName(this,tr("Read EEPROM memory to File"),settings.value("lastDir").toString(),tr(EXTERNAL_EEPROM_FILES_FILTER));
     if (!fileName.isEmpty())
     {
@@ -670,7 +670,7 @@ void MainWindow::burnExtenalFromEEPROM()
 
 void MainWindow::burnFromFlash()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName = QFileDialog::getSaveFileName(this,tr("Read Flash to File"),settings.value("lastDir").toString(),tr(FLASH_FILES_FILTER));
     if (!fileName.isEmpty())
     {
@@ -1092,7 +1092,7 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     bool maximized = settings.value("maximized", false).toBool();
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
@@ -1100,8 +1100,8 @@ void MainWindow::readSettings()
     currentER9Xrev = settings.value("currentER9Xrev", 1).toInt();
     currentEEPErev = EEP_VER_NUM;
 
-    checkER9X  = settings.value("startup_check_er9x", true).toBool();
-    checkEEPE  = settings.value("startup_check_eepe", true).toBool();
+    checkER9X  = settings.value("startup_check_er9x", false).toBool();
+    checkEEPE  = settings.value("startup_check_eepe", false).toBool();
 
     if(maximized)
     {
@@ -1116,7 +1116,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
 
     settings.setValue("maximized", isMaximized());
     if(!isMaximized())

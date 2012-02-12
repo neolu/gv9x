@@ -22,7 +22,7 @@ burnConfigDialog::~burnConfigDialog()
 
 void burnConfigDialog::getSettings()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     avrLoc = settings.value("avrdude_location", QFileInfo("avrdude.exe").absoluteFilePath()).toString();
     QString str = settings.value("avr_arguments").toString();
     avrArgs = str.split(" ", QString::SkipEmptyParts);
@@ -51,7 +51,7 @@ void burnConfigDialog::putSettings()
 //    avrEraseEEPROM = ui->eraseEEPROM_CB->isChecked();
 
 
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     settings.setValue("avrdude_location", avrLoc);
     settings.setValue("programmer", avrProgrammer);
     settings.setValue("mcu", avrMCU);

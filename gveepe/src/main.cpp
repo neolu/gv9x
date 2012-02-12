@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     QString dir;
     if(argc) dir = QFileInfo(argv[0]).canonicalPath() + "/lang";
 
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString locale = settings.value("locale",QLocale::system().name()).toString();
     bool showSplash = settings.value("show_splash", true).toBool();
 
@@ -71,8 +71,8 @@ int main(int argc, char *argv[])
     {
         splash->show();
 
-        bool checkER9X  = settings.value("startup_check_er9x", true).toBool();
-        bool checkEEPE  = settings.value("startup_check_eepe", true).toBool();
+        bool checkER9X  = settings.value("startup_check_er9x", false).toBool();
+        bool checkEEPE  = settings.value("startup_check_eepe", false).toBool();
 
         if(checkEEPE || checkER9X)
             splash->showMessage(QObject::tr("Checking for updates..."));

@@ -19,7 +19,7 @@ GeneralEdit::GeneralEdit(EEPFILE *eFile, QWidget *parent) :
     this->setWindowIcon(QIcon(":/icon.png"));
     eeFile = eFile;
 
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     ui->tabWidget->setCurrentIndex(settings.value("generalEditTab", 0).toInt());
 
     eeFile->getGeneralSettings(&g_eeGeneral);
@@ -462,7 +462,7 @@ void GeneralEdit::on_battCalib_editingFinished()
 
 void GeneralEdit::on_tabWidget_currentChanged(int index)
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     settings.setValue("generalEditTab",index);//ui->tabWidget->currentIndex());
 }
 

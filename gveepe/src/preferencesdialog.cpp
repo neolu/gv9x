@@ -23,7 +23,7 @@ preferencesDialog::~preferencesDialog()
 
 void preferencesDialog::write_values()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     settings.setValue("locale", ui->locale_QB->itemData(ui->locale_QB->currentIndex()));
     settings.setValue("default_channel_order", ui->channelorderCB->currentIndex());
     settings.setValue("default_mode", ui->stickmodeCB->currentIndex());
@@ -36,7 +36,7 @@ void preferencesDialog::write_values()
 
 void preferencesDialog::initSettings()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     int i=ui->locale_QB->findData(settings.value("locale",QLocale::system().name()).toString());
     if(i<0) i=0;
     ui->locale_QB->setCurrentIndex(i);
@@ -45,8 +45,8 @@ void preferencesDialog::initSettings()
     ui->stickmodeCB->setCurrentIndex(settings.value("default_mode", 1).toInt());
     ui->downloadVerCB->setCurrentIndex(settings.value("download-version", 0).toInt());
 
-    ui->startupCheck_er9x->setChecked(settings.value("startup_check_er9x", true).toBool());
-    ui->startupCheck_eepe->setChecked(settings.value("startup_check_eepe", true).toBool());
+    ui->startupCheck_er9x->setChecked(settings.value("startup_check_er9x", false).toBool());
+    ui->startupCheck_eepe->setChecked(settings.value("startup_check_eepe", false).toBool());
 
     ui->showSplash->setChecked(settings.value("show_splash", true).toBool());
 

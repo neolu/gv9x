@@ -82,7 +82,7 @@ void EEPFILE::generalDefault()
   for(int i=0; i<12;i++) sum+=g_eeGeneral.calibMid[i];
   g_eeGeneral.chkSum = sum;
 
-  QSettings settings("er9x-eePe", "eePe");
+  QSettings settings("gv9x-eePe", "eePe");
   g_eeGeneral.templateSetup = settings.value("default_channel_order", 0).toInt();
   g_eeGeneral.stickMode = settings.value("default_mode", 1).toInt();
 

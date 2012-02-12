@@ -472,7 +472,7 @@ bool MdiChild::loadModelFromFile(QString fn)
     bool genfile = currentRow()==0;
 
     QString fileName;
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
 
 
     if(!fn.isEmpty())
@@ -570,7 +570,7 @@ void MdiChild::saveModelToFile()
     ModelData tmod;
     EEGeneral tgen;
     QString fileName;
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
 
 
     if(genfile)
@@ -856,7 +856,7 @@ bool MdiChild::save()
 
 bool MdiChild::saveAs()
 {
-    QSettings settings("er9x-eePe", "eePe");
+    QSettings settings("gv9x-eePe", "eePe");
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),settings.value("lastDir").toString() + "/" +curFile,tr(EEPROM_FILES_FILTER));
     if (fileName.isEmpty())
         return false;

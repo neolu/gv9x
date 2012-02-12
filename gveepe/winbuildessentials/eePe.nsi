@@ -14,7 +14,7 @@
 ;General
 
   ;Name and file
-  Name "eePe"
+  Name "eePe-gv9x"
   OutFile "eePeGv9xInstall.exe"
 
   ;Default installation folder
@@ -91,6 +91,7 @@ Section "eePe" SecDummy
   File "avrdude.exe"
   File "avrdude.conf"
   File "libusb0.dll"
+  File "libstdc++-6.dll"
   
   
   CreateDirectory "$INSTDIR\lang"
@@ -115,7 +116,7 @@ Section "eePe" SecDummy
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-	CreateShortCut "$SMPROGRAMS\$StartMenuFolder\eePe.lnk" "$INSTDIR\eePe.exe"
+	CreateShortCut "$SMPROGRAMS\$StartMenuFolder\eePe-gv9x.lnk" "$INSTDIR\eePe.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -164,7 +165,7 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
-  Delete "$SMPROGRAMS\$StartMenuFolder\eePe.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\eePe-gv9x.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   

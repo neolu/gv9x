@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'avroutputdialog.h'
 **
-** Created: Sun 12. Feb 00:43:46 2012
+** Created: Sun 12. Feb 17:27:10 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'donatorsdialog.ui'
 **
-** Created: Fri 2. Sep 20:55:12 2011
+** Created: Sun 12. Feb 17:25:44 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
