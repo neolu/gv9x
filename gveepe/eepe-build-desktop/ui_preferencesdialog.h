@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'preferencesdialog.ui'
 **
-** Created: Fri 2. Sep 20:55:12 2011
+** Created: Sun 12. Feb 16:40:42 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -82,13 +82,15 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         startupCheck_er9x = new QCheckBox(preferencesDialog);
         startupCheck_er9x->setObjectName(QString::fromUtf8("startupCheck_er9x"));
-        startupCheck_er9x->setChecked(true);
+        startupCheck_er9x->setEnabled(true);
+        startupCheck_er9x->setChecked(false);
 
         gridLayout->addWidget(startupCheck_er9x, 0, 0, 1, 1);
 
         startupCheck_eepe = new QCheckBox(preferencesDialog);
         startupCheck_eepe->setObjectName(QString::fromUtf8("startupCheck_eepe"));
-        startupCheck_eepe->setChecked(true);
+        startupCheck_eepe->setEnabled(true);
+        startupCheck_eepe->setChecked(false);
 
         gridLayout->addWidget(startupCheck_eepe, 0, 1, 1, 1);
 

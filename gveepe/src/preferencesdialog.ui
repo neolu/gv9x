@@ -39,21 +39,27 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QCheckBox" name="startupCheck_er9x">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
         <string>er9x</string>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
       <widget class="QCheckBox" name="startupCheck_eepe">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
         <string>eePe</string>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

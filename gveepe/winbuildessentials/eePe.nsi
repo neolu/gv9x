@@ -15,13 +15,13 @@
 
   ;Name and file
   Name "eePe"
-  OutFile "eePeInstall.exe"
+  OutFile "eePeGv9xInstall.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\eePe"
+  InstallDir "$PROGRAMFILES\eePeGv9x"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\er9x-eePe" ""
+  InstallDirRegKey HKCU "Software\gv9x-eePe" ""
   
   ;Compressor options
   SetCompressor /FINAL /SOLID lzma
@@ -49,7 +49,7 @@
   
   ;Start Menu Folder Page Configuration
   !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\er9x-eePe" 
+  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\gv9x-eePe" 
   !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
   
   !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
@@ -60,7 +60,7 @@
     !define MUI_FINISHPAGE_NOAUTOCLOSE
     !define MUI_FINISHPAGE_RUN
     !define MUI_FINISHPAGE_RUN_CHECKED
-    !define MUI_FINISHPAGE_RUN_TEXT "Launch eePe"
+    !define MUI_FINISHPAGE_RUN_TEXT "Launch eePeGv9x"
     !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
   #  !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
   #  !define MUI_FINISHPAGE_SHOWREADME $INSTDIR\readme.txt
@@ -91,16 +91,15 @@ Section "eePe" SecDummy
   File "avrdude.exe"
   File "avrdude.conf"
   File "libusb0.dll"
-  File "..\..\..\er9x\doc\ER9x Users Guide.pdf"
+  
   
   CreateDirectory "$INSTDIR\lang"
   SetOutPath "$INSTDIR\lang"
-  File "*.qm"
   
   
   SetOutPath "$INSTDIR"
   ;Store installation folder
-  WriteRegStr HKCU "Software\er9x-eePe" "" $INSTDIR
+  WriteRegStr HKCU "Software\gv9x-eePe" "" $INSTDIR
   
   ;Associate with extentions ,bin and .hex
   ${registerExtension} "$INSTDIR\eepe.exe" ".bin" "BIN_File"
@@ -117,7 +116,6 @@ Section "eePe" SecDummy
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
 	CreateShortCut "$SMPROGRAMS\$StartMenuFolder\eePe.lnk" "$INSTDIR\eePe.exe"
-	CreateShortCut "$SMPROGRAMS\$StartMenuFolder\er9x Users Guide.lnk" "$INSTDIR\ER9x Users Guide.pdf"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -128,7 +126,7 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_SecDummy ${LANG_ENGLISH} "eePe er9x EEPROM editor."
+  LangString DESC_SecDummy ${LANG_ENGLISH} "eePe gv9x EEPROM editor."
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -152,7 +150,6 @@ Section "Uninstall"
   Delete "$INSTDIR\avrdude.exe"
   Delete "$INSTDIR\avrdude.conf"
   Delete "$INSTDIR\libusb0.dll"
-  Delete "$INSTDIR\ER9x Users Guide.pdf"
   Delete "$INSTDIR\Uninstall.exe"
   
   Delete "$INSTDIR\lang\*.*"
@@ -171,7 +168,7 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   
-  DeleteRegKey /ifempty HKCU "Software\er9x-eePe"
+  DeleteRegKey /ifempty HKCU "Software\gv9x-eePe"
 
 SectionEnd
 
