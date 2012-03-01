@@ -75,9 +75,9 @@ void menuProcRotarySwitches(uint8_t event) {
 					switch (type) {
 						case PPM_VALUE: {
 							char v = char2idx(rd->name[subSub - 1]);
-							//if (p1valdiff || event == EVT_KEY_FIRST(KEY_DOWN) || event == EVT_KEY_FIRST(KEY_UP) || event == EVT_KEY_REPT(
-							//								KEY_DOWN) || event == EVT_KEY_REPT(KEY_UP))
-							CHECK_INCDEC_H_MODELVAR(event, v, 0, NUMCHARS - 1);
+							if (p1valdiff || event == EVT_KEY_FIRST(KEY_DOWN) || event == EVT_KEY_FIRST(KEY_UP) || event == EVT_KEY_REPT(
+															KEY_DOWN) || event == EVT_KEY_REPT(KEY_UP))
+								CHECK_INCDEC_H_MODELVAR(event, v, 0, NUMCHARS - 1);
 							v = idx2char(v);
 							rd->name[subSub - 1] = v;
 							lcd_putcAtt((9 + subSub) * FW, y, v, INVERS);
@@ -125,7 +125,7 @@ void menuProcRotarySwitches(uint8_t event) {
 					}
 				}
 				if(type) {
-					lcd_outdezAtt(20 * FW, y, val, attr);
+					lcd_outdezAtt(20 * FW, y, ((int8_t)val), attr);
 				} else {
 					lcd_putcAtt(19 * FW, y, '-', attr);
 				}
