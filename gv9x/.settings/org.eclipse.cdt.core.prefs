@@ -1,4 +1,4 @@
-#Sat Aug 13 11:39:59 CEST 2011
+#Fri Mar 02 08:24:59 CET 2012
 eclipse.preferences.version=1
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510=
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.1836908785=
@@ -13,6 +13,9 @@ environment/project/de.innot.avreclipse.configuration.app.release.1888669510.791
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MAVLINK/delimiter=;
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MAVLINK/operation=append
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MAVLINK/value=
+environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MENU_ROTARY_SW/delimiter=;
+environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MENU_ROTARY_SW/operation=append
+environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/MENU_ROTARY_SW/value=
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/append=true
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510.7911009/appendContributed=true
 environment/project/de.innot.avreclipse.configuration.app.release.1888669510/BUILDARTIFACT/delimiter=;

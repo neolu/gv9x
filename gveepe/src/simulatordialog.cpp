@@ -798,9 +798,8 @@ void simulatorDialog::perOut(bool init)
         if(k>=CHOUT_BASE && (k<i)) v = chans[k];
         if(md.mixWarn) mixWarning |= 1<<(md.mixWarn-1); // Mix warning
       }
-
       if (md.srcRaw==MIX_INC_ROTA_SW || md.srcRaw==MIX_DEC_ROTA_SW) {
-        int8_t idx = swRollIdx == -1 ? -1 : -2;
+        int8_t idx = swRollIdx;// == -1 ? -1 : -2;
         if (swTog) {
           if (swOn[i]) { // switch on
             idx = swRollIdx;
@@ -808,22 +807,26 @@ void simulatorDialog::perOut(bool init)
             setSwRollIdx(swRollDisplay); // value and display change
           }
         }
+        qint16 numMode = -1;
         if (idx>=-1) {
           int8_t inc = md.srcRaw == MIX_INC_ROTA_SW ? 1 : -1;
           uint8_t k = 0;
           for(;k<NUM_ROTA_SW;k++) { // find first enable slot
-            idx = (idx + inc) & 0x7; // do modulo 8
-            if (g_model.rotarySw[idx].type){
+            idx = (idx + inc) % NUM_ROTA_SW; // do modulo 8
+            if (g_model.rotarySw[idx].typeRotary == 1){
+              numMode = g_model.rotarySw[idx].numMode;
               setSwRollDisplay(idx);
               break;
             }
           }
-          if (k == NUM_ROTA_SW) setSwRollIdx(-2); // not founded
         }
 
-        if(swRollIdx < 0) continue; // Not found
+        if (numMode>=0) {
+            v = ((RESX/4)*((int16_t)g_model.modesVal[numMode]))/25;
+        } else {
+            setSwRollIdx(-1); // not founded
+        }
 
-        v = ((RESX/4)*g_model.rotarySw[swRollIdx].val)/25;
       }
 
       //========== INPUT OFFSET ===============

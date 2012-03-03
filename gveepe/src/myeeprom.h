@@ -188,17 +188,15 @@ typedef struct t_FrSkyData {
   FrSkyChannelData channels[2];
 } __attribute__((packed)) FrSkyData;
 
-//#ifdef MENU_ROTARY_SW
 #define ROTARY_TYPE_OFF 0
-#define ROTARY_TYPE_PPM 0x40
-#define ROTARY_TYPE_MAVLINK 0x80
+#define ROTARY_TYPE_PPM 1
+#define ROTARY_TYPE_MAVLINK 2
 #define NUM_ROTARY_SW 8
+#define MAX_MODES_VAL 16
 typedef struct t_RotarySwChannelData { // Custom Switches data
-	uint8_t type; // see defines ROTARY_TYPE
-  char  name[4];
-  int8_t  val;
+  uint8_t typeRotary:2; // see defines ROTARY_TYPE
+  uint8_t numMode:6; // num mode
 } __attribute__((packed)) RotarySwChannelData;
-//#endif
 
 typedef struct t_ModelData {
   char      name[MODEL_NAME_LEN];             // 10 must be first for eeLoadModelName
@@ -240,6 +238,7 @@ typedef struct t_ModelData {
   SafetySwData  safetySw[NUM_CHNOUT];
   FrSkyData frsky;
   RotarySwChannelData rotarySw[NUM_ROTARY_SW];
+  int8_t   modesVal[MAX_MODES_VAL];
 } __attribute__((packed)) ModelData;
 
 #define TOTAL_EEPROM_USAGE (sizeof(ModelData)*MAX_MODELS + sizeof(EEGeneral))

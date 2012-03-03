@@ -1211,7 +1211,7 @@ int main(void)
   //DDRG = 0x10;  PORTG = 0xff; //pullups + SIM_CTL=1 = phonejack = ppm_in
   DDRG = 0x14; PORTG = 0xfB; //pullups + SIM_CTL=1 = phonejack = ppm_in, Haptic output and off (0)
   lcd_init();
-	
+
 #ifdef JETI
   JETI_Init();
 #endif
@@ -1227,11 +1227,6 @@ int main(void)
 #ifdef NMEA
   NMEA_Init();
 #endif
-
-#ifdef MAVLINK
-  MAVLINK_Init();
-#endif
-
 
   ADMUX=ADC_VREF_TYPE;
   ADCSRA=0x85;
@@ -1320,6 +1315,10 @@ if(g_eeGeneral.speakerMode == 1){
 #ifdef MAVLINK
   MAVLINK_Init();
 #endif
+#ifdef MENU_ROTARY_SW
+  init_rotary_sw();
+#endif
+
   
   OCR1A = 2000 ;        // set to 1mS
   TIFR = 1 << OCF1A ;   // Clear pending interrupt

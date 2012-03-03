@@ -376,10 +376,6 @@
 		</cconfiguration>
 		<cconfiguration id="de.innot.avreclipse.configuration.app.release.1888669510.7911009">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="de.innot.avreclipse.configuration.app.release.1888669510.7911009" moduleId="org.eclipse.cdt.core.settings" name="hex-mavlink">
-				<macros>
-					<stringMacro name="MAVLINK" type="VALUE_TEXT" value="true"/>
-					<stringMacro name="MAVLINK10" type="VALUE_TEXT" value="true"/>
-				</macros>
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -414,9 +410,9 @@
 								<option id="de.innot.avreclipse.compiler.option.language.ubitfields.713758956" name="bitfields are unsigned (-funsigned-bitfields)" superClass="de.innot.avreclipse.compiler.option.language.ubitfields" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.compiler.option.verbose.176736878" name="Verbose (-v)" superClass="de.innot.avreclipse.compiler.option.verbose" value="true" valueType="boolean"/>
 								<option id="de.innot.avreclipse.compiler.option.def.485697599" name="Define Syms (-D)" superClass="de.innot.avreclipse.compiler.option.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="MAVLINK=1"/>
+									<listOptionValue builtIn="false" value="MAVLINK"/>
 									<listOptionValue builtIn="false" value="MAVLINK10"/>
-									<listOptionValue builtIn="false" value="MENU_ROTARY_SW=1"/>
+									<listOptionValue builtIn="false" value="MENU_ROTARY_SW"/>
 								</option>
 								<option id="de.innot.avreclipse.compiler.option.incpath.2114187346" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath"/>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1211307267" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
@@ -431,9 +427,9 @@
 								<option id="de.innot.avreclipse.cppcompiler.option.language.noexceptions.1627042994" name="Do not use Exceptions (-fno-exceptions)" superClass="de.innot.avreclipse.cppcompiler.option.language.noexceptions" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.verbose.49977784" name="Verbose (-v)" superClass="de.innot.avreclipse.cppcompiler.option.verbose" value="true" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.def.866278827" name="Define Syms (-D)" superClass="de.innot.avreclipse.cppcompiler.option.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="MAVLINK=1"/>
+									<listOptionValue builtIn="false" value="MAVLINK"/>
 									<listOptionValue builtIn="false" value="MAVLINK10"/>
-									<listOptionValue builtIn="false" value="MENU_ROTARY_SW=1"/>
+									<listOptionValue builtIn="false" value="MENU_ROTARY_SW"/>
 								</option>
 								<option id="de.innot.avreclipse.cppcompiler.option.incpath.1911914154" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath"/>
 								<inputType id="de.innot.avreclipse.cppcompiler.input.438344841" superClass="de.innot.avreclipse.cppcompiler.input"/>
@@ -874,4 +870,5 @@
 			</profile>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

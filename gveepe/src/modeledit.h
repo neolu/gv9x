@@ -45,7 +45,7 @@ private:
     QComboBox * safetySwitchSwtch[NUM_CHNOUT];
 
     QComboBox * rotarySwitchEnabled[NUM_ROTA_SW];
-    QLineEdit * rotarySwitchName[NUM_ROTA_SW];
+    QComboBox * rotarySwitchNumMode[NUM_ROTA_SW];
     QSpinBox  * rotarySwitchValue[NUM_ROTA_SW];
 
     void setupMixerListWidget();
@@ -156,6 +156,8 @@ private slots:
     void switchesEdited();
     void safetySwitchesEdited();
     void rotarySwitchesEdited();
+    void rotarySwitchNumModeEdited();
+    void rotarySwitchValueEdited();
     void expoEdited();
     void mixesEdited();
     void heliEdited();

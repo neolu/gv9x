@@ -28,9 +28,29 @@ void populateRotarySwitchCB(QComboBox *b, int value=0)
     b->addItem("off");
     b->addItem("ppm");
     b->addItem("mav");
-    /*for(int i=-MAX_DRSWITCH; i<=MAX_DRSWITCH; i++)
-        b->addItem(getSWName(i));
-    b->setCurrentIndex(value+MAX_DRSWITCH); */
+    b->setCurrentIndex(value);
+    b->setMaxVisibleItems(10);
+}
+
+
+void populateRotarySwitchNameCB(QComboBox *b, int value=0)
+{
+    b->clear();
+    b->addItem("STAB");
+    b->addItem("ACRO");
+    b->addItem("ALT_HOLD");
+    b->addItem("GUIDED");
+    b->addItem("LOITER");
+    b->addItem("RTL");
+    b->addItem("CIRCLE");
+    b->addItem("POSITION");
+    b->addItem("LAND");
+    b->addItem("OF_LOITER");
+    b->addItem("MANUAL");
+    b->addItem("FLY_BY_WIRE_A");
+    b->addItem("FLY_BY_WIRE_B");
+    b->addItem("FLY_BY_WIRE_C");
+    b->setCurrentIndex(value);
     b->setMaxVisibleItems(10);
 }
 

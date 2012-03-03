@@ -1190,6 +1190,7 @@ void ModelEdit::tabSwitches()
 
 void ModelEdit::tabRotarySwitches()
 {
+
     for(int i=0; i<NUM_ROTA_SW; i++)
     {
 
@@ -1200,27 +1201,16 @@ void ModelEdit::tabRotarySwitches()
         ui->grid_tabRotarySwitches->addWidget(label,i+1,0);
 
         rotarySwitchEnabled[i] = new QComboBox(this);
-        populateRotarySwitchCB(rotarySwitchEnabled[i],g_model.rotarySw[i].type);
-        //rotarySwitchEnabled[i]->setChecked(g_model.rotarySw[i].type!=0);
+        populateRotarySwitchCB(rotarySwitchEnabled[i],g_model.rotarySw[i].typeRotary);
         ui->grid_tabRotarySwitches->addWidget(rotarySwitchEnabled[i],i+1,1);
         connect(rotarySwitchEnabled[i],SIGNAL(currentIndexChanged(int)),this,SLOT(rotarySwitchesEdited()));
 
         // GVA
-        char buf[10];
-        int8_t size = sizeof(g_model.rotarySw[i].name);
-        rotarySwitchName[i] = new QLineEdit(this);
-        rotarySwitchName[i]->clear();
-        rotarySwitchName[i]->setMaxLength(size);
-        memcpy(&buf,g_model.rotarySw[i].name,size);
-        buf[size]=0;
-        rotarySwitchName[i]->setText(QString(buf));
-        QRegExp rx(CHAR_FOR_NAMES_REGEX);
-        rotarySwitchName[i]->setValidator(new QRegExpValidator(rx, this));
-
-
-
-        ui->grid_tabRotarySwitches->addWidget(rotarySwitchName[i],i+1,2);
-        connect(rotarySwitchName[i],SIGNAL(editingFinished()),this,SLOT(rotarySwitchesEdited()));
+        uint8_t numMode = g_model.rotarySw[i].numMode;
+        rotarySwitchNumMode[i] = new QComboBox(this);
+        populateRotarySwitchNameCB(rotarySwitchNumMode[i],g_model.rotarySw[i].numMode);
+        ui->grid_tabRotarySwitches->addWidget(rotarySwitchNumMode[i],i+1,2);
+        connect(rotarySwitchNumMode[i],SIGNAL(currentIndexChanged(int)),this,SLOT(rotarySwitchNumModeEdited()));
 
 
         rotarySwitchValue[i] = new QSpinBox(this);
@@ -1228,9 +1218,10 @@ void ModelEdit::tabRotarySwitches()
         rotarySwitchValue[i]->setMaximum(125);
         rotarySwitchValue[i]->setMinimum(-125);
         rotarySwitchValue[i]->setAccelerated(true);
-        rotarySwitchValue[i]->setValue(g_model.rotarySw[i].val);
+        if (numMode<MAX_MODES_VAL)
+            rotarySwitchValue[i]->setValue(g_model.modesVal[numMode]);
         ui->grid_tabRotarySwitches->addWidget(rotarySwitchValue[i],i+1,3);
-        connect(rotarySwitchValue[i],SIGNAL(editingFinished()),this,SLOT(rotarySwitchesEdited()));
+        connect(rotarySwitchValue[i],SIGNAL(editingFinished()),this,SLOT(rotarySwitchValueEdited()));
     }
 }
 
@@ -2485,22 +2476,40 @@ void ModelEdit::rotarySwitchesEdited()
 {
     for(int i=0; i<NUM_ROTA_SW; i++)
     {
-
-        //g_model.rotarySw[i].type = rotarySwitchEnabled[i]->isChecked()?1:0;
-        char buf[10];
-        int8_t size = sizeof(g_model.rotarySw[i].name);
-        memset(&buf,' ',sizeof(buf));
-        const char *s = rotarySwitchName[i]->text().left(size).toAscii();
-        strcpy((char*)&buf,s);
-        for(int j=0; j<size; j++) {
-          if(!buf[j]) buf[j] = ' ';
-          g_model.rotarySw[i].name[j] = buf[j];
-        }
-        g_model.rotarySw[i].val  = rotarySwitchValue[i]->value();
+        g_model.rotarySw[i].typeRotary = rotarySwitchEnabled[i]->currentIndex();
+        uint8_t numMode = rotarySwitchNumMode[i]->currentIndex();
+        g_model.rotarySw[i].numMode = numMode;
+        g_model.modesVal[numMode]  = rotarySwitchValue[i]->value();
     }
     updateSettings();
 }
 
+void ModelEdit::rotarySwitchNumModeEdited()
+{
+    for(int i=0; i<NUM_ROTA_SW; i++)
+    {
+        uint8_t numMode = rotarySwitchNumMode[i]->currentIndex();
+        g_model.rotarySw[i].numMode = numMode;
+        rotarySwitchValue[i]->setValue(g_model.modesVal[numMode]);
+    }
+    updateSettings();
+}
+
+void ModelEdit::rotarySwitchValueEdited()
+{
+    for(int i=0; i<NUM_ROTA_SW; i++)
+    {
+        uint8_t numMode = rotarySwitchNumMode[i]->currentIndex();
+        if (g_model.modesVal[numMode] != rotarySwitchValue[i]->value())
+        {
+            g_model.modesVal[numMode] = rotarySwitchValue[i]->value();
+            rotarySwitchNumModeEdited();
+            break;
+        }
+    }
+    updateSettings();
+
+}
 
 void ModelEdit::on_templateList_doubleClicked(QModelIndex index)
 {

@@ -20,21 +20,65 @@
 extern int8_t rotarySwIdx;
 extern int8_t rotarySwLastPPMVal;
 
+extern void putsControlMode(uint8_t x, uint8_t y, uint8_t idx, uint8_t attr, uint8_t len);
 extern void putsRotarySwPos(uint8_t x, uint8_t y, uint8_t idx1, uint8_t att);
-extern void putsRotarySw(uint8_t x, uint8_t y, uint8_t idx, uint8_t attr, uint8_t len);
 extern void setRotarySwIdx(int8_t idx);
 extern void setRotarySwDisplay(int8_t idx);
 extern void animRotarySw(uint8_t x);
 extern void menuProcRotarySwitches(uint8_t event);
 
+
+// Control mode define from arducoper
+enum CONTROL_MODE {
+	STABILIZE = 0, // hold level position
+	ACRO, // rate control
+	ALT_HOLD, // AUTO control
+	AUTO, // AUTO control
+	GUIDED, // AUTO control
+	LOITER, // AUTO control
+	RTL, // AUTO control
+	CIRCLE, // AUTO control
+	POSITION, // AUTO control
+	LAND, // AUTO control
+	OF_LOITER, // Hold a single location using optical flow sensor
+	//
+	// Adding control mode define from ardupilot
+	MANUAL,
+	FLY_BY_WIRE_A, // Fly By Wire A has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical = manual throttle
+	FLY_BY_WIRE_B, // Fly By Wire B has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical => desired airspeed
+	FLY_BY_WIRE_C, // Fly By Wire C has left stick horizontal => desired roll angle, left stick vertical => desired climb rate, right stick vertical => desired airspeed
+// Fly By Wire B and Fly By Wire C require airspeed sensor
+
+	// This only for display
+	INITIALISING,
+
+	NUM_MODES_ALL,
+};
+#define ACM_NUM_MODE (OF_LOITER+1)
+#define NUM_MODES (FLY_BY_WIRE_C+1)
+
+//                           0123456789012345678901234567890123456789012345678901234567890123456789
+//                           0     1     2     3     4     5     6     7     8     9     0     1
+#define CONROL_MODE_STR     "STAB  ACRO  ALT_H AUTO  GUIDEDLOITERRTL   CIRCLEPOSITILAND  OF_LOI"
+#define CONROL_MODE_STR_APM "MANUALWIRE_AWIRE_BWIRE_C"
+#define DISPLAY_ONLY_STR    "INIT"
+
+
 inline void init_rotary_sw() {
 	setRotarySwIdx(-1); // Reinit sw roll idx
 	for (uint8_t i = 0; i < NUM_ROTARY_SW; i++) {
+		if (g_model.rotarySw[i].numMode >= NUM_MODES || g_model.rotarySw[i].typeRotary > ROTARY_TYPE_MAVLINK)
+		{
+			g_model.rotarySw[i].typeRotary = 0;
+			g_model.rotarySw[i].numMode = 0;
+		}
+#ifdef OLD_ROTARY
 		for (uint8_t j = 0; j < sizeof(g_model.rotarySw[i].name); j++) // makes sure name is valid
 		{
 			uint8_t idx = char2idx(g_model.rotarySw[i].name[j]);
 			g_model.rotarySw[i].name[j] = idx2char(idx);
 		}
+#endif
 	}
 }
 inline int8_t find_rotary_sw_pos(uint8_t srcRaw, uint8_t swTog, uint8_t swOn) {
@@ -43,7 +87,7 @@ inline int8_t find_rotary_sw_pos(uint8_t srcRaw, uint8_t swTog, uint8_t swOn) {
 		int8_t inc = srcRaw == MIX_INC_ROTARY_SW ? 1 : -1;
 		for (uint8_t k = 0; k < NUM_ROTARY_SW; k++) { // find first enable slot
 			idx = (idx + inc) & 0x7; // do modulo 8
-			if (g_model.rotarySw[idx].type & 0xf0) {
+			if (g_model.rotarySw[idx].typeRotary) {
 				setRotarySwIdx(idx);
 				return idx;
 			}
@@ -54,8 +98,9 @@ inline int8_t find_rotary_sw_pos(uint8_t srcRaw, uint8_t swTog, uint8_t swOn) {
 }
 
 inline int8_t get_rotary_value() {
-	if (g_model.rotarySw[rotarySwIdx].type & ROTARY_TYPE_PPM) {
-		rotarySwLastPPMVal = g_model.rotarySw[rotarySwIdx].val;
+	if (g_model.rotarySw[rotarySwIdx].typeRotary == ROTARY_TYPE_PPM) {
+		uint8_t num = g_model.rotarySw[rotarySwIdx].numMode;
+		rotarySwLastPPMVal = g_model.modesVal[num];
 	}
 	return rotarySwLastPPMVal;
 }
