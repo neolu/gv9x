@@ -30,10 +30,11 @@ typedef void (*SerialFuncP)(uint8_t event);
 extern SerialFuncP RXHandler;
 
 #define MAX_TX_BUFFER 32
-#if 0
+//#if 0
 extern uint8_t serialTxBuffer[MAX_TX_BUFFER]; // 32 characters
 extern uint8_t serialTxBufferCount;
-#endif
+extern uint8_t * ptrTxISR;
+//#endif
 
 void SERIAL_Init(void);
 //void SERIAL_transmitBuffer(uint8_t len);

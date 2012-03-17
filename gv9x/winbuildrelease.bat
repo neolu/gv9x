@@ -1,5 +1,5 @@
 set USER=GV
-set VER=08
+set VER=09
 
 rem svn update
 del gv9x-jeti.hex
@@ -11,15 +11,22 @@ cd src
 rem make clean
 rem make EXT=JETI
 rem mv gv9x.hex ../gv9x-jeti.hex
+
 rem make clean
 rem make EXT=FRSKY
 rem mv gv9x.hex ../gv9x-frsky.hex
+
 rem make clean
 rem make EXT=ARDUPILOT
 rem mv gv9x.hex ../gv9x-ardupilot.hex
+
 make clean
 make EXT=MAVLINK HELI=NO
 mv gv9x.hex ../gv9x-mavlink_1%VER%.hex
+make clean
+make EXT=MAVLINK HELI=NO DUMP_RX_TX=YES
+mv gv9x.hex ../gv9x-mavlink_1%VER%_dump.hex
+
 rem make clean
 rem make
 rem mv gv9x.hex ../gv9x.hex

@@ -164,6 +164,10 @@ ifeq ($(EXT), ARDUPILOT)
  CPPDEFS += -DARDUPILOT
 endif
 
+ifeq ($(DUMP_RX_TX), YES)
+ CPPDEFS += -DDUMP_RX_TX
+endif
+
 # If NMEA-Support is enabled
 ifeq ($(EXT), NMEA)
  CPPDEFS += -DNMEA

@@ -17,6 +17,7 @@
 
 #include "serial.h"
 #include "mavlink.h"
+#define DUMP_RX_TX
 
 // this might need to move to the flight software
 //static
@@ -48,9 +49,28 @@ Telemetry_Data_t telemetry_data;
 // *****************************************************
 static void MAVLINK_parse_char(uint8_t c);
 
+#ifdef DUMP_RX_TX
+#define MAX_RX_BUFFER 16
+uint8_t mavlinkRxBufferCount = 0;
+uint8_t mavlinkRxBuffer[MAX_RX_BUFFER];
+uint8_t mav_dump_rx = 0;
+void MAVLINK_rxhandler(uint8_t byte) {
+	if (mav_dump_rx) {
+		if (byte == MAVLINK_STX) {
+			mavlinkRxBufferCount = 0;
+		}
+		if (mavlinkRxBufferCount < MAX_RX_BUFFER) {
+			mavlinkRxBuffer[mavlinkRxBufferCount++] = byte;
+		}
+	}
+	MAVLINK_parse_char(byte);
+
+}
+#else
 void MAVLINK_rxhandler(uint8_t byte) {
 	MAVLINK_parse_char(byte);
 }
+#endif
 
 SerialFuncP RXHandler = MAVLINK_rxhandler;
 
@@ -58,6 +78,11 @@ void MAVLINK_reset(uint8_t warm_reset) {
 	if (warm_reset && telemetry_data.status) {
 		mav_statustext[0] = 0;
 	}
+#ifdef DUMP_RX_TX
+	mavlinkRxBufferCount = 0;
+	mav_dump_rx = 0;
+#endif
+
 	mavlink_status_t* p_status = mavlink_get_channel_status(MAVLINK_COMM_0);
 	p_status->current_rx_seq = 0;
 	p_status->current_tx_seq = 0;
@@ -584,6 +609,10 @@ void DisplayScreenIndex(uint8_t index, uint8_t count, uint8_t attr);
 enum mavlink_menu_ {
 	MENU_INFO = 0, //
 	MENU_GPS, //
+#ifdef DUMP_RX_TX
+	MENU_DUMP_RX, //
+	MENU_DUMP_TX, //
+#endif
 	MAX_MAVLINK_MENU
 } MAVLINK_menu = MENU_INFO;
 
@@ -750,8 +779,8 @@ void menuProcMavlinkGPS(void) {
 
 	lcd_putsnAtt(x1, y, PSTR("GPS"), 3, 0);
 	uint8_t fix_type = telemetry_data.fix_type;
-	if (fix_type <= 3) {
-		lcd_putsnAtt(x2, y, PSTR("__NO2D3D") + 2 * fix_type, 2, 0);
+	if (fix_type <= 2) {
+		lcd_putsnAtt(x2, y, PSTR("__NOOK") + 2 * fix_type, 2, 0);
 	} else {
 		lcd_outdezNAtt(xnum, y, fix_type, 0, 3);
 	}
@@ -785,6 +814,57 @@ void menuProcMavlinkGPS(void) {
 	//}
 }
 
+#ifdef DUMP_RX_TX
+
+void lcd_outhex2(uint8_t x, uint8_t y, uint8_t val) {
+	x += FWNUM * 2;
+	for (int i = 0; i < 2; i++) {
+		x -= FWNUM;
+		char c = val & 0xf;
+		c = c > 9 ? c + 'A' - 10 : c + '0';
+		lcd_putcAtt(x, y, c, c >= 'A' ? CONDENSED : 0);
+		val >>= 4;
+	}
+}
+
+void menuProcMavlinkDump(uint8_t event) {
+	uint8_t x = 0;
+	uint8_t y = FH;
+	uint16_t count = 0;
+	uint16_t bufferLen = 0;
+	uint8_t *ptr = NULL;
+	switch (MAVLINK_menu) {
+		case MENU_DUMP_RX:
+		mav_dump_rx = 1;
+		mav_title(PSTR("RX"), MAVLINK_menu);
+		bufferLen = mavlinkRxBufferCount;
+		ptr = mavlinkRxBuffer;
+		break;
+
+		case MENU_DUMP_TX:
+		mav_title(PSTR("TX"), MAVLINK_menu);
+		bufferLen = serialTxBufferCount;
+		ptr = ptrTxISR;
+		break;
+		default:
+		break;
+	}
+	for (uint16_t var = 0; var < bufferLen; var++) {
+		uint8_t byte = *ptr++;
+		lcd_outhex2(x, y, byte);
+		x += 2 * FW;
+		count++;
+		if (count > 8) {
+			count = 0;
+			x = 0;
+			y += FH;
+			if (y == (6 * FH))
+			break;
+		}
+	}
+}
+#endif
+
 void menuProcMavlink(uint8_t event) {
 
 	switch (event) // new event received, branch accordingly
@@ -813,6 +893,13 @@ void menuProcMavlink(uint8_t event) {
 	case MENU_GPS:
 		menuProcMavlinkGPS();
 		break;
+#ifdef DUMP_RX_TX
+		case MENU_DUMP_TX:
+		case MENU_DUMP_RX:
+		menuProcMavlinkDump(event);
+		break;
+#endif
+
 	default:
 		break;
 	}
