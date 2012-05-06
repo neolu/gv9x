@@ -1,5 +1,5 @@
 set USER=GV
-set VER=09
+set VER=10
 
 rem svn update
 del gv9x-jeti.hex

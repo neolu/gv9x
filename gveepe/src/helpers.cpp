@@ -39,6 +39,7 @@ void populateRotarySwitchNameCB(QComboBox *b, int value=0)
     b->addItem("STAB");
     b->addItem("ACRO");
     b->addItem("ALT_HOLD");
+    b->addItem("AUTO");
     b->addItem("GUIDED");
     b->addItem("LOITER");
     b->addItem("RTL");

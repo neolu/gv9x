@@ -23,9 +23,9 @@
 //#define MAVLINK10
 
 #ifdef MAVLINK10
-#include "GCS_MAVLink/include_v1.0/mavlink_types.h"
+#include "GCS_MAVLink/include/mavlink/v1.0/mavlink_types.h"
 #else
-#include "GCS_MAVLink/include/mavlink_types.h"
+#include "GCS_MAVLink/include/mavlink/v0.9/mavlink_types.h"
 #endif
 
 #include "serial.h"
@@ -43,9 +43,9 @@ extern void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len);
 #define MAVLINK_SEND_UART_BYTES(chan,buf,len) SERIAL_send_uart_bytes(buf,len)
 
 #ifdef MAVLINK10
-#include "GCS_MAVLink/include_v1.0/ardupilotmega/mavlink.h"
+#include "GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
 #else
-#include "GCS_MAVLink/include/ardupilotmega/mavlink.h"
+#include "GCS_MAVLink/include/mavlink/v0.9/ardupilotmega/mavlink.h"
 #endif
 
 #define MAVLINK_PARAMS
@@ -62,10 +62,10 @@ enum ACM_PARAMS {
 	STB_YAW_I, // Stabilize Yaw
 	RATE_PIT_P, // Rate Pitch
 	RATE_PIT_I, // Rate Pitch
-	STB_PIT_P, // Stabilize Pitch
-	STB_PIT_I, // Stabilize Pitch
 	RATE_RLL_P, // Rate Roll
 	RATE_RLL_I, // Rate Roll
+	STB_PIT_P, // Stabilize Pitch
+	STB_PIT_I, // Stabilize Pitch
 	STB_RLL_P, // Stabilize Roll
 	STB_RLL_I, // Stabilize Roll
 	THR_ALT_P, // THR_BAR, // Altitude Hold
@@ -85,7 +85,52 @@ enum ACM_PARAMS {
 	BATT_CAPACITY, //
 	NB_PARAMS
 };
+/*
+enum ACM_PARAMS {
+	RATE_YAW_P, // Rate Yaw
+	RATE_YAW_I, // Rate Yaw
+	RATE_YAW_D, // Rate Yaw
+	STB_YAW_P, // Stabilize Yaw
+	STB_YAW_I, // Stabilize Yaw
+	STB_YAW_D, // Stabilize Yaw
+	RATE_PIT_P, // Rate Pitch
+	RATE_PIT_I, // Rate Pitch
+	RATE_PIT_D, // Rate Pitch
+	RATE_RLL_P, // Rate Roll
+	RATE_RLL_I, // Rate Roll
+	RATE_RLL_D, // Rate Roll
+	STB_PIT_P, // Stabilize Pitch
+	STB_PIT_I, // Stabilize Pitch
+	STB_PIT_D, // Stabilize Pitch
+	STB_RLL_P, // Stabilize Roll
+	STB_RLL_I, // Stabilize Roll
+	STB_RLL_D, // Stabilize Roll
+	THR_ALT_P, // THR_BAR, // Altitude Hold
+	THR_ALT_I, // THR_BAR, // Altitude Hold
+	THR_ALT_D, // THR_BAR, // Altitude Hold
+	HLD_LON_P, // Loiter
+	HLD_LON_I, // Loiter
+	HLD_LON_D, // Loiter
+	HLD_LAT_P, // Loiter
+	HLD_LAT_I, // Loiter
+	HLD_LAT_D, // Loiter
+	NAV_LON_P, // Nav WP
+	NAV_LON_I, // Nav WP
+	NAV_LON_D, // Nav WP
+	NAV_LAT_P, // Nav WP
+	NAV_LAT_I, // Nav WP
+	NAV_LAT_D, // Nav WP
+	NB_PID_PARAMS, // Number of PI Parameters
+	LOW_VOLT = NB_PID_PARAMS,
+	IN_VOLT, //
+	BATT_MONITOR, //
+	BATT_CAPACITY, //
+	NB_PARAMS
+};
+*/
 //#define NB_PID_PARAMS 24
+#define NB_EXTRA_PARAMS (NB_PARAMS-NB_PID_PARAMS)
+
 #define NB_COL_PARAMS 2
 #define NB_ROW_PARAMS ((NB_PARAMS+1)/NB_COL_PARAMS)
 
@@ -319,7 +364,19 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 		break;
 	default:
 		if (idx < NB_PID_PARAMS) {
-			max = (idx & 0x01) ? 1000 : 750;
+			// PID
+			switch(idx % NB_COL_PARAMS)
+			{
+			case 0:
+				max = 1000;
+				break;
+			case 1:
+				max = 750;
+				break;
+			case 2:
+				max = 500;
+				break;
+			}
 		}
 		break;
 	}
@@ -343,7 +400,7 @@ inline uint8_t getPrecisMavlinParamsValue(uint8_t idx) {
 		break;
 	default:
 		if (idx < NB_PID_PARAMS) {
-			if (idx & 0x01)
+			if (idx % NB_COL_PARAMS)
 				precis = 3;
 		}
 		break;

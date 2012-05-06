@@ -68,15 +68,17 @@ void animRotarySw(uint8_t x) {
 	uint8_t swToggle = (s_time < rotarySwChanged);
 	uint8_t att1 = 0;
 
+#if 0
 	if (s_timerState != TMR_OFF) {
 		att1 = DBLSIZE | (s_timerState == TMR_BEEPING ? BLINK : 0);
 		putsTime(x + 14 * FW - 2, FH * 2, s_timerVal, att1, att1);
 	}
+#endif
 
 	s_time = s_time >> 4; // 1280ms time unit
 	uint8_t num4Display = s_time & 0x01; // 1/4 display time
 #ifdef MAVLINK
-	s_time = telemetry_data.status ? (s_time >> 1) : 0; // 2560ms time unit
+					s_time = telemetry_data.status ? (s_time >> 1) : 0; // 2560ms time unit
 #else
 	s_time = 0;
 #endif
@@ -91,6 +93,11 @@ void animRotarySw(uint8_t x) {
 	case 0:
 		att1 = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
 		putsVBat(x + 4 * FW, 2 * FH, att1 | NO_UNIT | DBLSIZE);
+
+		if (s_timerState != TMR_OFF) {
+			att1 = DBLSIZE | (s_timerState == TMR_BEEPING ? BLINK : 0);
+			putsTime(x + 14 * FW - 2, FH * 2, s_timerVal, att1, att1);
+		}
 
 		switch (num4Display) {
 		case 0:
@@ -115,6 +122,16 @@ void animRotarySw(uint8_t x) {
 			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
 		} else {
 			putsMavlinkControlMode(x + 4 * FW, 3 * FH, 6);
+		}
+		switch (telemetry_data.status) {
+			case 3:
+			lcd_putsnAtt(x + 11 * FW, 2 * FH, PSTR("DISARM"), 6, 0);
+			break;
+			case 4:
+			lcd_putsnAtt(x + 11 * FW, 2 * FH, PSTR("ARMED "), 6, 0);
+			break;
+			default:
+			break;
 		}
 
 #endif

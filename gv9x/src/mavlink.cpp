@@ -17,7 +17,7 @@
 
 #include "serial.h"
 #include "mavlink.h"
-#define DUMP_RX_TX
+//#undef  DUMP_RX_TX
 
 // this might need to move to the flight software
 //static
@@ -164,13 +164,13 @@ static inline void REC_MAVLINK_MSG_ID_ACTION_ACK(const mavlink_message_t* msg) {
 
 #ifdef MAVLINK_PARAMS
 prog_char *getParamId(uint8_t idx) {
-	prog_char *mav_params_id[((NB_PID_PARAMS / 2) + 4)] = { //
+	prog_char *mav_params_id[((NB_PID_PARAMS / NB_COL_PARAMS) + 4)] = { //
 					//
 									PSTR("RATE_YAW"), // Rate Yaw
 									PSTR("STB_YAW"), // Stabilize Yaw
 									PSTR("RATE_PIT"), // Rate Pitch
-									PSTR("STB_PIT"), // Stabilize Pitch
 									PSTR("RATE_RLL"), // Rate Roll
+									PSTR("STB_PIT"), // Stabilize Pitch
 									PSTR("STB_RLL"), // Stabilize Roll
 									PSTR("THR_ALT"), // PSTR("THR_BAR"), // Altitude Hold
 									PSTR("HLD_LON"), // Loiter
@@ -183,9 +183,9 @@ prog_char *getParamId(uint8_t idx) {
 									PSTR("BATT_CAPACITY") };
 	uint8_t i;
 	if (idx < NB_PID_PARAMS) {
-		i = idx / 2;
+		i = idx / NB_COL_PARAMS;
 	} else {
-		i = idx - (NB_PID_PARAMS / 2);
+		i = idx - (NB_PID_PARAMS / NB_COL_PARAMS);
 	}
 	return mav_params_id[i];
 }
@@ -201,25 +201,34 @@ void setMavlinParamsValue(uint8_t idx, float val) {
 		case RATE_PIT_I:
 		case STB_PIT_P:
 		case STB_PIT_I:
-			link_idx = idx + 4;
+			//
+		case HLD_LON_P:
+		case HLD_LON_I:
+		case NAV_LON_P:
+		case NAV_LON_I:
+			//
+		/* case RATE_PIT_D:
+		case STB_PIT_D:
+		case HLD_LON_D:
+		case NAV_LON_D: */
+			link_idx = idx + NB_COL_PARAMS;
 			break;
 		case RATE_RLL_P:
 		case RATE_RLL_I:
 		case STB_RLL_P:
 		case STB_RLL_I:
-			link_idx = idx - 4;
-			break;
-		case HLD_LON_P:
-		case HLD_LON_I:
-		case NAV_LON_P:
-		case NAV_LON_I:
-			link_idx = idx + 2;
-			break;
+			//
 		case HLD_LAT_P:
 		case HLD_LAT_I:
 		case NAV_LAT_P:
 		case NAV_LAT_I:
-			link_idx = idx - 2;
+			//
+
+		/* case RATE_RLL_D:
+		case STB_RLL_D:
+		case HLD_LAT_D:
+		case NAV_LAT_D: */
+			link_idx = idx - NB_COL_PARAMS;
 			break;
 		default:
 			break;
@@ -243,7 +252,8 @@ void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t att) {
 		}
 		if (idx < NB_PID_PARAMS) {
 			x = 11 * FW;
-			lcd_putcAtt(x, y, "PI"[idx & 0x01], att);
+			uint8_t colIdx = idx % NB_COL_PARAMS;
+			lcd_putcAtt(x, y, "PID"[colIdx], att);
 		}
 	}
 }
@@ -265,6 +275,10 @@ static inline void setParamValue(int8_t *id, float value) {
 						founded = !*p_id;
 						break;
 					case 'I':
+						founded = !*p_id;
+						idx++;
+						break;
+					case 'D':
 						founded = !*p_id;
 						idx++;
 						break;
@@ -409,7 +423,7 @@ static void MAVLINK_parse_char(uint8_t c) {
 		break;
 
 	case MAVLINK_PARSE_STATE_GOT_MSGID:
-		_MAV_PAYLOAD(p_rxmsg)[p_status->packet_idx++] = (char) c;
+		_MAV_PAYLOAD_NON_CONST(p_rxmsg)[p_status->packet_idx++] = (char) c;
 		mavlink_update_checksum(p_rxmsg, c);
 		if (p_status->packet_idx == p_rxmsg->len) {
 			p_status->parse_state = MAVLINK_PARSE_STATE_GOT_PAYLOAD;
@@ -482,8 +496,8 @@ static inline void MAVLINK_msg_param_set(uint8_t idx) {
 		if (!c) {
 			if (idx < NB_PID_PARAMS) {
 				*p++ = '_';
-				uint8_t colIdx = idx & 0x01;
-				*p++ = "PI"[colIdx];
+				uint8_t colIdx = idx % NB_COL_PARAMS;
+				*p++ = "PID"[colIdx];
 			}
 			*p++ = 0;
 			break;
@@ -684,8 +698,7 @@ void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mo
 	}
 }
 
-bool isValidReqControlMode()
-{
+bool isValidReqControlMode() {
 	if (telemetry_data.req_mode < NUM_MODES) {
 		if (telemetry_data.req_mode != telemetry_data.rcv_control_mode) {
 			return false;
@@ -749,9 +762,9 @@ void menuProcMavlinkInfos(void) {
 
 	if (telemetry_data.status) {
 		if (!isValidReqControlMode()) {
-				lcd_putsnAtt(x1, y, PSTR("REQ"), 3, 0);
-				putsControlMode(x2, y, telemetry_data.req_mode, 0, 6);
-				y += FH;
+			lcd_putsnAtt(x1, y, PSTR("REQ"), 3, 0);
+			putsControlMode(x2, y, telemetry_data.req_mode, 0, 6);
+			y += FH;
 		}
 		lcd_putsnAtt(x1, y, PSTR("MODE"), 4, 0);
 		putsMavlinkControlMode(x2, y, 6);
@@ -834,19 +847,19 @@ void menuProcMavlinkDump(uint8_t event) {
 	uint16_t bufferLen = 0;
 	uint8_t *ptr = NULL;
 	switch (MAVLINK_menu) {
-		case MENU_DUMP_RX:
+	case MENU_DUMP_RX:
 		mav_dump_rx = 1;
 		mav_title(PSTR("RX"), MAVLINK_menu);
 		bufferLen = mavlinkRxBufferCount;
 		ptr = mavlinkRxBuffer;
 		break;
 
-		case MENU_DUMP_TX:
+	case MENU_DUMP_TX:
 		mav_title(PSTR("TX"), MAVLINK_menu);
 		bufferLen = serialTxBufferCount;
 		ptr = ptrTxISR;
 		break;
-		default:
+	default:
 		break;
 	}
 	for (uint16_t var = 0; var < bufferLen; var++) {
@@ -859,7 +872,7 @@ void menuProcMavlinkDump(uint8_t event) {
 			x = 0;
 			y += FH;
 			if (y == (6 * FH))
-			break;
+				break;
 		}
 	}
 }
@@ -894,8 +907,8 @@ void menuProcMavlink(uint8_t event) {
 		menuProcMavlinkGPS();
 		break;
 #ifdef DUMP_RX_TX
-		case MENU_DUMP_TX:
-		case MENU_DUMP_RX:
+	case MENU_DUMP_TX:
+	case MENU_DUMP_RX:
 		menuProcMavlinkDump(event);
 		break;
 #endif
