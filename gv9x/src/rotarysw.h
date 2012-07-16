@@ -27,7 +27,6 @@ extern void setRotarySwDisplay(int8_t idx);
 extern void animRotarySw(uint8_t x);
 extern void menuProcRotarySwitches(uint8_t event);
 
-
 // Control mode define from arducoper
 enum CONTROL_MODE {
 	STABILIZE = 0, // hold level position
@@ -41,12 +40,13 @@ enum CONTROL_MODE {
 	POSITION, // AUTO control
 	LAND, // AUTO control
 	OF_LOITER, // Hold a single location using optical flow sensor
+	TOY, // THOR Enum for Toy mode
 	//
 	// Adding control mode define from ardupilot
-	MANUAL,
-	FLY_BY_WIRE_A, // Fly By Wire A has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical = manual throttle
-	FLY_BY_WIRE_B, // Fly By Wire B has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical => desired airspeed
-	FLY_BY_WIRE_C, // Fly By Wire C has left stick horizontal => desired roll angle, left stick vertical => desired climb rate, right stick vertical => desired airspeed
+	MANUAL, // 0,
+	FLY_BY_WIRE_A, // 5, Fly By Wire A has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical = manual throttle
+	FLY_BY_WIRE_B, // 6, Fly By Wire B has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical => desired airspeed
+	FLY_BY_WIRE_C, // 7, Fly By Wire C has left stick horizontal => desired roll angle, left stick vertical => desired climb rate, right stick vertical => desired airspeed
 // Fly By Wire B and Fly By Wire C require airspeed sensor
 
 	// This only for display
@@ -54,21 +54,38 @@ enum CONTROL_MODE {
 
 	NUM_MODES_ALL,
 };
-#define ACM_NUM_MODE (OF_LOITER+1)
+#define ACM_NUM_MODES (TOY+1)
 #define NUM_MODES (FLY_BY_WIRE_C+1)
 
-//                           0123456789012345678901234567890123456789012345678901234567890123456789
-//                           0     1     2     3     4     5     6     7     8     9     0     1
-#define CONROL_MODE_STR     "STAB  ACRO  ALT_H AUTO  GUIDEDLOITERRTL   CIRCLEPOSITILAND  OF_LOI"
+// APM Auto Pilot modes
+// ----------------
+enum APM_CONTROL_MODE {
+	APM_MANUAL = 0, //
+	APM_CIRCLE = 1, // When flying sans GPS, and we loose the radio, just circle
+	APM_STABILIZE = 2,
+
+	APM_FLY_BY_WIRE_A = 5, // Fly By Wire A has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical = manual throttle
+	APM_FLY_BY_WIRE_B = 6, // Fly By Wire B has left stick horizontal => desired roll angle, left stick vertical => desired pitch angle, right stick vertical => desired airspeed
+	APM_FLY_BY_WIRE_C = 7, // Fly By Wire C has left stick horizontal => desired roll angle, left stick vertical => desired climb rate, right stick vertical => desired airspeed
+	// Fly By Wire B and Fly By Wire C require airspeed sensor
+	APM_AUTO = 10,
+	APM_RTL = 11,
+	APM_LOITER = 12,
+//#define TAKEOFF 13			// This is not used by APM.  It appears here for consistency with ACM
+//#define LAND 14			// This is not used by APM.  It appears here for consistency with ACM
+	APM_GUIDED = 15
+};
+
+//                           01234567890123456789012345678901234567890123456789012345678901234567890123456
+//                           0     1     2     3     4     5     6     7     8     9     0     1     2
+#define CONROL_MODE_STR     "STAB  ACRO  ALT_H AUTO  GUIDEDLOITERRTL   CIRCLEPOSITILAND  OF_LOITOY   "
 #define CONROL_MODE_STR_APM "MANUALWIRE_AWIRE_BWIRE_C"
 #define DISPLAY_ONLY_STR    "INIT"
-
 
 inline void init_rotary_sw() {
 	setRotarySwIdx(-1); // Reinit sw roll idx
 	for (uint8_t i = 0; i < NUM_ROTARY_SW; i++) {
-		if (g_model.rotarySw[i].numMode >= NUM_MODES || g_model.rotarySw[i].typeRotary > ROTARY_TYPE_MAVLINK)
-		{
+		if (g_model.rotarySw[i].numMode >= NUM_MODES || g_model.rotarySw[i].typeRotary > ROTARY_TYPE_MAVLINK) {
 			g_model.rotarySw[i].typeRotary = 0;
 			g_model.rotarySw[i].numMode = 0;
 		}

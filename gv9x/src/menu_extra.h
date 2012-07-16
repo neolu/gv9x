@@ -1,6 +1,7 @@
 #ifdef ADD_EXTRA_MENU
 
 #include "er9x.h"
+#include "mavlink.h"
 
 #ifdef MENU_ROTARY_SW
 void menuProcRotarySwitches(uint8_t event) {
@@ -52,7 +53,7 @@ void menuProcRotarySwitches(uint8_t event) {
 
 				case 0:
 				//attr = ((sub == k && subSub == 0) ? (s_editMode ? BLINK : INVERS) : 0);
-#ifdef MAVLINK
+#ifdef MAVLINK_PARAMS
 				lcd_putsnAtt(3 * FW, y, PSTR("offppmmav") + 3 * type, 3, attr);
 				if (attr && (s_editMode || p1valdiff)) {
 					CHECK_INCDEC_H_MODELVAR(event, type, 0, 2);
@@ -91,10 +92,10 @@ void menuProcRotarySwitches(uint8_t event) {
 
 					}
 				}
-#ifdef MAVLINK
+#ifdef MAVLINK_PARAMS
 				if (type == ROTARY_TYPE_MAVLINK) {
-					val = MAVLINK_CtrlMode2Action(num);
-					if (val == ERROR_MAV_ACTION_NB) {
+					val = MAVLINK_CtrlMode2CustomMode(num);
+					if (val == ERROR_NUM_MODES) {
 						lcd_putcAtt(19 * FW, y, '-', attr);
 						break;;
 					}
@@ -108,8 +109,60 @@ void menuProcRotarySwitches(uint8_t event) {
 }
 #endif
 
-#ifdef MAVLINK
-extern int8_t watch_mav_req_params_list;
+#ifdef MAVLINK_PARAMS
+static inline void setMavlinParamsValue(uint8_t idx, float val) {
+	MavlinkParam_t *param = getParam(idx);
+	if (idx < NB_PARAMS && val != param->value) {
+		param->value = val;
+		param->repeat = PARAM_NB_REPEAT;
+		uint8_t link_idx = NB_PID_PARAMS;
+		switch (idx) {
+		case RATE_PIT_P:
+		case RATE_PIT_I:
+		case STB_PIT_P:
+		case STB_PIT_I:
+			//
+		case HLD_LON_P:
+		case HLD_LON_I:
+		case NAV_LON_P:
+		case NAV_LON_I:
+			//
+			/* case RATE_PIT_D:
+			 case STB_PIT_D:
+			 case HLD_LON_D:
+			 case NAV_LON_D: */
+			link_idx = idx + NB_COL_PARAMS;
+			break;
+		case RATE_RLL_P:
+		case RATE_RLL_I:
+		case STB_RLL_P:
+		case STB_RLL_I:
+			//
+		case HLD_LAT_P:
+		case HLD_LAT_I:
+		case NAV_LAT_P:
+		case NAV_LAT_I:
+			//
+
+			/* case RATE_RLL_D:
+			 case STB_RLL_D:
+			 case HLD_LAT_D:
+			 case NAV_LAT_D: */
+			link_idx = idx - NB_COL_PARAMS;
+			break;
+		default:
+			break;
+		}
+		if (link_idx < NB_PID_PARAMS) {
+			MavlinkParam_t *p = getParam(link_idx);
+			p->value = val;
+			p->repeat = PARAM_NB_REPEAT;
+		}
+		watch_mav_req_params_set = 4; // 1;
+	}
+}
+
+
 void menuProcMavlinkParams(uint8_t event) {
 	MENU("MAV PARAMS", menuTabModel, e_MavlinkParams, NB_ROW_PARAMS+1, {0, (NB_COL_PARAMS-1) /*repeated*/});
 
@@ -119,6 +172,12 @@ void menuProcMavlinkParams(uint8_t event) {
 	uint8_t subSub = mstate2.m_posHorz;
 
 	evalOffset(sub, 6);
+
+	switch (event) {
+	case EVT_ENTRY:
+		refreshParams(NB_PARAMS);
+		break;
+	}
 
 	for (uint8_t i = 0; i < 7; i++) { // 8 lines
 		y = (i + 1) * FH;

@@ -19,18 +19,25 @@
 
 #define MAVLINK_USE_CONVENIENCE_FUNCTIONS
 #define MAVLINK_COMM_NUM_BUFFERS 1
+#define MAVLINK_PARAMS
 
-//#define MAVLINK10
+enum ap_var_type
+{
+	AP_PARAM_NONE = 0,
+	AP_PARAM_INT8,
+	AP_PARAM_INT16,
+	AP_PARAM_INT32,
+	AP_PARAM_FLOAT,
+	AP_PARAM_VECTOR3F,
+	AP_PARAM_VECTOR6F,
+	AP_PARAM_MATRIX3F,
+	AP_PARAM_GROUP
+};
 
-#ifdef MAVLINK10
 #include "GCS_MAVLink/include/mavlink/v1.0/mavlink_types.h"
-#else
-#include "GCS_MAVLink/include/mavlink/v0.9/mavlink_types.h"
-#endif
+#include "GCS_MAVLink/Mavlink_compat.h"
 
 #include "serial.h"
-
-//#include "include/mavlink_helpers.h"
 
 extern mavlink_system_t mavlink_system;
 
@@ -42,16 +49,9 @@ extern void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len);
 #define MAVLINK_END_UART_SEND(chan,len) SERIAL_end_uart_send()
 #define MAVLINK_SEND_UART_BYTES(chan,buf,len) SERIAL_send_uart_bytes(buf,len)
 
-#ifdef MAVLINK10
 #include "GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
-#else
-#include "GCS_MAVLink/include/mavlink/v0.9/ardupilotmega/mavlink.h"
-#endif
-
-#define MAVLINK_PARAMS
 
 #define ERROR_NUM_MODES 99
-#define ERROR_MAV_ACTION_NB 99
 
 #ifdef MAVLINK_PARAMS
 
@@ -80,55 +80,11 @@ enum ACM_PARAMS {
 	NAV_LAT_I, // Nav WP
 	NB_PID_PARAMS, // Number of PI Parameters
 	LOW_VOLT = NB_PID_PARAMS,
-	IN_VOLT, //
+	VOLT_DIVIDER, //
 	BATT_MONITOR, //
 	BATT_CAPACITY, //
 	NB_PARAMS
 };
-/*
-enum ACM_PARAMS {
-	RATE_YAW_P, // Rate Yaw
-	RATE_YAW_I, // Rate Yaw
-	RATE_YAW_D, // Rate Yaw
-	STB_YAW_P, // Stabilize Yaw
-	STB_YAW_I, // Stabilize Yaw
-	STB_YAW_D, // Stabilize Yaw
-	RATE_PIT_P, // Rate Pitch
-	RATE_PIT_I, // Rate Pitch
-	RATE_PIT_D, // Rate Pitch
-	RATE_RLL_P, // Rate Roll
-	RATE_RLL_I, // Rate Roll
-	RATE_RLL_D, // Rate Roll
-	STB_PIT_P, // Stabilize Pitch
-	STB_PIT_I, // Stabilize Pitch
-	STB_PIT_D, // Stabilize Pitch
-	STB_RLL_P, // Stabilize Roll
-	STB_RLL_I, // Stabilize Roll
-	STB_RLL_D, // Stabilize Roll
-	THR_ALT_P, // THR_BAR, // Altitude Hold
-	THR_ALT_I, // THR_BAR, // Altitude Hold
-	THR_ALT_D, // THR_BAR, // Altitude Hold
-	HLD_LON_P, // Loiter
-	HLD_LON_I, // Loiter
-	HLD_LON_D, // Loiter
-	HLD_LAT_P, // Loiter
-	HLD_LAT_I, // Loiter
-	HLD_LAT_D, // Loiter
-	NAV_LON_P, // Nav WP
-	NAV_LON_I, // Nav WP
-	NAV_LON_D, // Nav WP
-	NAV_LAT_P, // Nav WP
-	NAV_LAT_I, // Nav WP
-	NAV_LAT_D, // Nav WP
-	NB_PID_PARAMS, // Number of PI Parameters
-	LOW_VOLT = NB_PID_PARAMS,
-	IN_VOLT, //
-	BATT_MONITOR, //
-	BATT_CAPACITY, //
-	NB_PARAMS
-};
-*/
-//#define NB_PID_PARAMS 24
 #define NB_EXTRA_PARAMS (NB_PARAMS-NB_PID_PARAMS)
 
 #define NB_COL_PARAMS 2
@@ -143,33 +99,37 @@ typedef struct MavlinkParam_ {
 #endif
 
 typedef struct Location_ {
-	float lat; ///< Latitude in degrees
-	float lon; ///< Longitude in degrees
-	float alt; ///< Altitude in meters
+	int32_t lat; ///< Latitude in degrees
+	int32_t lon; ///< Longitude in degrees
+	int32_t alt; ///< Altitude in meters
 } Location_t;
 
 typedef struct Telemetry_Data_ {
-	// INFOS
-	uint8_t status; ///< System status flag, see MAV_STATUS ENUM
-	uint16_t packet_drop;
-	//uint8_t mode;
-	//uint8_t nav_mode;
-	uint8_t rcv_control_mode; ///< System mode, see MAV_MODE ENUM in mavlink/include/mavlink_types.h
-	//uint16_t load; ///< Maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000) should be always below 1000
-	uint8_t vbat; ///< Battery voltage, in millivolts (1 = 1 millivolt)
+	// MESSAGE SYS_STATUS
+	uint16_t drop_rate_comm;
+	uint16_t voltage_battery; ///< Battery voltage, in millivolts (1 = 1 millivolt)
 	uint8_t vbat_low;
 
+	// MESSAGE HEARTBEAT
+	//uint32_t custom_mode; ///< A bitfield for use for autopilot-specific flags.
+	uint8_t type; ///< Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
+	uint8_t base_mode; ///< System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h
+	uint8_t system_status; ///< System status flag, see MAV_STATE ENUM
+
 	// MSG ACTION / ACK
-	uint8_t req_mode;
+	uint8_t rcv_control_mode;
+	uint8_t req_control_mode;
 	int8_t ack_result;
 
 	// GPS
 	uint8_t fix_type; ///< 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.
 	uint8_t satellites_visible; ///< Number of satellites visible
 	Location_t loc_current;
-	float eph;
+	uint16_t eph;
+#ifdef MAVLINK09
 	float hdg;
 	float v; // Ground speed
+#endif
 
 #ifdef MAVLINK_PARAMS
 	// Params
@@ -181,127 +141,33 @@ typedef struct Telemetry_Data_ {
 // Telemetry data hold
 extern Telemetry_Data_t telemetry_data;
 
-#ifndef MAVLINK10
-extern inline uint8_t MAVLINK_NavMode2CtrlMode(uint8_t mode, uint8_t nav_mode) {
-
-	uint8_t control_mode = ERROR_NUM_MODES;
-	switch (mode) {
-	case MAV_MODE_UNINIT:
-		control_mode = INITIALISING;
-		break;
-
-	case MAV_MODE_AUTO:
-		switch (nav_mode) {
-		case MAV_NAV_HOLD: // ACM
-		case MAV_NAV_LOITER: // APM
-			control_mode = LOITER;
-			break;
-		case MAV_NAV_WAYPOINT:
-			control_mode = AUTO;
-			break;
-		case MAV_NAV_RETURNING:
-			control_mode = RTL;
-			break;
-		}
-		break;
-	case MAV_MODE_GUIDED:
-		control_mode = GUIDED;
-		break;
-
-		/* from ardupilot */
-	case MAV_MODE_MANUAL:
-		control_mode = MANUAL;
-		break;
-	case MAV_MODE_TEST1:
-		control_mode = STABILIZE;
-		break;
-	case MAV_MODE_TEST2:
-		switch (nav_mode) {
-		case 1:
-			control_mode = FLY_BY_WIRE_A;
-			break;
-		case 2:
-			control_mode = FLY_BY_WIRE_B;
-			break;
-		}
-		break;
-	case MAV_MODE_TEST3:
-		control_mode = CIRCLE;
-		break;
-
-	default:
-		if (mode >= 100) {
-			control_mode = mode - 100;
-		}
-		break;
-	}
-	return control_mode;
-}
-#endif
+#define isSAFETY_ARMED() (telemetry_data.base_mode&MAV_MODE_FLAG_SAFETY_ARMED)
 
 extern inline uint8_t MAVLINK_CtrlMode2Action(uint8_t mode) {
-	uint8_t action;
-	switch (mode) {
-	case STABILIZE:
-		action = MAV_ACTION_SET_MANUAL;
-		break;
-	case RTL:
-		action = MAV_ACTION_RETURN;
-		break;
-	case LAND:
-		action = MAV_ACTION_LAND;
-		break;
-	case LOITER:
-		action = MAV_ACTION_LOITER;
-		break;
-	case AUTO:
-		action = MAV_ACTION_SET_AUTO;
-		break;
-	case MANUAL:
-		action = MAV_ACTION_SET_MANUAL;
-		break;
-	default:
-		action = ERROR_MAV_ACTION_NB;
-		break;
-	}
+	uint8_t action = mode;
 	return action;
+}
+
+extern inline uint8_t MAVLINK_CtrlMode2CustomMode(uint8_t mode)
+{
+	uint8_t custom_mode = ERROR_NUM_MODES;
+	if(telemetry_data.type == MAV_TYPE_QUADROTOR)
+	{
+		if (mode < ACM_NUM_MODES)
+		{
+			custom_mode = mode;
+		}
+	}
+	if(telemetry_data.type == MAV_TYPE_FIXED_WING)
+	{
+		// TODO
+	}
+	return custom_mode;
 }
 
 extern inline uint8_t MAVLINK_Action2CtrlMode(uint8_t action) {
 	uint8_t mode = ERROR_NUM_MODES;
-	switch (action) {
-	case MAV_ACTION_SET_MANUAL:
-		mode = STABILIZE;
-		break;
-		/*
-		 case ACRO:
-		 action = 0;
-		 break;
-		 case SIMPLE:
-		 action = 0;
-		 break;
-		 case ALT_HOLD:
-		 action = 0;
-		 break;*/
-	case MAV_ACTION_SET_AUTO:
-		mode = AUTO;
-		break;
-		/*case GUIDED:
-		 action = 0;
-		 break;*/
-	case MAV_ACTION_LOITER:
-		mode = LOITER;
-		break;
-	case MAV_ACTION_RETURN:
-		mode = RTL;
-		break;
-		/*case CIRCLE:
-		 action = 0;
-		 break;*/
-	default:
-		break;
-	}
-	return action;
+	return mode;
 }
 
 void check_mavlink();
@@ -309,10 +175,20 @@ void MAVLINK_Init(void);
 void menuProcMavlink(uint8_t event);
 void MAVLINK10mspoll(uint16_t time);
 
-#ifdef MAVLINK_PARAMS
+bool isValidReqControlMode();
+void MAVLINK_ReqMode(uint8_t mode, uint8_t send);
+void putsMavlinkControlMode(uint8_t x, uint8_t y, uint8_t len);
+void putsMavlinkSafetyArmed(uint8_t x, uint8_t y);
 
+#ifdef MAVLINK_PARAMS
+#define PARAM_NB_REPEAT 10
+
+extern int8_t watch_mav_req_params_list;
+extern uint8_t mav_req_params_nb_recv;
+extern int8_t watch_mav_req_params_set;
+//void refreshParams(uint8_t nb);
 void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t att);
-void setMavlinParamsValue(uint8_t idx, float val);
+//void setMavlinParamsValue(uint8_t idx, float val);
 
 inline uint8_t getIdxParam(uint8_t rowIdx, uint8_t colIdx) {
 	return (rowIdx * NB_COL_PARAMS) + colIdx;
@@ -334,6 +210,11 @@ inline uint8_t isValidParamsValue(uint8_t idx) {
 	return telemetry_data.params[idx].valid;
 }
 
+inline void refreshParams(uint8_t nb) {
+	watch_mav_req_params_list = mav_req_params_nb_recv < nb ? 20 : 0; // stop timeout
+}
+
+
 inline float getCoefPrecis(uint8_t precis) {
 	switch (precis) {
 	case 1:
@@ -353,7 +234,7 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 	case LOW_VOLT:
 		max = 2500; // 25.0 Volt max
 		break;
-	case IN_VOLT:
+	case VOLT_DIVIDER:
 		max = 900; // 7.00 Volt max
 		break;
 	case BATT_MONITOR:
@@ -365,8 +246,7 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 	default:
 		if (idx < NB_PID_PARAMS) {
 			// PID
-			switch(idx % NB_COL_PARAMS)
-			{
+			switch (idx % NB_COL_PARAMS) {
 			case 0:
 				max = 1000;
 				break;
@@ -389,7 +269,7 @@ inline uint8_t getPrecisMavlinParamsValue(uint8_t idx) {
 	case LOW_VOLT:
 		precis = 2;
 		break;
-	case IN_VOLT:
+	case VOLT_DIVIDER:
 		precis = 2;
 		break;
 	case BATT_MONITOR:

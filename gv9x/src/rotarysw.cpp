@@ -15,6 +15,9 @@
 #include "er9x.h"
 #include "menus.h"
 #include "rotarysw.h"
+#ifdef MAVLINK
+#include "mavlink.h"
+#endif
 
 #define CTIME_ROTARY_ANIM 500
 uint16_t rotarySwChanged = 0;
@@ -26,17 +29,17 @@ void putsRotarySwPos(uint8_t x, uint8_t y, uint8_t idx, uint8_t att) {
 	lcd_putcAtt(x + FW, y, '1' + idx, att);
 }
 
-#ifdef MAVLINK
+#ifdef MAVLINK_XX
 extern bool isValidReqControlMode();
 extern void putsMavlinkControlMode(uint8_t x, uint8_t y, uint8_t len);
 extern void MAVLINK_ReqMode(uint8_t mode, uint8_t send);
 #endif
 
 void putsControlMode(uint8_t x, uint8_t y, uint8_t idx, uint8_t attr, uint8_t len) {
-	if (idx < ACM_NUM_MODE) {
+	if (idx < ACM_NUM_MODES) {
 		lcd_putsnAtt(x, y, PSTR(CONROL_MODE_STR) + 6 * idx, len, attr);
 	} else if (idx < NUM_MODES) {
-		idx -= ACM_NUM_MODE;
+		idx -= ACM_NUM_MODES;
 		lcd_putsnAtt(x, y, PSTR(CONROL_MODE_STR_APM) + 6 * idx, len, attr);
 	} else if (idx < NUM_MODES_ALL) {
 		idx -= NUM_MODES;
@@ -78,7 +81,7 @@ void animRotarySw(uint8_t x) {
 	s_time = s_time >> 4; // 1280ms time unit
 	uint8_t num4Display = s_time & 0x01; // 1/4 display time
 #ifdef MAVLINK
-					s_time = telemetry_data.status ? (s_time >> 1) : 0; // 2560ms time unit
+					s_time = telemetry_data.system_status ? (s_time >> 1) : 0; // 2560ms time unit
 #else
 	s_time = 0;
 #endif
@@ -89,6 +92,7 @@ void animRotarySw(uint8_t x) {
 		putsControlMode(x + 4 * FW, 2 * FH, g_model.rotarySw[rotarySwIdx].numMode, att1 | NO_UNIT, 6);
 	}
 
+	uint8_t armed_display = telemetry_data.system_status;
 	switch (num2Display) {
 	case 0:
 		att1 = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
@@ -97,6 +101,7 @@ void animRotarySw(uint8_t x) {
 		if (s_timerState != TMR_OFF) {
 			att1 = DBLSIZE | (s_timerState == TMR_BEEPING ? BLINK : 0);
 			putsTime(x + 14 * FW - 2, FH * 2, s_timerVal, att1, att1);
+			armed_display = 0;
 		}
 
 		switch (num4Display) {
@@ -116,25 +121,20 @@ void animRotarySw(uint8_t x) {
 	default:
 #ifdef MAVLINK
 		att1 = (telemetry_data.vbat_low ? BLINK : 0);
-		lcd_outdezAtt(x + 4 * FW, 2 * FH, telemetry_data.vbat, att1 | PREC1 | DBLSIZE);
+		lcd_outdezAtt(x + 4 * FW, 2 * FH, telemetry_data.voltage_battery, att1 | PREC1 | DBLSIZE);
 		if (isValidReqControlMode())
 		{
 			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
 		} else {
 			putsMavlinkControlMode(x + 4 * FW, 3 * FH, 6);
 		}
-		switch (telemetry_data.status) {
-			case 3:
-			lcd_putsnAtt(x + 11 * FW, 2 * FH, PSTR("DISARM"), 6, 0);
-			break;
-			case 4:
-			lcd_putsnAtt(x + 11 * FW, 2 * FH, PSTR("ARMED "), 6, 0);
-			break;
-			default:
-			break;
-		}
-
 #endif
 		break;
 	}
+#ifdef MAVLINK
+	if (armed_display)
+	{
+		putsMavlinkSafetyArmed(x + 11 * FW, 2 * FH);
+	}
+#endif
 }

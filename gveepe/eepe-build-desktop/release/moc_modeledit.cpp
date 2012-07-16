@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'modeledit.h'
 **
-** Created: Sat 17. Mar 22:37:22 2012
+** Created: Tue 10. Jul 21:30:30 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!

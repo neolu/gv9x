@@ -47,6 +47,7 @@ void populateRotarySwitchNameCB(QComboBox *b, int value=0)
     b->addItem("POSITION");
     b->addItem("LAND");
     b->addItem("OF_LOITER");
+    b->addItem("TOY");
     b->addItem("MANUAL");
     b->addItem("FLY_BY_WIRE_A");
     b->addItem("FLY_BY_WIRE_B");
