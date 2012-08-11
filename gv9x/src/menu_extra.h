@@ -115,7 +115,7 @@ static inline void setMavlinParamsValue(uint8_t idx, float val) {
 	if (idx < NB_PARAMS && val != param->value) {
 		param->value = val;
 		param->repeat = PARAM_NB_REPEAT;
-		uint8_t link_idx = NB_PID_PARAMS;
+		int8_t link_idx = -1;
 		switch (idx) {
 		case RATE_PIT_P:
 		case RATE_PIT_I:
@@ -127,10 +127,6 @@ static inline void setMavlinParamsValue(uint8_t idx, float val) {
 		case NAV_LON_P:
 		case NAV_LON_I:
 			//
-			/* case RATE_PIT_D:
-			 case STB_PIT_D:
-			 case HLD_LON_D:
-			 case NAV_LON_D: */
 			link_idx = idx + NB_COL_PARAMS;
 			break;
 		case RATE_RLL_P:
@@ -143,17 +139,12 @@ static inline void setMavlinParamsValue(uint8_t idx, float val) {
 		case NAV_LAT_P:
 		case NAV_LAT_I:
 			//
-
-			/* case RATE_RLL_D:
-			 case STB_RLL_D:
-			 case HLD_LAT_D:
-			 case NAV_LAT_D: */
 			link_idx = idx - NB_COL_PARAMS;
 			break;
 		default:
 			break;
 		}
-		if (link_idx < NB_PID_PARAMS) {
+		if (isPID_PARAM(link_idx)) {
 			MavlinkParam_t *p = getParam(link_idx);
 			p->value = val;
 			p->repeat = PARAM_NB_REPEAT;

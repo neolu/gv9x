@@ -71,13 +71,6 @@ void animRotarySw(uint8_t x) {
 	uint8_t swToggle = (s_time < rotarySwChanged);
 	uint8_t att1 = 0;
 
-#if 0
-	if (s_timerState != TMR_OFF) {
-		att1 = DBLSIZE | (s_timerState == TMR_BEEPING ? BLINK : 0);
-		putsTime(x + 14 * FW - 2, FH * 2, s_timerVal, att1, att1);
-	}
-#endif
-
 	s_time = s_time >> 4; // 1280ms time unit
 	uint8_t num4Display = s_time & 0x01; // 1/4 display time
 #ifdef MAVLINK
@@ -85,7 +78,7 @@ void animRotarySw(uint8_t x) {
 #else
 	s_time = 0;
 #endif
-	uint8_t num2Display = s_time & 0x01; // 1/2 time display time
+	uint8_t num2Display = (s_time & 0x01) && (getMavlinParamsValue(BATT_MONITOR) > 0); // 1/2 time display time
 
 	if (rotarySwIdx >= 0) {
 		att1 = swToggle ? INVERS : 0;
@@ -104,17 +97,16 @@ void animRotarySw(uint8_t x) {
 			armed_display = 0;
 		}
 
-		switch (num4Display) {
-		case 0:
-			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("ExpExFFneMedCrs") + 3 * g_model.trimInc, 3, 0);
-			lcd_putsnAtt(x + 8 * FW - FW / 2, 3 * FH, PSTR("   TTm") + 3 * g_model.thrTrim, 3, 0);
-			break;
-		default:
-			lcd_putcAtt(x + 4 * FW, 3 * FH, 'V', 0);
-			if (s_timerState != TMR_OFF) {
+		if (!isValidReqControlMode()) {
+			putsMavlinkControlMode(x + 4 * FW, 3 * FH, 6);
+		} else {
+			if (num4Display == 0 || s_timerState == TMR_OFF) {
+				lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("ExpExFFneMedCrs") + 3 * g_model.trimInc, 3, 0);
+				lcd_putsnAtt(x + 8 * FW - FW / 2, 3 * FH, PSTR("   TTm") + 3 * g_model.thrTrim, 3, 0);
+			} else {
+				// lcd_putcAtt(x + 4 * FW, 3 * FH, 'V', 0);
 				putsTmrMode(x + 7 * FW - FW / 2, 3 * FH, 0);
 			}
-			break;
 		}
 		break;
 
@@ -122,12 +114,7 @@ void animRotarySw(uint8_t x) {
 #ifdef MAVLINK
 		att1 = (telemetry_data.vbat_low ? BLINK : 0);
 		lcd_outdezAtt(x + 4 * FW, 2 * FH, telemetry_data.voltage_battery, att1 | PREC1 | DBLSIZE);
-		if (isValidReqControlMode())
-		{
-			lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
-		} else {
-			putsMavlinkControlMode(x + 4 * FW, 3 * FH, 6);
-		}
+		lcd_putsnAtt(x + 4 * FW, 3 * FH, PSTR("MAVLNK"), 6, 0);
 #endif
 		break;
 	}
@@ -135,6 +122,7 @@ void animRotarySw(uint8_t x) {
 	if (armed_display)
 	{
 		putsMavlinkSafetyArmed(x + 11 * FW, 2 * FH);
+		putsGpsStatus(x + 11 * FW, 3 * FH);
 	}
 #endif
 }

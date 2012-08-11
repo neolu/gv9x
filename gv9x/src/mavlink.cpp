@@ -129,9 +129,9 @@ static inline void REC_MAVLINK_MSG_ID_SYS_STATUS(const mavlink_message_t* msg) {
 
 static inline void REC_MAVLINK_MSG_ID_GPS_RAW(const mavlink_message_t* msg) {
 	telemetry_data.fix_type = mavlink_msg_gps_raw_int_get_fix_type(msg);
-	telemetry_data.loc_current.lat = mavlink_msg_gps_raw_int_get_lat(msg);
-	telemetry_data.loc_current.lon = mavlink_msg_gps_raw_int_get_lon(msg);
-	telemetry_data.loc_current.alt = mavlink_msg_gps_raw_int_get_alt(msg);
+	telemetry_data.loc_current.lat = mavlink_msg_gps_raw_int_get_lat(msg) / 1.0e7;
+	telemetry_data.loc_current.lon = mavlink_msg_gps_raw_int_get_lon(msg) / 1.0e7;
+	telemetry_data.loc_current.alt = mavlink_msg_gps_raw_int_get_alt(msg) / 1000.0;
 	telemetry_data.eph = mavlink_msg_gps_raw_int_get_eph(msg);
 	telemetry_data.satellites_visible = mavlink_msg_gps_raw_int_get_satellites_visible(msg);
 #ifdef MAVLINK09
@@ -143,89 +143,62 @@ static inline void REC_MAVLINK_MSG_ID_GPS_RAW(const mavlink_message_t* msg) {
 #ifdef MAVLINK_PARAMS
 static prog_char *getParamId(uint8_t idx) {
 	switch (idx) {
-		case RATE_YAW_P:
-		case RATE_YAW_I:
+	case RATE_YAW_P:
+	case RATE_YAW_I:
 		return PSTR("RATE_YAW"); // Rate Yaw
-		case STB_YAW_P:
-		case STB_YAW_I:
-		return PSTR("STB_YAW");// Stabilize Yaw
+	case STB_YAW_P:
+	case STB_YAW_I:
+		return PSTR("STB_YAW"); // Stabilize Yaw
 
-		case RATE_PIT_P:
-		case RATE_PIT_I:
-		return PSTR("RATE_PIT");// Rate Yaw
-		case RATE_RLL_P:
-		case RATE_RLL_I:
-		return PSTR("RATE_RLL");// Rate Yaw
+	case RATE_PIT_P:
+	case RATE_PIT_I:
+		return PSTR("RATE_PIT"); // Rate Yaw
+	case RATE_RLL_P:
+	case RATE_RLL_I:
+		return PSTR("RATE_RLL"); // Rate Yaw
 
-		case STB_PIT_P:
-		case STB_PIT_I:
+	case STB_PIT_P:
+	case STB_PIT_I:
 		return PSTR("STB_PIT");
-		case STB_RLL_P:
-		case STB_RLL_I:
-		return PSTR("STB_RLL");// Stabilize Yaw
+	case STB_RLL_P:
+	case STB_RLL_I:
+		return PSTR("STB_RLL"); // Stabilize Yaw
 
-		case THR_ALT_P:// THR_BAR, // Altitude Hold
-		case THR_ALT_I:// THR_BAR, // Altitude Hold
+	case THR_ALT_P: // THR_BAR, // Altitude Hold
+	case THR_ALT_I: // THR_BAR, // Altitude Hold
 		return PSTR("THR_ALT");
 		//
 		case HLD_LON_P:
 		case HLD_LON_I:
-		return PSTR("HLD_LON");// Loiter
+		return PSTR("HLD_LON"); // Loiter
+
 		case HLD_LAT_P:
 		case HLD_LAT_I:
 		return PSTR("HLD_LAT");// Loiter
-
+//
 		case NAV_LON_P:
 		case NAV_LON_I:
-		return PSTR("NAV_LON");// Nav WP;
+		return PSTR("NAV_LON"); // Nav WP;
 		//
 		case NAV_LAT_P:
 		case NAV_LAT_I:
 		return PSTR("NAV_LAT");// Nav WP;
 
-		case LOW_VOLT:
-		return PSTR("LOW_VOLT");// Battery low voltage
-		case VOLT_DIVIDER://
-		return PSTR("VOLT_DIVIDER");//
-		case BATT_MONITOR://
-		return PSTR("BATT_MONITOR");//
-		case BATT_CAPACITY://
+	case LOW_VOLT:
+		return PSTR("LOW_VOLT"); // Battery low voltage
+	case VOLT_DIVIDER: //
+		return PSTR("VOLT_DIVIDER"); //
+	case BATT_MONITOR: //
+		return PSTR("BATT_MONITOR"); //
+	case BATT_CAPACITY: //
 		return PSTR("BATT_CAPACITY");
 
-		default:
+	default:
 		return PSTR("");
 		break;
 	}
 
 }
-/*
- static prog_char *getParamId(uint8_t idx) {
- prog_char *mav_params_id[((NB_PID_PARAMS / NB_COL_PARAMS) + 4)] = { //
- //
- PSTR("RATE_YAW"), // Rate Yaw
- PSTR("STB_YAW"), // Stabilize Yaw
- PSTR("RATE_PIT"), // Rate Pitch
- PSTR("RATE_RLL"), // Rate Roll
- PSTR("STB_PIT"), // Stabilize Pitch
- PSTR("STB_RLL"), // Stabilize Roll
- PSTR("THR_ALT"), // PSTR("THR_BAR"), // Altitude Hold
- PSTR("HLD_LON"), // Loiter
- PSTR("HLD_LAT"), // Loiter
- PSTR("NAV_LON"), // Nav WP
- PSTR("NAV_LAT"), // Nav WP
- PSTR("LOW_VOLT"), // Battery low voltage
- PSTR("VOLT_DIVIDER"), //
- PSTR("BATT_MONITOR"), //
- PSTR("BATT_CAPACITY") };
- uint8_t i;
- if (idx < NB_PID_PARAMS) {
- i = idx / NB_COL_PARAMS;
- } else {
- i = idx - (NB_PID_PARAMS / NB_COL_PARAMS);
- }
- return mav_params_id[i];
- }
- */
 
 void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t att) {
 	if (idx < NB_PARAMS) {
@@ -235,10 +208,10 @@ void putsMavlinParams(uint8_t x, uint8_t y, uint8_t idx, uint8_t att) {
 			lcd_putcAtt(x, y, (c == '_' ? ' ' : c), 0);
 			x += FW;
 		}
-		if (idx < NB_PID_PARAMS) {
+		if (isPID_PARAM(idx)) {
 			x = 11 * FW;
 			uint8_t colIdx = idx % NB_COL_PARAMS;
-			lcd_putcAtt(x, y, "PID"[colIdx], att);
+			lcd_putcAtt(x, y, "PI"[colIdx], att);
 		}
 	}
 }
@@ -253,7 +226,7 @@ static inline void setParamValue(char *id, float value) {
 			if (!c1) {
 				// Founded if ended with 0
 				uint8_t founded = !*p_id;
-				if (idx < NB_PID_PARAMS) {
+				if (isPID_PARAM(idx)) {
 					// skip '_'
 					p_id++;
 					// PID only P&I
@@ -281,12 +254,14 @@ static inline void setParamValue(char *id, float value) {
 					mav_req_params_nb_recv++;
 					refreshParams(NB_PARAMS - 5);
 				}
-				return;
+				if (isPID_PARAM(idx)) {
+					return;
+				}
 			} else if (c1 != *p_id++) {
 				break;
 			}
 		}
-		if (idx < NB_PID_PARAMS) {
+		if (isPID_PARAM(idx)) {
 			// Skip I Parameter from PID
 			idx++;
 		}
@@ -297,7 +272,6 @@ static inline void REC_MAVLINK_MSG_ID_PARAM_VALUE(const mavlink_message_t* msg) 
 	mavlink_msg_param_value_decode(msg, &param_value);
 	char *id = param_value.param_id;
 	setParamValue(id, param_value.param_value);
-	data_stream_start_stop = 0; // stop data stream while getting params list
 }
 
 #endif
@@ -558,7 +532,7 @@ static inline void MAVLINK_msg_param_set(uint8_t idx) {
 	while (1) {
 		char c = pgm_read_byte(s++);
 		if (!c) {
-			if (idx < NB_PID_PARAMS) {
+			if (isPID_PARAM(idx)) {
 				*p++ = '_';
 				uint8_t colIdx = idx % NB_COL_PARAMS;
 				// PID only PI
@@ -628,12 +602,12 @@ void MAVLINK10mspoll(uint8_t count) {
 		if (watch_mav_req_start_data_stream > 0) {
 			watch_mav_req_start_data_stream--;
 			if (watch_mav_req_start_data_stream == 0) {
-				uint8_t req_stream_id = 2;
-				uint16_t req_message_rate = MAV_DATA_STREAM_EXTENDED_STATUS; // MAV_DATA_STREAM_RAW_SENSORS;// 1;
+				uint8_t req_stream_id = MAV_DATA_STREAM_EXTENDED_STATUS;
+				uint16_t req_message_rate = 2;
 
 				MAVLINK_msg_request_data_stream_pack_send(req_stream_id, req_message_rate, data_stream_start_stop);
 				watch_mav_req_start_data_stream = 20;
-				data_stream_start_stop = 50; // maybe start next time
+				data_stream_start_stop = 1; // maybe start next time
 			}
 		}
 		break;
@@ -743,20 +717,21 @@ void lcd_outdezFloat(uint8_t x, uint8_t y, float val, uint8_t precis, uint8_t mo
 		}
 	} else {
 		if (val < 0) {
-			val = -val;
+			val = abs(val);
 			x1 -= FWNUM;
 			lcd_putcAtt(x1, y, '-', mode);
 		}
-		if (precis)
+		if (precis) {
 			lcd_putcAtt(x, y, '.', mode);
 
-		for (i = 0; i < precis; i++) {
-			val *= 10;
-			int a = val;
-			c = a + '0';
-			x += FWNUM;
-			lcd_putcAtt(x, y, c, mode);
-			val -= a;
+			for (i = 0; i < precis; i++) {
+				val *= 10;
+				int a = val;
+				c = a + '0';
+				x += FWNUM;
+				lcd_putcAtt(x, y, c, mode);
+				val -= a;
+			}
 		}
 	}
 }
@@ -806,6 +781,14 @@ void putsMavlinkSafetyArmed(uint8_t x, uint8_t y) {
 	lcd_putsnAtt(x, y, PSTR("ARMED DISARM") + idx, 6, 0);
 }
 
+
+void putsGpsStatus(uint8_t x, uint8_t y) {
+	lcd_putsnAtt(x, y, PSTR("GPS"), 3, 0);
+	uint8_t fix_type = telemetry_data.fix_type;
+	if (fix_type <= 3) {
+		lcd_putsnAtt(x + 4 * FW, y, PSTR("___NO OK FIX") + 3 * fix_type, 3, 0);
+	}
+}
 void menuProcMavlinkInfos(void) {
 
 	mav_title(PSTR("INFOS"), MAVLINK_menu);
@@ -861,13 +844,16 @@ void menuProcMavlinkGPS(void) {
 	xnum = 5 * FW + 3 * FWNUM;
 	y = FH;
 
+	putsGpsStatus(x1, y);
+/*
 	lcd_putsnAtt(x1, y, PSTR("GPS"), 3, 0);
 	uint8_t fix_type = telemetry_data.fix_type;
-	if (fix_type <= 2) {
-		lcd_putsnAtt(x2, y, PSTR("__NOOK") + 2 * fix_type, 2, 0);
+	if (fix_type <= 3) {
+		lcd_putsnAtt(x2, y, PSTR("___NO OK FIX") + 3 * fix_type, 3, 0);
 	} else {
 		lcd_outdezNAtt(xnum, y, fix_type, 0, 3);
 	}
+	*/
 	lcd_putsnAtt(x2 + 5 * FW, y, PSTR("SAT"), 3, 0);
 	lcd_outdezNAtt(x2 + 8 * FW + 3 * FWNUM, y, telemetry_data.satellites_visible, 0, 2);
 
@@ -878,11 +864,9 @@ void menuProcMavlinkGPS(void) {
 
 	y += FH;
 	lcd_putsnAtt(0, y, PSTR("COOR"), 4, 0);
-	lcd_outdezFloat(xnum, y, telemetry_data.loc_current.lat, 5);
+	lcd_outdezFloat(xnum, y, telemetry_data.loc_current.lat, 4);
 
-	//	y += FH;
-	//	lcd_putsnAtt(x1, y, PSTR("LON"), 3, 0);
-	lcd_outdezFloat(xnum + 10 * FWNUM, y, telemetry_data.loc_current.lon, 5);
+	lcd_outdezFloat(xnum + 10 * FWNUM, y, telemetry_data.loc_current.lon, 4);
 
 	y += FH;
 	lcd_putsnAtt(x1, y, PSTR("ALT"), 3, 0);

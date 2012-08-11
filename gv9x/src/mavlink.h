@@ -21,8 +21,7 @@
 #define MAVLINK_COMM_NUM_BUFFERS 1
 #define MAVLINK_PARAMS
 
-enum ap_var_type
-{
+enum ap_var_type {
 	AP_PARAM_NONE = 0,
 	AP_PARAM_INT8,
 	AP_PARAM_INT16,
@@ -56,40 +55,44 @@ extern void SERIAL_send_uart_bytes(uint8_t * buf, uint16_t len);
 #ifdef MAVLINK_PARAMS
 
 enum ACM_PARAMS {
-	RATE_YAW_P, // Rate Yaw
-	RATE_YAW_I, // Rate Yaw
-	STB_YAW_P, // Stabilize Yaw
-	STB_YAW_I, // Stabilize Yaw
+	BATT_MONITOR, //
+	LOW_VOLT,
+	VOLT_DIVIDER, //
+	BATT_CAPACITY, //
+	//
+	FIRST_PID_PARAM, //
+	STB_PIT_P = FIRST_PID_PARAM, // Stabilize Pitch
+	STB_PIT_I, // Stabilize Pitch
+	STB_RLL_P, // Stabilize Roll
+	STB_RLL_I, // Stabilize Roll
 	RATE_PIT_P, // Rate Pitch
 	RATE_PIT_I, // Rate Pitch
 	RATE_RLL_P, // Rate Roll
 	RATE_RLL_I, // Rate Roll
-	STB_PIT_P, // Stabilize Pitch
-	STB_PIT_I, // Stabilize Pitch
-	STB_RLL_P, // Stabilize Roll
-	STB_RLL_I, // Stabilize Roll
+	STB_YAW_P, // Stabilize Yaw
+	STB_YAW_I, // Stabilize Yaw
+	RATE_YAW_P, // Rate Yaw
+	RATE_YAW_I, // Rate Yaw
 	THR_ALT_P, // THR_BAR, // Altitude Hold
 	THR_ALT_I, // THR_BAR, // Altitude Hold
+//
 	HLD_LON_P, // Loiter
-	HLD_LON_I, // Loiter
-	HLD_LAT_P, // Loiter
-	HLD_LAT_I, // Loiter
+	HLD_LON_I,// Loiter
+	HLD_LAT_P,// Loiter
+	HLD_LAT_I,// Loiter
+//
 	NAV_LON_P, // Nav WP
-	NAV_LON_I, // Nav WP
-	NAV_LAT_P, // Nav WP
-	NAV_LAT_I, // Nav WP
-	NB_PID_PARAMS, // Number of PI Parameters
-	LOW_VOLT = NB_PID_PARAMS,
-	VOLT_DIVIDER, //
-	BATT_MONITOR, //
-	BATT_CAPACITY, //
+	NAV_LON_I,// Nav WP
+	NAV_LAT_P,// Nav WP
+	NAV_LAT_I,// Nav WP
+//
 	NB_PARAMS
 };
-#define NB_EXTRA_PARAMS (NB_PARAMS-NB_PID_PARAMS)
 
 #define NB_COL_PARAMS 2
 #define NB_ROW_PARAMS ((NB_PARAMS+1)/NB_COL_PARAMS)
 
+#define isPID_PARAM(idx) (idx>=FIRST_PID_PARAM)
 typedef struct MavlinkParam_ {
 	uint8_t repeat :4;
 	uint8_t valid :4;
@@ -99,9 +102,9 @@ typedef struct MavlinkParam_ {
 #endif
 
 typedef struct Location_ {
-	int32_t lat; ///< Latitude in degrees
-	int32_t lon; ///< Longitude in degrees
-	int32_t alt; ///< Altitude in meters
+	float lat; ///< Latitude in degrees
+	float lon; ///< Longitude in degrees
+	float alt; ///< Altitude in meters
 } Location_t;
 
 typedef struct Telemetry_Data_ {
@@ -143,32 +146,19 @@ extern Telemetry_Data_t telemetry_data;
 
 #define isSAFETY_ARMED() (telemetry_data.base_mode&MAV_MODE_FLAG_SAFETY_ARMED)
 
-extern inline uint8_t MAVLINK_CtrlMode2Action(uint8_t mode) {
-	uint8_t action = mode;
-	return action;
-}
-
-extern inline uint8_t MAVLINK_CtrlMode2CustomMode(uint8_t mode)
-{
+extern inline uint8_t MAVLINK_CtrlMode2CustomMode(uint8_t mode) {
 	uint8_t custom_mode = ERROR_NUM_MODES;
-	if(telemetry_data.type == MAV_TYPE_QUADROTOR)
-	{
-		if (mode < ACM_NUM_MODES)
-		{
+	if (telemetry_data.type == MAV_TYPE_QUADROTOR) {
+		if (mode < ACM_NUM_MODES) {
 			custom_mode = mode;
 		}
 	}
-	if(telemetry_data.type == MAV_TYPE_FIXED_WING)
-	{
+	if (telemetry_data.type == MAV_TYPE_FIXED_WING) {
 		// TODO
 	}
 	return custom_mode;
 }
 
-extern inline uint8_t MAVLINK_Action2CtrlMode(uint8_t action) {
-	uint8_t mode = ERROR_NUM_MODES;
-	return mode;
-}
 
 void check_mavlink();
 void MAVLINK_Init(void);
@@ -179,6 +169,7 @@ bool isValidReqControlMode();
 void MAVLINK_ReqMode(uint8_t mode, uint8_t send);
 void putsMavlinkControlMode(uint8_t x, uint8_t y, uint8_t len);
 void putsMavlinkSafetyArmed(uint8_t x, uint8_t y);
+void putsGpsStatus(uint8_t x, uint8_t y);
 
 #ifdef MAVLINK_PARAMS
 #define PARAM_NB_REPEAT 10
@@ -214,7 +205,6 @@ inline void refreshParams(uint8_t nb) {
 	watch_mav_req_params_list = mav_req_params_nb_recv < nb ? 20 : 0; // stop timeout
 }
 
-
 inline float getCoefPrecis(uint8_t precis) {
 	switch (precis) {
 	case 1:
@@ -244,7 +234,7 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 		max = 7000; // 7000 mAh max
 		break;
 	default:
-		if (idx < NB_PID_PARAMS) {
+		if (isPID_PARAM(idx)) {
 			// PID
 			switch (idx % NB_COL_PARAMS) {
 			case 0:
@@ -252,9 +242,6 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 				break;
 			case 1:
 				max = 750;
-				break;
-			case 2:
-				max = 500;
 				break;
 			}
 		}
@@ -266,20 +253,18 @@ inline int16_t getMaxMavlinParamsValue(uint8_t idx) {
 inline uint8_t getPrecisMavlinParamsValue(uint8_t idx) {
 	uint8_t precis = 2;
 	switch (idx) {
-	case LOW_VOLT:
-		precis = 2;
-		break;
-	case VOLT_DIVIDER:
-		precis = 2;
-		break;
+
+	 case LOW_VOLT:
+	 case VOLT_DIVIDER:
+	 precis = 2;
+	 break;
+
 	case BATT_MONITOR:
-		precis = 0;
-		break;
 	case BATT_CAPACITY:
 		precis = 0;
 		break;
 	default:
-		if (idx < NB_PID_PARAMS) {
+		if (isPID_PARAM(idx)) {
 			if (idx % NB_COL_PARAMS)
 				precis = 3;
 		}

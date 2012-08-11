@@ -104,7 +104,6 @@ typedef struct t_EEGeneral {
   uint8_t   lightAutoOff;
   uint8_t   templateSetup;  //RETA order according to chout_ar array 
   int8_t    PPM_Multiplier;
-  //uint8_t   respre[2]; //mike please check these are correct
   uint8_t	FRSkyYellow:4;
   uint8_t	FRSkyOrange:4;
   uint8_t	FRSkyRed:4;  //mike please check these are correct
@@ -112,7 +111,6 @@ typedef struct t_EEGeneral {
   uint8_t   speakerPitch;
   uint8_t	hapticStrength;
   uint8_t	speakerMode;
-  //uint8_t   res[1];
   uint8_t   baudRate:4;
   uint8_t   mavTargetSystem:4;
   
@@ -188,22 +186,12 @@ typedef struct t_FrSkyData {
   FrSkyChannelData channels[2];
 } __attribute__((packed)) FrSkyData;
 
-//#ifdef MENU_ROTARY_SW
 #define ROTARY_TYPE_OFF 0
 #define ROTARY_TYPE_PPM 1
 #define ROTARY_TYPE_MAVLINK 2
 #define NUM_ROTARY_SW 8
 #define MAX_MODES_VAL 16
 
-#ifdef OLD_ROTARY
-#define ROTARY_TYPE_PPM 0x40
-#define ROTARY_TYPE_MAVLINK 0x80
-typedef struct t_RotarySwChannelData { // Custom Switches data
-	uint8_t type; // see defines ROTARY_TYPE
-  char  name[4];
-  int8_t  val;
-} __attribute__((packed)) RotarySwChannelData;
-#endif
 
 typedef struct t_RotarySwChannelData { // Custom Switches data
 	uint8_t typeRotary:2; // see defines ROTARY_TYPE
